@@ -1,0 +1,24 @@
+					TÊN CÁC THÀNH VIÊN TRONG NHÓM 6
+Bùi Gia Quang Vinh. Mssv:3123410430
+
+Nguyễn Thiên Phú. Mssv:3123410272
+
+Nguyễn Thanh Phong. Mssv:3123410263
+
+Lê Thanh Phát. Mssv:3123410258
+
+Đặng Quốc Thái. Mssv:3123410327
+
+Võ Thành Tài. Mssv:3123410320
+
+
+					DANH SÁCH CÁC TÀI KHOẢN
+User:
+1. Name: user1. Pass: user1pass
+2. Name: user2. Pass: user2pass
+3. Name: user3. Pass: user3pass
+4. Name: user4. Pass: user4pass
+5. Name: user5. Pass: user5pass
+Admin:
+1. Name: admin1. Pass: admin
+
