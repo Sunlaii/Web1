@@ -1,0 +1,516 @@
+/* Chèn font Montserrat từ Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    height:500px;
+}
+
+
+.returncart {
+    border: 1px solid black; /* Viền 2px màu xám */
+    border-radius: 5px; /* Bo góc cho viền */
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.returncart .list {
+    max-height: 600px; /* Chiều cao tối đa */
+    overflow-y: auto;  /* Cuộn dọc khi quá nhiều item */
+    padding: 10px;
+    margin-top: 10px;
+}
+
+
+.checkoutlayout{
+    display:flex;
+    gap:10%;
+    padding:10px;
+    padding-left: 4%;
+}
+
+.list .item {
+    background-color: #ffffff; /* Nền trắng cho mỗi item */
+    box-shadow: 0 5px 5px #999;
+}
+
+.checkout-btn:hover {
+    background-color: var(--theme-color-1);
+}
+
+.rightcheckout{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 40px;
+    padding-top: 20px; 
+    color: black;
+    border: 1px solid black;
+    width: 40%;
+    margin-top: 20px;
+    
+}
+.image img{  
+    height: 80px;
+    
+}
+
+
+
+.list .item{
+    text-align: center;
+    display:grid;
+    grid-template-columns: 80px 200px 1fr 80px 1fr;
+    align-items: center;
+    gap:20px;
+    padding:0 10px;
+    border-radius:20px;
+    box-shadow: 0 5px 5px #999;
+    font-weight: bold;
+    font-size: large;
+    width: 700px  ;
+    margin-top: 15px;
+}
+.returncart h1{
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.rightcheckout h1{
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.rightcheckout .form{
+    display:grid;
+    grid-template-columns: repeat(2,1);
+    gap:10px;
+ 
+}
+
+
+
+.Name_input .Phone_input{
+    width: 45%;
+    border: 1px solid black;
+}
+.rightcheckout .form input , .rightcheckout .form select { 
+    width: 100%;
+    padding:10px 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-top:10px;
+    border:none;
+    color:black;
+    border: 1px solid black;
+    
+}
+.returnquantity{
+    display:flex;
+    justify-content: space-between;
+    margin-top:10px;
+}
+.returnprice{
+    display:flex;
+    justify-content: space-between;
+    margin-top:10px;
+}
+.checkout-btn{
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: bold;
+    background-color: #2ffddb;
+    cursor: pointer;
+}
+
+/* payment method */
+
+.close2{
+  font-size:30px;
+  position: absolute;
+  top:-5.5px;
+  right:0;
+}
+
+body.showcard .cardpayment{
+    opacity: 1; /* Đầy đủ màu sắc */
+    transform: scale(1); /* Phóng to trở lại kích thước bình thường */
+    visibility: visible;
+}
+.cardpayment{
+    display:flex;
+    position:relative;
+    justify-content: center;
+    align-items: center; 
+    border: 1px solid;
+    width: 480px;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 3px; 
+    position: relative;
+    visibility: hidden;
+    top:-550px;
+    right:-700px;
+    opacity: 0; 
+    transform: scale(0.9);
+    transition: opacity 0.5s, transform 0.5s;
+    border-radius: 5px;
+    
+}
+.cardpayment form{
+    background-color : #fff;
+    padding:20px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.first .group1 .imgg{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+.group1 label {
+    width: 50%;
+}
+
+.group1{
+    margin:15px 0;
+}
+
+.cardpayment form .group1 label{
+    margin-bottom: 10px;
+    display:block;
+    
+}
+.group1 input{
+    border:none;
+    width: calc(100%);
+    border-radius: 5px;
+    border:1px solid #ccc;
+    padding:10px 15px;
+    font-size: 15px;
+}
+.submit-btn{
+    width: 100%;
+    height: 50px;
+    font-size: 17px;
+    background-color: #2ffddb;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.submit-btn:hover{
+    background-color: var(--theme-color-1);
+    border: 0.5px solid black;
+    transition: 0.5s;
+    border-radius: 5px;
+}
+
+
+/* css cua vinh */
+
+/* Ẩn mũi tên của select trong trình duyệt Chrome, Safari, Edge */
+select {
+    -webkit-appearance: none; /* Safari, Chrome */
+    -moz-appearance: none; /* Firefox */
+    appearance: none; /* Các trình duyệt hỗ trợ tiêu chuẩn */
+    padding-right: 20px; /* Để tránh bị che mất nội dung */
+}
+
+/* Tùy chọn dành cho Firefox */
+select::-ms-expand {
+    display: none;
+}
+
+/* css cho quan , phuong */
+.select-box input{
+    outline: none;
+}
+
+ input[readonly],select[disabled],input[disabled]{
+    background-color: #abaeb0;  
+    color: #6c757d;  
+}
+
+.select-box .content {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    margin-top: 10px;
+    width: 200px;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ cho dropdown */
+    overflow: auto;
+    max-height: 400px; /* Giới hạn chiều cao tối đa */
+}
+.select-box .content::-webkit-scrollbar {
+    width: 0px; /* Ẩn thanh cuộn ngang */
+    height: 0px; /* Ẩn thanh cuộn dọc */
+}
+.select-box .content::-webkit-scrollbar-thumb {
+    background-color: transparent;  /* Ẩn thanh cuộn */
+}
+.option li {
+    font-size: 15px;
+    margin-bottom: 5px;
+    padding: 3px;
+    cursor: pointer;
+    list-style-type: none;
+}
+.option .no-results{
+    font-size: 15px;
+    padding: 3px;
+    margin: 0;
+}
+.option li:hover {
+    background-color: #f0f0f0; 
+}
+.option .no-results:hover {
+    background-color: #ffffff; 
+}
+.option li:last-child {
+    margin-bottom: 0; 
+}
+
+/* --- cửa sổ thong báo  Alert----- */
+
+.customAlert {
+
+    position: fixed;
+    right: 0;
+    top: 100px;
+    height: 90px;
+    width: 350px;
+    background-color: #fff;
+    z-index: 800;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out; /* Thêm hiệu ứng trượt */
+}
+.alertSuccess.customAlert{
+    border-left: 4px solid #4caf50;
+}
+.alertFailure.customAlert{
+    border-left: 4px solid #e36a51;
+}
+.customAlert.active {
+    transform: translateX(-30px); /* Trượt vào vị trí mong muốn */
+}
+
+
+.topAlert{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.customAlert .alertIcon {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customAlert i {
+    font-size: 40px;
+}
+.alertSuccess>.topAlert i {
+    color: #4caf50;
+}
+.alertFailure>.topAlert i {
+    color: #e36a51;
+}
+.customAlert .alertContent {
+    display: block;
+    align-content: center;
+    width: 65%;
+}
+
+.customAlert .alertTitle {
+    font-size: 28px;
+    font-weight: 500;
+}
+.alertSuccess>.topAlert .alertTitle{
+    color: #4caf50;
+}
+.alertFailure>.topAlert .alertTitle {
+    color: #e36a51;
+}
+.customAlert .closeAlert {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.closeAlert:hover {
+    background: transparent;
+    background-color: #daa7a7;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.alertSuccess.active>.topAlert>.progress-bar{
+    background-color: #4caf50;
+    animation: progress 2s linear forwards;
+}
+.alertFailure.active>.topAlert>.progress-bar{
+    background-color: #e36a51;
+    animation: progress 2s linear forwards;
+}
+
+/* Hoạt ảnh cho thanh tiến trình */
+
+@keyframes progress {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+}
+
+/* css cua vinh end*/
+
+
+/* xac nhan don hang*/
+body.showform .order-confirmation{
+    visibility: visible;
+}
+
+body.showoverlay .overlay{
+    display:block
+}
+
+.close{
+    font-size: 25px;
+    color:black;
+    width: 25px;
+    position: relative;
+    top:0px;
+    right:9px;
+    border-radius: 8px;
+}
+
+
+  .close :hover{
+    color: red;
+
+  }
+.overlay {
+    display: none; /* Ẩn mặc định */
+    position: fixed; /* Giữ overlay cố định */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Màu nền đen trong suốt */
+    backdrop-filter: blur(10px); /* Hiệu ứng mờ (blur) mạnh mẽ */
+    z-index: 100; /* Đảm bảo overlay nằm trên các phần tử khác */
+}
+
+.user-info .confirm-btn {
+    width: 100%; 
+    padding: 10px 15px; 
+    background-color: #4caf50;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.user-info .confirm-btn:hover {
+    background-color: #388e3c;
+}
+
+.user-info .confirm-btn:active {
+    background-color: #2e7d32;
+}
+
+.order-confirmation {
+    display: flex;
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    gap: 20px; /* Khoảng cách giữa các phần tử con */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    position: relative;
+    top: -110%;
+    left: 21%;
+    z-index: 200;
+    visibility: hidden;
+    width: 60%;
+}
+
+.product-item {
+    display: flex;
+    flex-direction: column; /* Đảm bảo nội dung trong product-item sắp xếp dọc */
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    max-height: 200px;  
+    overflow: auto;
+    
+}
+
+.user-info {
+    flex: none; /* Đảm bảo kích thước không bị giãn */
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-info h3 {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+
+.user-info p {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.user-info p strong {
+    font-weight: bold;
+}
+
+.product-image img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.itemform {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-name, .product-size, .product-price, .product-quantity {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.product-total {
+    color: #4caf50;
+}
+
+

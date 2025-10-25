@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IT SNEAKER CHECK OUT</title>
+    <link rel="stylesheet" href="checkout.css">
+    <link rel="stylesheet" href="../font/font-awesome-pro-v6-6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="../HomePage.css">
+    <link rel="icon" type="image/png" sizes="32x32"  href="../image/favicon-16x16.png">
+</head>
+<body class=" ">
+    
+    <div class="container">
+        <div class="checkoutlayout">
+            <div class="returncart">
+                
+                <div class="list">
+                    <div class="item">
+                        <div class="image">
+                            <img src="Zion3.png">
+                        </div>
+                        <div class="name">Zion3</div>
+                        <div class="size">1</div>
+                        <div class="quantity">1</div>
+                        <div class="size">1</div>
+                        <div class="price">1</div>
+                    </div>
+                </div>
+            </div>
+            
+    
+    <div class="rightcheckout">    
+        <h1>CHECKOUT</h1>
+        <div class="form">
+            <div style = "display: flex; gap: 15px; " class ="group">
+                <div class = "Name_input">
+                    <label for="name">Full Name</label>
+                    <input type="text" placeholder="Dang Quoc Thai" name="name" id="name">
+                </div>
+                
+                <div class = "Phone_input">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" placeholder="09xxxxxxx" name="phone" id="phone" >
+                </div>
+            </div>
+            <div class="group" style="display: flex; width: 100%; margin-bottom: 10px; margin-top: 10px;">
+                <div class="addressaccount" style="display: flex; width:50%;">
+                    <label for="addressaccount">Address Account</label>
+                    <input type="radio" name="address" id="addressaccount" checked onclick="addressaccount()">
+                </div>
+                <div class="address" style="display: flex; width:50%">
+                    <label for="address">New Address</label>
+                    <input type="radio" name="address" id="addressaddress" onclick="addressaccount()">
+                </div>
+            </div>
+
+           
+            <div class="group">
+                <div class="address-input">
+                    <div class="address-input-checkbox" style="display:flex; gap:10px; margin-bottom: 20px;">
+
+                        <div class="select-box">
+                            <label for="city">City</label>
+                            <select name="city" id="city" disabled>
+                                <option value="">City</option>
+                                <option value="hanoi">Hà Nội</option>
+                                <option value="hochiminh">Hồ Chí Minh</option>
+                                <option value="danang">Đà Nẵng</option>
+                            </select>
+                            
+                        
+                        </div>
+                        <div class="select-box">
+                            <label>District</label>
+                            <input type="text" id="diachi-quan" placeholder="District" readonly>
+                            <div class="content">
+                                <ul class="option" id="district-list" style="padding:0px ; margin:0px;">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="select-box">
+                            <label>Ward</label>
+                            <input type="text" id="diachi-phuong" placeholder="Ward" readonly>
+                       
+                            <div class="content">
+                                <ul class="option" id="ward-list"  style="padding:0px ; margin:0px;">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="address-detail-input">
+                        <label for="address-detail">Address Detail</label>
+                        <input type="text" name="address-detail" id="address-detail" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="group">
+                <label for="payment">Payment Method</label>
+                <select name="payment" id="payment">
+                    <option value="">Choose Your Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                </select>
+
+            </div>
+            <div class="returnquantity">
+                <div>Total Quantity :</div>
+                <div class="totalquantity"><b>1</b></div>
+            </div>
+            <div class="returnprice">
+                <div>Total Price :</div>
+                <div class="totalprice"><b>1</b></div>
+            </div>
+            <button class="checkout-btn">Check Out</button>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="cardpayment">
+    <div class="close2">
+        <i class="fa-thin fa-square-xmark"></i>
+    </div>
+    <form >
+       
+        <div class ="first">
+            <h3 class="title">PAYMENT</h3>
+            <div class="group1">
+                <label for="accepted">Cards Accepted:</label>
+                <div class="imgg">
+                <img src="card_img.png">
+                </div>
+               
+            </div>
+            <div class="group1">
+                <label for="fullname">Name On Card</label>
+                <input type="text" name="fullname" id ="cardname" placeholder="Danny Dang" required >
+            </div>
+            <div class="group1">
+                <label for="number">Card Number</label>
+                <input type="text" name="number" id="number" placeholder="1111-2222-3333-4444" required 
+                pattern="^\d{4}-\d{4}-\d{4}-\d{4}$" title="Nhập đúng định dạng: 1111-2222-3333-4444">
+            
+            </div>
+            <div class="group1">
+                <label for="exp">EXP</label>
+                <input type="text" name="exp" id="exp" required placeholder="MM/YYYY" 
+                pattern="^(0[1-9]|1[0-2])\/\d{4}$" title="Nhập đúng định dạng: MM/YYYY">
+            
+    
+            </div>
+            <div class="group1">
+                <label for="cvv">CVV</label>
+                <input type="text" name="cvv" id="cvv" placeholder="1234" required 
+                pattern="^\d{4}$" title="Nhập đúng định dạng: 1234">          
+            </div>  
+            
+            <input type="submit" value="Proceed To Checkout" class="submit-btn">
+
+        </div>
+        
+
+    </form>
+
+</div>
+<!------ thong báo Alert ------->
+<div id="alert" class="customAlert" >
+    <div class="topAlert">
+        <span class="alertIcon"><i class="fa-solid fa-comment-check"></i></span>
+        <div class="alertContent">
+            <p class="alertTitle"></p>
+            <p id="alertMessage"></p>
+        </div>
+        <span class="closeAlert" onclick="closeAlert()">&times;</span>
+        <div class="progress-bar"></div>
+    </div>
+</div>
+
+<!------ thong báo Alert ------->
+<div class="overlay" id="overlay"></div>
+    <div class="order-confirmation">
+        <div class="product-item">
+            <div class="itemform">
+            <span class="product-image">
+            <img src="shoe_image.jpg" alt="Shoe Image">
+            </span>
+            <span class="product-name">Giày Nike Air Max</span>
+            <span class="product-size">Size: 42</span>
+            <span class="product-quantity">Số lượng: 1</span>
+            <span class="product-price">Giá: 2,500,000 VND</span>
+        </div>
+    </div>
+    
+    <!-- Thông tin người dùng -->
+    <div class="user-info">
+      <h3>Information</h3>
+      <p class="nameform"><strong>Full Name: </strong>Nguyễn Văn A</p>
+      <p class="phoneform"><strong>Phone Number: </strong>0912345678</p>
+      <p class="addressform"><strong>Address: </strong>123 Đường ABC, Quận XYZ, TP.HCM</p>
+      <p class="paymentform"><strong>Payment Method: </strong>Thanh toán khi nhận hàng</p>
+      <p class="namecard"></p>
+      <p class="numbercard" ></p>
+      <span class="product-total">Total: 2,500,000 VND</span>
+      <button class="confirm-btn">Confirm</button>
+      <div class="close">
+        <i class="fa-thin fa-square-xmark"></i>
+      </div>
+    </div>
+    
+  </div>
+  
+
+   <script src="checkout.js"></script>
+</body>
+</html>

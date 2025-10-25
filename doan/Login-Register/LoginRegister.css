@@ -1,0 +1,886 @@
+/* ----------hover đăng nhap đăng ký---------  */
+
+.user {
+    display: flex;
+    position: relative;
+}
+.user:hover{
+    color: #35c6ed;
+}
+.auth-container {
+    flex-direction: column;
+}
+.guestStatus{
+    display: block;
+}
+
+.auth-container .userStatus{
+    display: none;
+}
+.auth-container.active .guestStatus{
+    display: none;
+}
+.auth-container.active .userStatus{
+    display: block;
+}
+#username{
+    margin: 0;
+}
+.text-dndk {
+    font-size: 18px;
+}
+
+.text-tk, .text-nameaccout {
+    font-size: 15px;
+    position: relative;
+}
+.user:hover .header-option-guestStatus,.user:hover .header-option-userStatus{
+    visibility: visible;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.header-option-guestStatus,.header-option-userStatus {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 20px;
+    background-color: #ffff;
+    min-width: 130px;
+    z-index: 2;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: visibility 0.3s, transform 0.4s, opacity 0.3s;
+    visibility: hidden;
+}
+
+.header-option-guestStatus::after, .header-option-userStatus::after {
+    content: "";
+    position: absolute;
+    background-color: transparent;
+    top: -50px;
+    min-width: 130px;
+    height: 50px;
+}
+
+.header-option-guestStatus li, .header-option-userStatus li{
+    display: flex;
+    margin: 0;
+    padding:0;
+    width: 90%;
+    height: 40px;
+    background-color: rgb(245, 238, 227);
+}
+
+.header-option-guestStatus button, .header-option-userStatus button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.header-option-guestStatus li i,.header-option-userStatus li i {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.header-option-guestStatus li:hover,.header-option-userStatus li:hover {
+    background-color: #baaeae;
+    visibility: visible;
+}
+
+
+/* ----------hover đăng nhap đăng ký---------  */
+
+body.no-scroll {
+    overflow-y: hidden;
+    background-color: #0c0c0c;
+    background: transparent;
+    z-index: 900;
+}
+
+
+/*------- nền tối------- */
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .7);
+    z-index: 101;
+}
+
+
+/* ---------Giao diện login register-------- */
+
+.wrapper {
+    position: fixed;
+    top: 20%;
+    left: 40%;
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+    transform: scale(0);
+    width: 400px;
+    height: 440px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    background-color: rgba(193, 190, 190, 0.5);
+    z-index: 900;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    overflow: hidden;
+}
+
+.wrapper.active-popup {
+    transform: scale(1);
+}
+
+.wrapper .icon-close,.information-container .close-information,.close-forgotpass {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background: #162938;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffff;
+    font-size: 20px;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 10;
+    transition: height .2s ease;
+}
+
+.wrapper.active .form-box.login {
+    transition: none;
+    transform: translateX(-400px);
+}
+
+.wrapper .form-box.login {
+    transition: transform .4s ease;
+    transform: translateX(0);
+}
+
+.wrapper .form-box.register {
+    position: absolute;
+    transform: translateX(400px);
+}
+
+.wrapper.active .form-box.register {
+    transition: transform .4s ease;
+    transform: translateX(0);
+}
+
+.wrapper.active {
+    height: 560px;
+}
+
+.form-box {
+    width: 100%;
+    padding: 40px;
+}
+
+.form-box h2, .change-information h2,.change-password h2,.forgotpass-header h2{
+    text-align: center;
+    font-size: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #162938;
+}
+
+.form-box .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+    border-bottom: 1px solid #162938;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 0 35px 0 5px;
+}
+
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-weight: 500;
+    font-size: 18px;
+    color: #5a5959;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.input-box input:focus+label,
+.input-box input:valid+label {
+    top: -5px;
+    font-weight: 700;
+    color: #162938;
+}
+
+.input-box>.icon>i {
+    position: absolute;
+    right: 8px;
+    line-height: 57px;
+    color: #162938;
+}
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none; /* Ẩn biểu tượng trên trình duyệt Microsoft */
+}
+
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none; /* Ẩn biểu tượng trên trình duyệt WebKit (Chrome, Safari) */
+}
+
+
+.remember-forgot {
+    color: #162938;
+    margin: -10px 0 15px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+}
+
+.remember-forgot label {
+    cursor: pointer;
+}
+
+.remember-forgot label input {
+    accent-color: #162938;
+    margin-right: 3px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.remember-forgot a {
+    text-decoration: none;
+    color: #162938;
+    font-weight: 600;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+.bnt-login {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    color: #ffff;
+    background-color: #162938;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+.login-register {
+    text-align: center;
+    color: #162938;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 25px 10px;
+}
+
+.login-register a {
+    color: #162938;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-register a:hover {
+    text-decoration: underline;
+}
+
+
+/* ---------Giao diện login register-------- */
+
+
+/*--------- check register--------*/
+
+.error small {
+    color: #842702;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.wrapper .error {
+    border-bottom: 1px solid #842702;
+}
+
+
+/*--------- check register--------*/
+
+
+/* --- cửa sổ thong báo  Alert----- */
+
+.customAlert {
+
+    position: fixed;
+    right: 0;
+    top: 100px;
+    height: 90px;
+    width: 350px;
+    background-color: #fff;
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out; /* Thêm hiệu ứng trượt */
+}
+.alertSuccess.customAlert{
+    border-left: 4px solid #4caf50;
+}
+.alertFailure.customAlert{
+    border-left: 4px solid #e36a51;
+}
+.customAlert.active {
+    transform: translateX(-30px); /* Trượt vào vị trí mong muốn */
+}
+
+
+.topAlert{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.customAlert .alertIcon {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customAlert i {
+    font-size: 40px;
+}
+.alertSuccess>.topAlert i {
+    color: #4caf50;
+}
+.alertFailure>.topAlert i {
+    color: #e36a51;
+}
+.customAlert .alertContent {
+    display: block;
+    align-content: center;
+    width: 65%;
+}
+
+.customAlert .alertTitle {
+    font-size: 28px;
+    font-weight: 500;
+}
+.alertSuccess>.topAlert .alertTitle{
+    color: #4caf50;
+}
+.alertFailure>.topAlert .alertTitle {
+    color: #e36a51;
+}
+.customAlert .closeAlert {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.closeAlert:hover {
+    background: transparent;
+    background-color: #daa7a7;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.alertSuccess.active>.topAlert>.progress-bar{
+    background-color: #4caf50;
+    animation: progress 2s linear forwards;
+}
+.alertFailure.active>.topAlert>.progress-bar{
+    background-color: #e36a51;
+    animation: progress 2s linear forwards;
+}
+
+/* Hoạt ảnh cho thanh tiến trình */
+
+@keyframes progress {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+}
+/* ----------Logout-------- */
+.logout-container{
+    position: fixed;
+    right: 30px;
+    top: 100px;
+    height: 90px;
+    width: 350px;
+    padding: 10px;
+    border-left: 5px solid rgb(156, 179, 65);
+    border-bottom: 5px solid rgb(156, 179, 65);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    background-color: #ffff;
+    z-index: 5000;
+    transform: translateX(110%);
+    transition: transform 0.3s ease-in-out;
+}
+.logout-container.active{
+    transform: translateX(0);
+}
+.closeLogout{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.closeLogout:hover{
+    background-color: #e36a51;
+}
+.logout-title{
+    font-size: 22px;
+    font-weight: 500;
+    color: rgb(156, 179, 65);
+}
+.sbtLogout{
+    position: absolute;
+    right: 5px;
+    bottom: 7px;
+    border-radius: 3px;
+    text-decoration: none;
+    border: none;
+    padding: 7px 14px 7px 14px;
+    background-color: #9cd251;
+    color: #ffff;
+    cursor: pointer;
+}
+.sbtLogout:hover {
+    background-color: #72b01c;
+}
+/* ----------Logout-------- */
+/* ----------information accout--------------- */
+.information-container{
+    position: fixed;
+    top: 20%;
+    left: 40%;
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+    display: flex;
+    transform: scale(0);
+    width: 450px;
+    height: 470px;
+    padding: 30px 30px ;
+    justify-content: center;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    background-color: rgba(193, 190, 190, 0.5);
+    z-index: 2000;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    overflow: hidden;
+}
+.information-container.active{
+    height: 400px;
+}
+.change-password .return-information{
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 45px;
+    height: 45px;
+    background: #162938;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffff;
+    font-size: 15px;
+    border-bottom-right-radius: 20px;
+    cursor: pointer;
+    z-index: 10;
+    transition: height .2s ease;
+}
+.change-information p,.change-password p{
+    display: flex;
+    justify-content: center;
+    color: #5a5959;
+    margin-bottom: 20px;
+}
+.input-information{
+    margin-bottom: 10px;
+}
+.input-information label{
+    display: block;
+    font-size: 20px;
+}
+.input-information input{
+    width: 100%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 0 10px 0 10px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #5a5959;
+}
+.change-information button,.information-accout-content>input{
+    outline: none;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px 19px;
+    font-size: 17px;
+    color: #ffff;
+    background-color: #162938;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.change-password button{
+    outline: none;
+    border: none;
+    padding: 10px 15px;
+    font-size: 17px;
+    color: #ffff;
+    background-color: #162938;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.information-container.active-popup {
+    transform: scale(1);
+}
+.information-container .change-information{
+    transition: transform .4s ease;
+    transform: translateX(0);
+}
+.information-container.active .change-information{
+    transform: translateX(450px);
+}
+.information-container .change-password{
+    position: absolute;
+    transform: translateX(-450px);
+}
+.information-container.active .change-password{
+    transition: transform .4s ease;
+    transform: translateX(0);
+}
+
+.address-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.select-box {
+    width: 30%;
+    margin: 0px 5px;
+    position: relative;
+}
+.select-box input{
+    outline: none;
+}
+
+.select-box input[readonly],.select-box input[readonly]+span {
+    background-color: #abaeb0;  
+    color: #6c757d;  
+}
+.select-box span {
+    position: absolute;
+    font-size: 14px;
+    right: 7px;
+    top: 9px;
+    cursor: pointer;
+    background-color: #ffffff;
+    padding-left: 2px;
+    transition: transform 0.4s ease;
+}
+
+.select-box .content {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    margin-top: 10px;
+    width: 150%;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ cho dropdown */
+    overflow: auto;
+    max-height: 70px; /* Giới hạn chiều cao tối đa */
+}
+.select-box .content::-webkit-scrollbar {
+    width: 0px; /* Ẩn thanh cuộn ngang */
+    height: 0px; /* Ẩn thanh cuộn dọc */
+}
+.select-box .content::-webkit-scrollbar-thumb {
+    background-color: transparent;  /* Ẩn thanh cuộn */
+}
+.option li {
+    font-size: 15px;
+    margin-bottom: 5px;
+    padding: 3px;
+    cursor: pointer;
+}
+.option .no-results{
+    font-size: 15px;
+    padding: 3px;
+    margin: 0;
+}
+.option li:hover {
+    background-color: #f0f0f0; 
+}
+.option .no-results:hover {
+    background-color: #ffffff; 
+}
+.option li:last-child {
+    margin-bottom: 0; 
+}
+
+
+/* ----------information accout--------------- */
+/* ----------forgot passworld-------- */
+
+
+.forgotpass-container {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    transform: scale(0);
+    width: 400px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    padding: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.forgotpass-container.active {
+    transform: scale(1);
+}
+
+.forgotpass-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.forgotpass-header h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #162938;
+}
+
+.forgotpass-header p {
+    font-size: 14px;
+    color: #5a5959;
+    margin-top: 5px;
+}
+
+.forgotpass-content {
+    width: 100%;
+}
+
+.forgotpass-content input {
+    width: calc(100% - 20px);
+    height: 40px;
+    margin: 10px 0;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.forgotpass-content button {
+    width: 100%;
+    height: 45px;
+    background-color: #162938;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 15px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.forgotpass-content button:hover {
+    background-color: #0c1d27;
+}
+
+/* Kết quả tìm kiếm */
+.result-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-item.success {
+    border-left: 4px solid #4caf50;
+}
+
+.result-item.error {
+    border-left: 4px solid #e36a51;
+    background: #fce4e4;
+    color: #e36a51;
+}
+
+.result-item p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.result-item .btn-reset-password {
+    align-self: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}
+
+.result-item .btn-reset-password:hover {
+    background-color: #45a049;
+}
+/* Khu vực mã xác nhận */
+.contact-phone {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.contact-phone p {
+    margin: 0 0 10px;
+    font-weight: 500;
+}
+
+.verification-code-input {
+    width: calc(100% - 20px);
+    height: 40px;
+    padding: 5px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.verify-code-btn {
+    width: 100%;
+    height: 45px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.verify-code-btn:hover {
+    background-color: #218838;
+}
+
+
+
+/* Form đặt lại mật khẩu */
+.reset-password-container {
+    margin-top: 20px;
+    display: none; /* Ban đầu ẩn */
+}
+
+.reset-password-container input {
+    width: calc(100% - 20px);
+    height: 40px;
+    margin: 10px 0;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.reset-password-btn {
+    width: 100%;
+    height: 45px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.reset-password-btn:hover {
+    background-color: #218838;
+}
+
+/* Nút đóng */
+.close-forgotpass {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    background: #e36a51;
+    color: white;
+    font-size: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.close-forgotpass:hover {
+    background: #c9302c;
+}

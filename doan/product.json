@@ -1,0 +1,2076 @@
+[
+    {
+        "Id": 1,
+        "ProductName": "Nike Giannis Immortality 4 EP",
+        "Colour": "Black",
+        "Price": "93",
+        "image": "../image/Giannis4EP/Giannis4EP.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/Giannis4EP/Giannis4EP+1.png",
+            "../image/Giannis4EP/Giannis4EP+2.png",
+            "../image/Giannis4EP/Giannis4EP+3.png",
+            "../image/Giannis4EP/Giannis4EP+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 2,
+        "ProductName": "Nike G.T. Cut Academy EP",
+        "Colour": "Black",
+        "Price": "63",
+        "image": "../image/GTCUTACADEMY/GTCUTACADEMY.jpg",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/GTCUTACADEMY/GTCUTACADEMY+1.png",
+            "../image/GTCUTACADEMY/GTCUTACADEMY+2.png",
+            "../image/GTCUTACADEMY/GTCUTACADEMY+3.png",
+            "../image/GTCUTACADEMY/GTCUTACADEMY+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 3,
+        "ProductName": "Nike KD17 EP",
+        "Colour": "Black",
+        "Price": "176",
+        "image": "../image/KD17+EP/KD17+EP.jpg",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/KD17+EP/KD17+EP+1.png",
+            "../image/KD17+EP/KD17+EP+2.jpg",
+            "../image/KD17+EP/KD17+EP+3.png",
+            "../image/KD17+EP/KD17+EP+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 4,
+        "ProductName": "Nike Phantom GX 2 Academy",
+        "Colour": "Black",
+        "Price": "99",
+        "image": "../image/PHANTOM+GX+II/PHANTOM+GX+II.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/PHANTOM+GX+II/PHANTOM+GX+II+1.png",
+            "../image/PHANTOM+GX+II/PHANTOM+GX+II+2.png",
+            "../image/PHANTOM+GX+II/PHANTOM+GX+II+3.png",
+            "../image/PHANTOM+GX+II/PHANTOM+GX+II+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 5,
+        "ProductName": "Nike Phantom Luna 2 Elite",
+        "Colour": "Black",
+        "Price": "257",
+        "image": "../image/PHANTOM+LUNA/PHANTOM+LUNA.jpg",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/PHANTOM+LUNA/PHANTOM+LUNA+1.jpg",
+            "../image/PHANTOM+LUNA/PHANTOM+LUNA+2.jpg",
+            "../image/PHANTOM+LUNA/PHANTOM+LUNA+3.png",
+            "../image/PHANTOM+LUNA/PHANTOM+LUNA+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 6,
+        "ProductName": "Nike Revolution 7 EasyOn",
+        "Colour": "Black",
+        "Price": "71",
+        "image": "../image/NIKE+REVOLUTION7/NIKE+REVOLUTION7.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+REVOLUTION7/NIKE+REVOLUTION7+1.png",
+            "../image/NIKE+REVOLUTION7/NIKE+REVOLUTION7+2.jpg",
+            "../image/NIKE+REVOLUTION7/NIKE+REVOLUTION7+3.png",
+            "../image/NIKE+REVOLUTION7/NIKE+REVOLUTION7+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 7,
+        "ProductName": "Nike Pegasus 41",
+        "Colour": "Black",
+        "Price": "107",
+        "image": "../image/AIR+PEGASUS41/AIR+PEGASUS41.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/AIR+PEGASUS41/AIR+PEGASUS41+1.png",
+            "../image/AIR+PEGASUS41/AIR+PEGASUS41+2.png",
+            "../image/AIR+PEGASUS41/AIR+PEGASUS41+3.png",
+            "../image/AIR+PEGASUS41/AIR+PEGASUS41+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 8,
+        "ProductName": "Nike Zoom Bella 6",
+        "Colour": "Black",
+        "Price": "100",
+        "image": "../image/NIKE+BELLA6/NIKE+BELLA6.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+BELLA6/NIKE+BELLA6+1.png",
+            "../image/NIKE+BELLA6/NIKE+BELLA6+2.png",
+            "../image/NIKE+BELLA6/NIKE+BELLA6+3.png",
+            "../image/NIKE+BELLA6/NIKE+BELLA6+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 9,
+        "ProductName": "Nike Reina EasyOn",
+        "Colour": "Black",
+        "Price": "160",
+        "image": "../image/NIKE+REYNA/NIKE+REYNA.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+REYNA/NIKE+REYNA+1.png",
+            "../image/NIKE+REYNA/NIKE+REYNA+2.jpg",
+            "../image/NIKE+REYNA/NIKE+REYNA+3.png",
+            "../image/NIKE+REYNA/NIKE+REYNA+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 10,
+        "ProductName": "Nike SB Check Canvasn",
+        "Colour": "Black",
+        "Price": "90",
+        "image": "../image/NIKE+CHECK+CANVAS/NIKE+CHECK+CANVAS.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/NIKE+CHECK+CANVAS/NIKE+CHECK+CANVAS+1.jpg",
+            "../image/NIKE+CHECK+CANVAS/NIKE+CHECK+CANVAS+2.jpg",
+            "../image/NIKE+CHECK+CANVAS/NIKE+CHECK+CANVAS+3.jpg",
+            "../image/NIKE+CHECK+CANVAS/NIKE+CHECK+CANVAS+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 11,
+        "ProductName": "Nike SB Force 58",
+        "Colour": "Black",
+        "Price": "87",
+        "image": "../image/SB+FORCE/SB+FORCE.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/SB+FORCE/SB+FORCE+1.png",
+            "../image/SB+FORCE/SB+FORCE+2.png",
+            "../image/SB+FORCE/SB+FORCE+3.png",
+            "../image/SB+FORCE/SB+FORCE+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 12,
+        "ProductName": "Nike Reina EasyOn",
+        "Colour": "Black",
+        "Price": "81",
+        "image": "../image/SB+DAYONE/SB+DAYONE.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/SB+DAYONE/SB+DAYONE+1.png",
+            "../image/SB+DAYONE/SB+DAYONE+2.png",
+            "../image/SB+DAYONE/SB+DAYONE+3.png",
+            "../image/SB+DAYONE/SB+DAYONE+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 13,
+        "ProductName": "Nike Free RN NN",
+        "Colour": "White",
+        "Price": "93",
+        "image": "../image/NIKE+FREE+RN/NIKE+FREE+RN.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+FREE+RN/NIKE+FREE+RN+1.png",
+            "../image/NIKE+FREE+RN/NIKE+FREE+RN+2.png",
+            "../image/NIKE+FREE+RN/NIKE+FREE+RN+3.png",
+            "../image/NIKE+FREE+RN/NIKE+FREE+RN+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 14,
+        "ProductName": "Nike Motiva",
+        "Colour": "White",
+        "Price": "129",
+        "image": "../image/NIKE+MOVITA/NIKE+MOVITA.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+MOVITA/NIKE+MOVITA+1.png",
+            "../image/NIKE+MOVITA/NIKE+MOVITA+2.png",
+            "../image/NIKE+MOVITA/NIKE+MOVITA+3.png",
+            "../image/NIKE+MOVITA/NIKE+MOVITA+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 15,
+        "ProductName": "Nike Metcon 9",
+        "Colour": "White",
+        "Price": "164",
+        "image": "../image/NIKE+METCON9/NIKE+METCON9.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+METCON9/NIKE+METCON9+1.png",
+            "../image/NIKE+METCON9/NIKE+METCON9+2.png",
+            "../image/NIKE+METCON9/NIKE+METCON9+3.png",
+            "../image/NIKE+METCON9/NIKE+METCON9+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 16,
+        "ProductName": "Nike SB Blazer Low Pro GT Premium",
+        "Colour": "White",
+        "Price": "105",
+        "image": "../image/SB+BLAZER+LOW/SB+BLAZER+LOW.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/SB+BLAZER+LOW/SB+BLAZER+LOW+1.png",
+            "../image/SB+BLAZER+LOW/SB+BLAZER+LOW+2.png",
+            "../image/SB+BLAZER+LOW/SB+BLAZER+LOW+3.png",
+            "../image/SB+BLAZER+LOW/SB+BLAZER+LOW+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 17,
+        "ProductName": "Nike SB Malor",
+        "Colour": "White",
+        "Price": "87",
+        "image": "../image/SB+MALOR/SB+MALOR.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/SB+MALOR/SB+MALOR+1.png",
+            "../image/SB+MALOR/SB+MALOR+2.png",
+            "../image/SB+MALOR/SB+MALOR+3.png",
+            "../image/SB+MALOR/SB+MALOR+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 18,
+        "ProductName": "Nike Air Max Ishod",
+        "Colour": "White",
+        "Price": "99",
+        "image": "../image/AIR+MAX+ISHOD/AIR+MAX+ISHOD.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/AIR+MAX+ISHOD/AIR+MAX+ISHOD+1.png",
+            "../image/AIR+MAX+ISHOD/AIR+MAX+ISHOD+2.png",
+            "../image/AIR+MAX+ISHOD/AIR+MAX+ISHOD+3.png",
+            "../image/AIR+MAX+ISHOD/AIR+MAX+ISHOD+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 19,
+        "ProductName": "Nike G.T. Hustle Academy EP",
+        "Colour": "White",
+        "Price": "105",
+        "image": "../image/GT+HUSTLE+ACADEMY/GT+HUSTLE+ACADEMY.png",
+        "Category": "Baskettball",
+        "imgDetail": [
+            "../image/GT+HUSTLE+ACADEMY/GT+HUSTLE+ACADEMY+1.png",
+            "../image/GT+HUSTLE+ACADEMY/GT+HUSTLE+ACADEMY+2.jpg",
+            "../image/GT+HUSTLE+ACADEMY/GT+HUSTLE+ACADEMY+3.png",
+            "../image/GT+HUSTLE+ACADEMY/GT+HUSTLE+ACADEMY+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 20,
+        "ProductName": "Nike Giannis Immortality 4 EP",
+        "Colour": "White",
+        "Price": "93",
+        "image": "../image/GIANNIS+IMMORTALITY+4EP/GIANNIS+IMMORTALITY+4EP.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/GIANNIS+IMMORTALITY+4EP/GIANNIS+IMMORTALITY+4EP+1.png",
+            "../image/GIANNIS+IMMORTALITY+4EP/GIANNIS+IMMORTALITY+4EP+2.png",
+            "../image/GIANNIS+IMMORTALITY+4EP/GIANNIS+IMMORTALITY+4EP+3.png",
+            "../image/GIANNIS+IMMORTALITY+4EP/GIANNIS+IMMORTALITY+4EP+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 21,
+        "ProductName": "Nike Giannis Freak 6 EP",
+        "Colour": "White",
+        "Price": "153",
+        "image": "../image/GIANNIS+FREAK6/GIANNIS+FREAK6.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/GIANNIS+FREAK6/GIANNIS+FREAK6+1.png",
+            "../image/GIANNIS+FREAK6/GIANNIS+FREAK6+2.png",
+            "../image/GIANNIS+FREAK6/GIANNIS+FREAK6+3.png",
+            "../image/GIANNIS+FREAK6/GIANNIS+FREAK6+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 22,
+        "ProductName": "Nike Mercurial Superfly 9 Academy",
+        "Colour": "White",
+        "Price": "99",
+        "image": "../image/MERCURIAL+SUPERFLY9+CUSTOM/MERCURIAL+SUPERFLY9+CUSTOM.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM/MERCURIAL+SUPERFLY9+CUSTOM+1.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM/MERCURIAL+SUPERFLY9+CUSTOM+2.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM/MERCURIAL+SUPERFLY9+CUSTOM+3.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM/MERCURIAL+SUPERFLY9+CUSTOM+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 23,
+        "ProductName": "Nike Phantom Luna 2 Elite",
+        "Colour": "White",
+        "Price": "356",
+        "image": "../image/PHANTOM+LUNA2+ELITE/PHANTOM+LUNA2+ELITE.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/PHANTOM+LUNA2+ELITE/PHANTOM+LUNA2+ELITE+1.png",
+            "../image/PHANTOM+LUNA2+ELITE/PHANTOM+LUNA2+ELITE+2.png",
+            "../image/PHANTOM+LUNA2+ELITE/PHANTOM+LUNA2+ELITE+3.png",
+            "../image/PHANTOM+LUNA2+ELITE/PHANTOM+LUNA2+ELITE+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 24,
+        "ProductName": "Nike Zoom 'Marcus Rashford' Mercurial Superfly 9 Elite",
+        "Colour": "White",
+        "Price": "350",
+        "image": "../image/SUPERFLY9+ELITE+MARCUS+RASHFORD/SUPERFLY9+ELITE+MARCUS+RASHFORD.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/SUPERFLY9+ELITE+MARCUS+RASHFORD/SUPERFLY9+ELITE+MARCUS+RASHFORD+1.png",
+            "../image/SUPERFLY9+ELITE+MARCUS+RASHFORD/SUPERFLY9+ELITE+MARCUS+RASHFORD+2.png",
+            "../image/SUPERFLY9+ELITE+MARCUS+RASHFORD/SUPERFLY9+ELITE+MARCUS+RASHFORD+3.png",
+            "../image/SUPERFLY9+ELITE+MARCUS+RASHFORD/SUPERFLY9+ELITE+MARCUS+RASHFORD+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 25,
+        "ProductName": "Nike Air Monarch IV",
+        "Colour": "White",
+        "Price": "76",
+        "image": "../image/AIR+MONARCH+IV/AIR+MONARCH+IV.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/AIR+MONARCH+IV/AIR+MONARCH+IV+1.png",
+            "../image/AIR+MONARCH+IV/AIR+MONARCH+IV+2.png",
+            "../image/AIR+MONARCH+IV/AIR+MONARCH+IV+3.png",
+            "../image/AIR+MONARCH+IV/AIR+MONARCH+IV+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 26,
+        "ProductName": "Nike Flex Experience Run 12 Premium",
+        "Colour": "White",
+        "Price": "87",
+        "image": "../image/WMNS+FLEX+EXPERIENCE12/WMNS+FLEX+EXPERIENCE12.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/WMNS+FLEX+EXPERIENCE12/WMNS+FLEX+EXPERIENCE12+1.png",
+            "../image/WMNS+FLEX+EXPERIENCE12/WMNS+FLEX+EXPERIENCE12+2.png",
+            "../image/WMNS+FLEX+EXPERIENCE12/WMNS+FLEX+EXPERIENCE12+3.png",
+            "../image/WMNS+FLEX+EXPERIENCE12/WMNS+FLEX+EXPERIENCE12+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 27,
+        "ProductName": "Nike Free Metcon 6 By You",
+        "Colour": "White",
+        "Price": "176",
+        "image": "../image/FREE+METCON6+BYYOU/FREE+METCON6+BYYOU.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/FREE+METCON6+BYYOU/FREE+METCON6+BYYOU+1.png",
+            "../image/FREE+METCON6+BYYOU/FREE+METCON6+BYYOU+2.png",
+            "../image/FREE+METCON6+BYYOU/FREE+METCON6+BYYOU+3.png",
+            "../image/FREE+METCON6+BYYOU/FREE+METCON6+BYYOU+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 28,
+        "ProductName": "Nike Precision 7",
+        "Colour": "Gray",
+        "Price": "82",
+        "image": "../image/NIKE+PRECISION+VII/NIKE+PRECISION+VII.jpg",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/NIKE+PRECISION+VII/NIKE+PRECISION+VII+1.png",
+            "../image/NIKE+PRECISION+VII/NIKE+PRECISION+VII+2.jpg",
+            "../image/NIKE+PRECISION+VII/NIKE+PRECISION+VII+3.png",
+            "../image/NIKE+PRECISION+VII/NIKE+PRECISION+VII+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 29,
+        "ProductName": "Nike KD16 BY YOU",
+        "Colour": "Gray",
+        "Price": "200",
+        "image": "../image/NIKE+KD16+BYYOU/NIKE+KD16+BYYOU.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/NIKE+KD16+BYYOU/NIKE+KD16+BYYOU+1.png",
+            "../image/NIKE+KD16+BYYOU/NIKE+KD16+BYYOU+2.png",
+            "../image/NIKE+KD16+BYYOU/NIKE+KD16+BYYOU+3.png",
+            "../image/NIKE+KD16+BYYOU/NIKE+KD16+BYYOU+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 30,
+        "ProductName": "Nike Zion 3 PF 'LiquId Metal",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/ZION3+PF+LIQUId+METAL/ZION3+PF+LIQUId+METAL.jpg",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/ZION3+PF+LIQUId+METAL/ZION3+PF+LIQUId+METAL+1.png",
+            "../image/ZION3+PF+LIQUId+METAL/ZION3+PF+LIQUId+METAL+2.jpg",
+            "../image/ZION3+PF+LIQUId+METAL/ZION3+PF+LIQUId+METAL+3.png",
+            "../image/ZION3+PF+LIQUId+METAL/ZION3+PF+LIQUId+METAL+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 31,
+        "ProductName": "Nike Tiempo Legend 10 Academy",
+        "Colour": "Gray",
+        "Price": "93",
+        "image": "../image/LEGEND+10+ACADEMY/LEGEND+10+ACADEMY.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/LEGEND+10+ACADEMY/LEGEND+10+ACADEMY+1.png",
+            "../image/LEGEND+10+ACADEMY/LEGEND+10+ACADEMY+2.png",
+            "../image/LEGEND+10+ACADEMY/LEGEND+10+ACADEMY+3.png",
+            "../image/LEGEND+10+ACADEMY/LEGEND+10+ACADEMY+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 32,
+        "ProductName": "Nike Mercurial Superfly 9 Academy By You    ",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/MERCURIAL+SUPERFLY9+CUSTOM+GRAY/MERCURIAL+SUPERFLY9+CUSTOM+GRAY.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+GRAY/MERCURIAL+SUPERFLY9+CUSTOM+GRAY+1.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+GRAY/MERCURIAL+SUPERFLY9+CUSTOM+GRAY+2.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+GRAY/MERCURIAL+SUPERFLY9+CUSTOM+GRAY+3.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+GRAY/MERCURIAL+SUPERFLY9+CUSTOM+GRAY+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 33,
+        "ProductName": "Nike Jr. Phantom GX 2 Academy",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/JR+PHANTOM+GX+II+ACADEMY/JR+PHANTOM+GX+II+ACADEMY.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/JR+PHANTOM+GX+II+ACADEMY/JR+PHANTOM+GX+II+ACADEMY+1.png",
+            "../image/JR+PHANTOM+GX+II+ACADEMY/JR+PHANTOM+GX+II+ACADEMY+2.png",
+            "../image/JR+PHANTOM+GX+II+ACADEMY/JR+PHANTOM+GX+II+ACADEMY+3.png",
+            "../image/JR+PHANTOM+GX+II+ACADEMY/JR+PHANTOM+GX+II+ACADEMY+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 34,
+        "ProductName": "Nike Reax 8 TR",
+        "Colour": "Gray",
+        "Price": "98",
+        "image": "../image/NIKE+REAX+8+TR/NIKE+REAX+8+TR.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+REAX+8+TR/NIKE+REAX+8+TR+1.png",
+            "../image/NIKE+REAX+8+TR/NIKE+REAX+8+TR+2.jpg",
+            "../image/NIKE+REAX+8+TR/NIKE+REAX+8+TR+3.png",
+            "../image/NIKE+REAX+8+TR/NIKE+REAX+8+TR+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 35,
+        "ProductName": "Nike Metcon 6 Gray",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/FREE+METCON6+GRAY/FREE+METCON6+GRAY.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/FREE+METCON6+GRAY/FREE+METCON6+GRAY+1.png",
+            "../image/FREE+METCON6+GRAY/FREE+METCON6+GRAY+2.png",
+            "../image/FREE+METCON6+GRAY/FREE+METCON6+GRAY+3.png",
+            "../image/FREE+METCON6+GRAY/FREE+METCON6+GRAY+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 36,
+        "ProductName": "Nike Motiva Gray",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/NIKE+MOVITA+GRAY/NIKE+MOVITA+GRAY.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+MOVITA+GRAY/NIKE+MOVITA+GRAY+1.png",
+            "../image/NIKE+MOVITA+GRAY/NIKE+MOVITA+GRAY+2.png",
+            "../image/NIKE+MOVITA+GRAY/NIKE+MOVITA+GRAY+3.png",
+            "../image/NIKE+MOVITA+GRAY/NIKE+MOVITA+GRAY+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 37,
+        "ProductName": "Nike Pegasus Plus",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/PEGASUS+PLUS/PEGASUS+PLUS.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/PEGASUS+PLUS/PEGASUS+PLUS+1.png",
+            "../image/PEGASUS+PLUS/PEGASUS+PLUS+2.png",
+            "../image/PEGASUS+PLUS/PEGASUS+PLUS+3.png",
+            "../image/PEGASUS+PLUS/PEGASUS+PLUS+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 38,
+        "ProductName": "Nike Pegasus 41 Electric",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/PEGASUS+41+ELECTRIC/PEGASUS+41+ELECTRIC.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/PEGASUS+41+ELECTRIC/PEGASUS+41+ELECTRIC+1.png",
+            "../image/PEGASUS+41+ELECTRIC/PEGASUS+41+ELECTRIC+2.png",
+            "../image/PEGASUS+41+ELECTRIC/PEGASUS+41+ELECTRIC+3.png",
+            "../image/PEGASUS+41+ELECTRIC/PEGASUS+41+ELECTRIC+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 39,
+        "ProductName": "Nike InfinityRN 4",
+        "Colour": "Gray",
+        "Price": "143",
+        "image": "../image/NIKE+INFINITYRN+4/NIKE+INFINITYRN+4.jpg",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+INFINITYRN+4/NIKE+INFINITYRN+4+1.jpg",
+            "../image/NIKE+INFINITYRN+4/NIKE+INFINITYRN+4+2.jpg",
+            "../image/NIKE+INFINITYRN+4/NIKE+INFINITYRN+4+3.png",
+            "../image/NIKE+INFINITYRN+4/NIKE+INFINITYRN+4+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 40,
+        "ProductName": "Nike SB PS8",
+        "Colour": "Gray",
+        "Price": "140",
+        "image": "../image/NIKE+SB+PS8/NIKE+SB+PS8.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/NIKE+SB+PS8/NIKE+SB+PS8+1.png",
+            "../image/NIKE+SB+PS8/NIKE+SB+PS8+2.jpg",
+            "../image/NIKE+SB+PS8/NIKE+SB+PS8+3.png",
+            "../image/NIKE+SB+PS8/NIKE+SB+PS8+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 41,
+        "ProductName": "Nike Tatum 2 'Vortex' PF",
+        "Colour": "Green",
+        "Price": "83",
+        "image": "../image/TATUM+2+PF/TATUM+2+PF.jpg",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/TATUM+2+PF/TATUM+2+PF+1.jpg",
+            "../image/TATUM+2+PF/TATUM+2+PF+2.png",
+            "../image/TATUM+2+PF/TATUM+2+PF+3.jpg",
+            "../image/TATUM+2+PF/TATUM+2+PF+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 42,
+        "ProductName": "Nike Sabrina 2 'Retroed' EP",
+        "Colour": "Green",
+        "Price": "150",
+        "image": "../image/SABRINA+2+OR+EP/SABRINA+2+OR+EP.jpg",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/SABRINA+2+OR+EP/SABRINA+2+OR+EP+1.jpg",
+            "../image/SABRINA+2+OR+EP/SABRINA+2+OR+EP+2.jpg",
+            "../image/SABRINA+2+OR+EP/SABRINA+2+OR+EP+3.png",
+            "../image/SABRINA+2+OR+EP/SABRINA+2+OR+EP+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 43,
+        "ProductName": "Nike Sabrina 2 By You",
+        "Colour": "Green",
+        "Price": "189",
+        "image": "../image/SABRINA+2+BYYOU/SABRINA+2+BYYOU.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/SABRINA+2+BYYOU/SABRINA+2+BYYOU+1.png",
+            "../image/SABRINA+2+BYYOU/SABRINA+2+BYYOU+2.png",
+            "../image/SABRINA+2+BYYOU/SABRINA+2+BYYOU+3.png",
+            "../image/SABRINA+2+BYYOU/SABRINA+2+BYYOU+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 44,
+        "ProductName": "Nike Superfly 9 Elite Mercurial Dream Speed",
+        "Colour": "Green",
+        "Price": "200",
+        "image": "../image/ZOOM+SUPERFLY9+GREEN/ZOOM+SUPERFLY9+GREEN.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/ZOOM+SUPERFLY9+GREEN/ZOOM+SUPERFLY9+GREEN+1.png",
+            "../image/ZOOM+SUPERFLY9+GREEN/ZOOM+SUPERFLY9+GREEN+2.png",
+            "../image/ZOOM+SUPERFLY9+GREEN/ZOOM+SUPERFLY9+GREEN+3.png",
+            "../image/ZOOM+SUPERFLY9+GREEN/ZOOM+SUPERFLY9+GREEN+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 45,
+        "ProductName": "Nike Mercurial Superfly 10 Elite SE",
+        "Colour": "Green",
+        "Price": "189",
+        "image": "../image/SUPERFLY10+GREEN/SUPERFLY10+GREEN.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/SUPERFLY10+GREEN/SUPERFLY10+GREEN+1.png",
+            "../image/SUPERFLY10+GREEN/SUPERFLY10+GREEN+2.png",
+            "../image/SUPERFLY10+GREEN/SUPERFLY10+GREEN+3.png",
+            "../image/SUPERFLY10+GREEN/SUPERFLY10+GREEN+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 46,
+        "ProductName": "Nike Sabrina 2 By You",
+        "Colour": "Green",
+        "Price": "380",
+        "image": "../image/SABRINA+2+BYYOU/SABRINA+2+BYYOU.png",
+        "Category": "Football",
+        "imgDetail": [],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 47,
+        "ProductName": "Nike Free Metcon 6 Green",
+        "Colour": "Green",
+        "Price": "141",
+        "image": "../image/FREE+METCON6+GREEN/FREE+METCON6+GREEN.jpg",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/FREE+METCON6+GREEN/FREE+METCON6+GREEN+1.png",
+            "../image/FREE+METCON6+GREEN/FREE+METCON6+GREEN+2.jpg",
+            "../image/FREE+METCON6+GREEN/FREE+METCON6+GREEN+3.png",
+            "../image/FREE+METCON6+GREEN/FREE+METCON6+GREEN+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 48,
+        "ProductName": "Nike InfinityRN 4 Green",
+        "Colour": "Green",
+        "Price": "182",
+        "image": "../image/NIKE+INFINITYRN+4+GREEN/NIKE+INFINITYRN+4+GREEN.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+INFINITYRN+4+GREEN/NIKE+INFINITYRN+4+GREEN+1.png",
+            "../image/NIKE+INFINITYRN+4+GREEN/NIKE+INFINITYRN+4+GREEN+2.png",
+            "../image/NIKE+INFINITYRN+4+GREEN/NIKE+INFINITYRN+4+GREEN+3.png",
+            "../image/NIKE+INFINITYRN+4+GREEN/NIKE+INFINITYRN+4+GREEN+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 49,
+        "ProductName": "Nike Vaporfly 3 'Eliud Kipchoge'",
+        "Colour": "Green",
+        "Price": "305",
+        "image": "../image/VAPORFLY+NEXT3/VAPORFLY+NEXT3.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/VAPORFLY+NEXT3/VAPORFLY+NEXT3+1.png",
+            "../image/VAPORFLY+NEXT3/VAPORFLY+NEXT3+2.png",
+            "../image/VAPORFLY+NEXT3/VAPORFLY+NEXT3+3.png",
+            "../image/VAPORFLY+NEXT3/VAPORFLY+NEXT3+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 50,
+        "ProductName": "Nike Motiva Green",
+        "Colour": "Green",
+        "Price": "145",
+        "image": "../image/NIKE+MOTIVA+GREEN/NIKE+MOTIVA+GREEN.jpg",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+MOTIVA+GREEN/NIKE+MOTIVA+GREEN+1.jpg",
+            "../image/NIKE+MOTIVA+GREEN/NIKE+MOTIVA+GREEN+2.jpg",
+            "../image/NIKE+MOTIVA+GREEN/NIKE+MOTIVA+GREEN+3.png",
+            "../image/NIKE+MOTIVA+GREEN/NIKE+MOTIVA+GREEN+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 51,
+        "ProductName": "Nike Giannis Immortality 4 Blue",
+        "Colour": "Blue",
+        "Price": "79",
+        "image": "../image/GIANNIS+IMMORTALITY+4+BLUE/GIANNIS+IMMORTALITY+4+BLUE.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/GIANNIS+IMMORTALITY+4+BLUE/GIANNIS+IMMORTALITY+4+BLUE+1.png",
+            "../image/GIANNIS+IMMORTALITY+4+BLUE/GIANNIS+IMMORTALITY+4+BLUE+2.jpg",
+            "../image/GIANNIS+IMMORTALITY+4+BLUE/GIANNIS+IMMORTALITY+4+BLUE+3.png",
+            "../image/GIANNIS+IMMORTALITY+4+BLUE/GIANNIS+IMMORTALITY+4+BLUE+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 52,
+        "ProductName": "Nike Nike G.T. Cut 3 EP Blue",
+        "Colour": "Blue",
+        "Price": "230",
+        "image": "../image/GT+CUT+3EP+BLUE/GT+CUT+3EP+BLUE.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/GT+CUT+3EP+BLUE/GT+CUT+3EP+BLUE+1.png",
+            "../image/GT+CUT+3EP+BLUE/GT+CUT+3EP+BLUE+2.png",
+            "../image/GT+CUT+3EP+BLUE/GT+CUT+3EP+BLUE+3.png",
+            "../image/GT+CUT+3EP+BLUE/GT+CUT+3EP+BLUE+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 53,
+        "ProductName": "Nike KD16 Blue",
+        "Colour": "Blue",
+        "Price": "219",
+        "image": "../image/KD16+BLUE/KD16+BLUE.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/KD16+BLUE/KD16+BLUE+1.png",
+            "../image/KD16+BLUE/KD16+BLUE+2.jpg",
+            "../image/KD16+BLUE/KD16+BLUE+3.png",
+            "../image/KD16+BLUE/KD16+BLUE+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 54,
+        "ProductName": "Nike Mercurial Vapor 16 Club",
+        "Colour": "Blue",
+        "Price": "380",
+        "image": "../image/VAPOR+16+BLUE/VAPOR+16+BLUE.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/VAPOR+16+BLUE/VAPOR+16+BLUE+1.png",
+            "../image/VAPOR+16+BLUE/VAPOR+16+BLUE+2.png",
+            "../image/VAPOR+16+BLUE/VAPOR+16+BLUE+3.png",
+            "../image/VAPOR+16+BLUE/VAPOR+16+BLUE+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 55,
+        "ProductName": "Nike Mercurial Vapor 16 Academy",
+        "Colour": "Blue",
+        "Price": "84",
+        "image": "../image/VAPOR+16+ACADEMY+BLUE/VAPOR+16+ACADEMY+BLUE.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/VAPOR+16+ACADEMY+BLUE/VAPOR+16+ACADEMY+BLUE+1.png",
+            "../image/VAPOR+16+ACADEMY+BLUE/VAPOR+16+ACADEMY+BLUE+2.png",
+            "../image/VAPOR+16+ACADEMY+BLUE/VAPOR+16+ACADEMY+BLUE+3.png",
+            "../image/VAPOR+16+ACADEMY+BLUE/VAPOR+16+ACADEMY+BLUE+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 56,
+        "ProductName": "Nike Phantom GX 2 Club",
+        "Colour": "Blue",
+        "Price": "79",
+        "image": "../image/PHANTOM+GX+II+BLUE/PHANTOM+GX+II+BLUE.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/PHANTOM+GX+II+BLUE/PHANTOM+GX+II+BLUE+1.png",
+            "../image/PHANTOM+GX+II+BLUE/PHANTOM+GX+II+BLUE+2.png",
+            "../image/PHANTOM+GX+II+BLUE/PHANTOM+GX+II+BLUE+3.png",
+            "../image/PHANTOM+GX+II+BLUE/PHANTOM+GX+II+BLUE+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 57,
+        "ProductName": "Nike In-Season TR 13",
+        "Colour": "Blue",
+        "Price": "89",
+        "image": "../image/NIKE+IN+SEASON13/NIKE+IN+SEASON13.jpg",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+IN+SEASON13/NIKE+IN+SEASON13+1.jpg",
+            "../image/NIKE+IN+SEASON13/NIKE+IN+SEASON13+2.jpg",
+            "../image/NIKE+IN+SEASON13/NIKE+IN+SEASON13+3.jpg",
+            "../image/NIKE+IN+SEASON13/NIKE+IN+SEASON13+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 58,
+        "ProductName": "Nike Metcon 9 Blue",
+        "Colour": "Blue",
+        "Price": "199",
+        "image": "../image/NIKE+METCON9+BYYOU/NIKE+METCON9+BYYOU.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+METCON9+BYYOU/NIKE+METCON9+BYYOU+1.png",
+            "../image/NIKE+METCON9+BYYOU/NIKE+METCON9+BYYOU+2.png",
+            "../image/NIKE+METCON9+BYYOU/NIKE+METCON9+BYYOU+3.png",
+            "../image/NIKE+METCON9+BYYOU/NIKE+METCON9+BYYOU+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 59,
+        "ProductName": "Nike Motiva GORE-TEX",
+        "Colour": "Blue",
+        "Price": "380",
+        "image": "../image/NIKE+MOTIVA+GTX/NIKE+MOTIVA+GTX.jpg",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+MOTIVA+GTX/NIKE+MOTIVA+GTX+1.jpg",
+            "../image/NIKE+MOTIVA+GTX/NIKE+MOTIVA+GTX+2.jpg",
+            "../image/NIKE+MOTIVA+GTX/NIKE+MOTIVA+GTX+3.png",
+            "../image/NIKE+MOTIVA+GTX/NIKE+MOTIVA+GTX+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 60,
+        "ProductName": "Nike Journey Run Blue",
+        "Colour": "Blue",
+        "Price": "111",
+        "image": "../image/NIKE+JOURNEY+RUN/NIKE+JOURNEY+RUN.jpg",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+JOURNEY+RUN/NIKE+JOURNEY+RUN+1.png",
+            "../image/NIKE+JOURNEY+RUN/NIKE+JOURNEY+RUN+2.jpg",
+            "../image/NIKE+JOURNEY+RUN/NIKE+JOURNEY+RUN+3.png",
+            "../image/NIKE+JOURNEY+RUN/NIKE+JOURNEY+RUN+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 61,
+        "ProductName": "Nike Quest 6 Blue",
+        "Colour": "Blue",
+        "Price": "119",
+        "image": "../image/NIKE+QUEST+6/NIKE+QUEST+6.jpg",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+QUEST+6/NIKE+QUEST+6+1.jpg",
+            "../image/NIKE+QUEST+6/NIKE+QUEST+6+2.jpg",
+            "../image/NIKE+QUEST+6/NIKE+QUEST+6+3.png",
+            "../image/NIKE+QUEST+6/NIKE+QUEST+6+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 62,
+        "ProductName": "NNike Pegasus 41 GORE-TEX",
+        "Colour": "Blue",
+        "Price": "199",
+        "image": "../image/PEGASUS+41+GTX+BLUE/PEGASUS+41+GTX+BLUE.jpg",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/PEGASUS+41+GTX+BLUE/PEGASUS+41+GTX+BLUE+1.png",
+            "../image/PEGASUS+41+GTX+BLUE/PEGASUS+41+GTX+BLUE+2.jpg",
+            "../image/PEGASUS+41+GTX+BLUE/PEGASUS+41+GTX+BLUE+3.png",
+            "../image/PEGASUS+41+GTX+BLUE/PEGASUS+41+GTX+BLUE+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 63,
+        "ProductName": "Nike SB Zoom Blazer Low Pro GT",
+        "Colour": "Blue",
+        "Price": "89",
+        "image": "../image/ZOOM+BLAZER+LOW+PRO+GT+BLUE/ZOOM+BLAZER+LOW+PRO+GT+BLUE.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/ZOOM+BLAZER+LOW+PRO+GT+BLUE/ZOOM+BLAZER+LOW+PRO+GT+BLUE+1.png",
+            "../image/ZOOM+BLAZER+LOW+PRO+GT+BLUE/ZOOM+BLAZER+LOW+PRO+GT+BLUE+2.png",
+            "../image/ZOOM+BLAZER+LOW+PRO+GT+BLUE/ZOOM+BLAZER+LOW+PRO+GT+BLUE+3.png",
+            "../image/ZOOM+BLAZER+LOW+PRO+GT+BLUE/ZOOM+BLAZER+LOW+PRO+GT+BLUE+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 64,
+        "ProductName": "Nike Ja 2 'Nightmare' EP",
+        "Colour": "Red",
+        "Price": "129",
+        "image": "../image/JA+2+NIGHTMARE+EP/JA+2+NIGHTMARE+EP.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/JA+2+NIGHTMARE+EP/JA+2+NIGHTMARE+EP+1.jpg",
+            "../image/JA+2+NIGHTMARE+EP/JA+2+NIGHTMARE+EP+2.jpg",
+            "../image/JA+2+NIGHTMARE+EP/JA+2+NIGHTMARE+EP+3.png",
+            "../image/JA+2+NIGHTMARE+EP/JA+2+NIGHTMARE+EP+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 65,
+        "ProductName": "PUMA LAMELO BALL MB.03 Lo Team",
+        "Colour": "Red",
+        "Price": "129",
+        "image": "../image/PUMA+LAMELO+BALL+RED/PUMA+LAMELO+BALL+RED.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/PUMA+LAMELO+BALL+RED/PUMA+LAMELO+BALL+RED+1.png",
+            "../image/PUMA+LAMELO+BALL+RED/PUMA+LAMELO+BALL+RED+2.png",
+            "../image/PUMA+LAMELO+BALL+RED/PUMA+LAMELO+BALL+RED+3.png",
+            "../image/PUMA+LAMELO+BALL+RED/PUMA+LAMELO+BALL+RED+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 66,
+        "ProductName": "Nike LeBron Witness 8 EP",
+        "Colour": "Red",
+        "Price": "178",
+        "image": "../image/LEBRON+WITNESS+VIII+EP/LEBRON+WITNESS+VIII+EP.png",
+        "Category": "Basketball",
+        "imgDetail": [
+            "../image/LEBRON+WITNESS+VIII+EP/LEBRON+WITNESS+VIII+EP+1.png",
+            "../image/LEBRON+WITNESS+VIII+EP/LEBRON+WITNESS+VIII+EP+2.jpg",
+            "../image/LEBRON+WITNESS+VIII+EP/LEBRON+WITNESS+VIII+EP+3.png",
+            "../image/LEBRON+WITNESS+VIII+EP/LEBRON+WITNESS+VIII+EP+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 67,
+        "ProductName": "Nike Phantom Luna 2 Academy Red",
+        "Colour": "Red",
+        "Price": "149",
+        "image": "../image/PHANTOM+FOOTBALL+RED/PHANTOM+FOOTBALL+RED.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/PHANTOM+FOOTBALL+RED/PHANTOM+FOOTBALL+RED+1.png",
+            "../image/PHANTOM+FOOTBALL+RED/PHANTOM+FOOTBALL+RED+2.png",
+            "../image/PHANTOM+FOOTBALL+RED/PHANTOM+FOOTBALL+RED+3.png",
+            "../image/PHANTOM+FOOTBALL+RED/PHANTOM+FOOTBALL+RED+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 68,
+        "ProductName": "Nike Mercurial Superfly 9 Academy Red",
+        "Colour": "Red",
+        "Price": "250",
+        "image": "../image/MERCURIAL+SUPERFLY9+CUSTOM+RED/MERCURIAL+SUPERFLY9+CUSTOM+RED.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+RED/MERCURIAL+SUPERFLY9+CUSTOM+RED+1.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+RED/MERCURIAL+SUPERFLY9+CUSTOM+RED+2.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+RED/MERCURIAL+SUPERFLY9+CUSTOM+RED+3.png",
+            "../image/MERCURIAL+SUPERFLY9+CUSTOM+RED/MERCURIAL+SUPERFLY9+CUSTOM+RED+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 69,
+        "ProductName": "Nike Mercurial Superfly 9 Elite Red",
+        "Colour": "Red",
+        "Price": "369",
+        "image": "../image/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED.png",
+        "Category": "Football",
+        "imgDetail": [
+            "../image/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED+1.png",
+            "../image/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED+2.png",
+            "../image/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED+3.png",
+            "../image/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED/MERCURIAL+SUPERFLY9+ELITE+CUSTOM+RED+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 70,
+        "ProductName": "Nike Metcon 9 AMP",
+        "Colour": "Red",
+        "Price": "179",
+        "image": "../image/NIKE+METCON+9+AMP/NIKE+METCON+9+AMP.jpg",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+METCON+9+AMP/NIKE+METCON+9+AMP+1.jpg",
+            "../image/NIKE+METCON+9+AMP/NIKE+METCON+9+AMP+2.jpg",
+            "../image/NIKE+METCON+9+AMP/NIKE+METCON+9+AMP+3.png",
+            "../image/NIKE+METCON+9+AMP/NIKE+METCON+9+AMP+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 71,
+        "ProductName": "Nike Metcon 9 Red",
+        "Colour": "Red",
+        "Price": "189",
+        "image": "../image/NIKE+METCON9+RED/NIKE+METCON9+RED.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+METCON9+RED/NIKE+METCON9+RED+1.png",
+            "../image/NIKE+METCON9+RED/NIKE+METCON9+RED+2.png",
+            "../image/NIKE+METCON9+RED/NIKE+METCON9+RED+3.png",
+            "../image/NIKE+METCON9+RED/NIKE+METCON9+RED+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 72,
+        "ProductName": "Nike Free Metcon 6 Red",
+        "Colour": "Red",
+        "Price": "199",
+        "image": "../image/NIKE+METCON6+RED/NIKE+METCON6+RED.png",
+        "Category": "Gym",
+        "imgDetail": [
+            "../image/NIKE+METCON6+RED/NIKE+METCON6+RED+1.jpg",
+            "../image/NIKE+METCON6+RED/NIKE+METCON6+RED+2.jpg",
+            "../image/NIKE+METCON6+RED/NIKE+METCON6+RED+3.png",
+            "../image/NIKE+METCON6+RED/NIKE+METCON6+RED+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 73,
+        "ProductName": "Nike Pegasus 41 Red",
+        "Colour": "Red",
+        "Price": "179",
+        "image": "../image/NIKE+PEGASUS+41+RED/NIKE+PEGASUS+41+RED.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/NIKE+PEGASUS+41+RED/NIKE+PEGASUS+41+RED+1.jpg",
+            "../image/NIKE+PEGASUS+41+RED/NIKE+PEGASUS+41+RED+2.jpg",
+            "../image/NIKE+PEGASUS+41+RED/NIKE+PEGASUS+41+RED+3.png",
+            "../image/NIKE+PEGASUS+41+RED/NIKE+PEGASUS+41+RED+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 74,
+        "ProductName": "Nike Invincible 3 Red",
+        "Colour": "Red",
+        "Price": "249",
+        "image": "../image/INVINCIBLE+3+RED/INVINCIBLE+3+RED.png",
+        "Category": "Running",
+        "imgDetail": [
+            "../image/INVINCIBLE+3+RED/INVINCIBLE+3+RED+1.png",
+            "../image/INVINCIBLE+3+RED/INVINCIBLE+3+RED+2.png",
+            "../image/INVINCIBLE+3+RED/INVINCIBLE+3+RED+3.png",
+            "../image/INVINCIBLE+3+RED/INVINCIBLE+3+RED+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 75,
+        "ProductName": "Nike SB Zoom Pogo Plus",
+        "Colour": "Red",
+        "Price": "79",
+        "image": "../image/NIKE+SB+ZOOM+POGO+PLUS/NIKE+SB+ZOOM+POGO+PLUS.png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/NIKE+SB+ZOOM+POGO+PLUS/NIKE+SB+ZOOM+POGO+PLUS+1.png",
+            "../image/NIKE+SB+ZOOM+POGO+PLUS/NIKE+SB+ZOOM+POGO+PLUS+2.png",
+            "../image/NIKE+SB+ZOOM+POGO+PLUS/NIKE+SB+ZOOM+POGO+PLUS+3.png",
+            "../image/NIKE+SB+ZOOM+POGO+PLUS/NIKE+SB+ZOOM+POGO+PLUS+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 76,
+        "ProductName": "Nike SB Vertebrae",
+        "Colour": "Red",
+        "Price": "99",
+        "image": "../image/NIKE+SB+VERTEBRAE+TE/NIKE+SB+VERTEBRAE+TE.jpg",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/NIKE+SB+VERTEBRAE+TE/NIKE+SB+VERTEBRAE+TE+1.jpg",
+            "../image/NIKE+SB+VERTEBRAE+TE/NIKE+SB+VERTEBRAE+TE+2.jpg",
+            "../image/NIKE+SB+VERTEBRAE+TE/NIKE+SB+VERTEBRAE+TE+3.png",
+            "../image/NIKE+SB+VERTEBRAE+TE/NIKE+SB+VERTEBRAE+TE+4.jpg"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    },
+    {
+        "Id": 77,
+        "ProductName": "Nike SB Stefan Janoski",
+        "Colour": "Red",
+        "Price": "79",
+        "image": "../image/NIKE+SB+JANOSKI+(GS)/NIKE+SB+JANOSKI+(GS).png",
+        "Category": "Skateboarding",
+        "imgDetail": [
+            "../image/NIKE+SB+JANOSKI+(GS)/NIKE+SB+JANOSKI+(GS)+1.png",
+            "../image/NIKE+SB+JANOSKI+(GS)/NIKE+SB+JANOSKI+(GS)+2.png",
+            "../image/NIKE+SB+JANOSKI+(GS)/NIKE+SB+JANOSKI+(GS)+3.png",
+            "../image/NIKE+SB+JANOSKI+(GS)/NIKE+SB+JANOSKI+(GS)+4.png"
+        ],
+        "Size": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+        ]
+    }
+]

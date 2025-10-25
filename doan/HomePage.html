@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../doan/HomePage.css">
+    <link rel="stylesheet" href="../doan/Responsive.css">
+    <link rel="stylesheet" href="../doan/font/font-awesome-pro-v6-6.2.0/css/free.min.css">
+    <link rel="stylesheet" href="../doan/font/font-awesome-pro-v6-6.2.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="../doan/HistoryBuy/Historybuy.css">
+    <link rel="stylesheet" href="../doan/Login-Register/LoginRegister.css">
+    <link rel="icon" type="image/png" sizes="32x32"  href="../image/favicon-16x16.png">
+
+    <title>IT SNEAKER</title>
+
+
+</head>
+
+<body>
+    <!-- -------------------------Header------------------------- -->
+    <header>
+        <div class="header-container">
+            <div class="header-left">
+                <div class="header-logo">
+                    <a href = "" ><img class="header-logo" src="../doan/anh/logo.png"> </a>
+                </div>
+            </div>
+            <div class="header-right">
+                <ul class="header-option">
+                    <li class="user">
+                        <i style="font-size: 25px;" class="fa-regular fa-user"></i>
+                        <div class="auth-container">
+                            <div class="guestStatus">
+                                <p id="login/register" class="text-dndk">Login / Register</p>
+                                <p  class="text-tk">Account</p>
+                                <ul class="header-option-guestStatus" id="loginBnt">
+                                    <li id="dangnhap"><button><i class="fa-solid fa-right-to-bracket"></i>Login</button></li>
+                                    <li id="dangky"><button><i class="fa-regular fa-user-plus"></i>Register</button></li>
+                                </ul>
+                            </div>
+                            <div class="userStatus">
+                                <p id="accout" class="text-dndk">Account</p>
+                                <p id="username">
+                                    <p class="text-nameaccout"></p>
+                                </p>
+                                <ul class="header-option-userStatus">
+                                    <li id="thongtintk"><button onclick=""><i class="fa-sharp-duotone fa-regular fa-circle-info"></i>Infomation</button></li>
+                                    <li id="historybuy"><button onclick="showHistoryBuy(event)"><i class="fa-sharp fa-regular fa-clock-rotate-left"></i>Buy history</button></li>
+                                    <li id="admin" style="display: none;"><button onclick="backToAdmin()"><i class="fa-sharp-duotone fa-regular fa-user-tie"></i>Admin</button></li>
+                                    <li id="dangxuat"><button onclick="bntLogout()"><i class="fa-regular fa-arrow-up-left-from-circle"></i>Logout</button></li> 
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        
+                    </li>
+                    <li id = "cart-icon" style="position: relative;">
+                        <i class="fa-regular fa-cart-shopping" ></i>
+                        <span class="cartspan">0</span>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- -------------------------Header------------------------- -->
+       <!------ thong báo Alert ------->
+       <div id="alert" class="customAlert">
+        <div class="topAlert">
+            <span class="alertIcon"><i class="fa-solid fa-comment-check"></i></span>
+            <div class="alertContent">
+                <p class="alertTitle"></p>
+                <p id="alertMessage"></p>
+            </div>
+            <span class="closeAlert" onclick="closeAlert()">&times;</span>
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+    
+    <!------ thong báo Alert ------->
+        <!-- -------------- thong báo logout----------- -->
+        <div class="logout-container">
+            <span class="closeLogout" onclick="closeLogout()">&times;</span>
+            <p class="logout-title">Confirm Logout</p>
+            <p class="logout-content">You want to log out of your account?</p>
+            <input type="submit" value="OK" class="sbtLogout" onclick="sbtLogout()">
+        </div>
+    
+        <!-- --------------thong báo logout----------- -->
+         <!-- login register -->
+        <div id="overlay"></div>
+    
+    
+        <div class="wrapper">
+            <span class="icon-close"><i class="fa-solid fa-xmark"></i></span>
+            <div class="form-box login">
+                <h2>LOGIN FORM</h2>
+                <form id="form-login">
+                    <div class="input-box ">
+                        <span class="icon"><i class="fa-solid fa-user-vneck"></i></span>
+                        <input class="login-username" type="text" required>
+                        <label for="">Name</label>
+                        <small></small>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon">
+                            <i id="eye1" class="fa-sharp fa-solid fa-eye" style="right: 40px;visibility: hidden;"></i> <!-- Biểu tượng mắt ẩn -->
+                            <i class="fa-duotone fa-regular fa-key"></i>
+                        </span>
+                        <input class="login-password" type="password" required autocomplete="current-password">
+                        <label for="">Password</label>
+                        <small></small>
+                    </div>                    
+                    <div class="remember-forgot">
+                        <label><input type="checkbox"  required>Save Password</label>
+                        <a href="#" class="forgot-passworld-link">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="bnt-login">Login</button>
+                    <div class="login-register">
+                        <p>You don't have an account yet? <a href="#" class="register-link">Resgister now</a></p>
+                    </div>
+                </form>
+            </div>
+            <div class="form-box register">
+                <h2>Resister Form</h2>
+                <form id="form-register" action="#">
+                    <div class="input-box">
+                        <span class="icon"><i class="fa-solid fa-user-vneck"></i></i></span>
+                        <input id="register-username" type="text" required>
+                        <label for="register-username">Name</label>
+                        <small></small>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><i class="fa-duotone fa-regular fa-mobile"></i></span>
+                        <input id="register-phone" type="text" required>
+                        <label for="register-phone">Phone number</label>
+                        <small></small>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon">
+                            <i id="eye2" class="fa-sharp fa-solid fa-eye" style="right: 40px;visibility: hidden;"></i>
+                            <i class="fa-duotone fa-regular fa-key"></i>
+                        </span>
+                        <input id="register-password" type="password" required>
+                        <label for="register-password">Password</label>
+                        <small></small>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon">
+                            <i id="eye3" class="fa-sharp fa-solid fa-eye" style="right: 40px;visibility: hidden;"></i>
+                            <i class="fa-duotone fa-regular fa-key"></i>
+                        </span>
+                        <input id="cf-password" type="password" required>
+                        <label for="cf-password">Confirm Password</label>
+                        <small></small>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox"  required>Accept website policies</label>
+    
+                    </div>
+                    <button type="submit" class="bnt-login">Register</button>
+                    <div class="login-register">
+                        <p>You already have an account? <a href="#" class="login-link">Login</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--login register -->
+        <!-- --------------thong tin tk ----------------->
+        <div class="information-container ">
+            <span class="close-information" onclick="closeInformation()">&times;</span>
+            <div class="change-information">
+                <h2>Information of your account</h2>
+                <p>Manage information for account security</p>
+                <form id="information-accout-content">
+                    <div class="input-information">
+                        <label for="">Name</label>
+                        <input type="text" id="tentk">
+                        <small></small>
+                    </div>
+                    <div class="input-information">
+                        <label for="">Phone number</label>
+                        <input type="text" id="sodienthoai">
+                        <small></small>
+                    </div>
+                    <div class="input-information">
+                        <label for="">Email</label>
+                        <input type="text" value="" id="email" placeholder="Thêm địa chỉ email của bạn">
+                        <small></small>
+                    </div>
+                    <div class="input-information">
+                        <label for="">Address</label>
+                        
+                        <div class="address-container">
+                            <div class="select-box">
+                                <input type="text" id="diachi-thanhpho" placeholder="Tp" >
+                                <span><i class="fa-solid fa-angle-down"></i></span>
+                                <div class="content">
+                                    <ul class="option" id="city-list">
+                                        <li data-value="hanoi">Hà Nội</li>
+                                        <li data-value="hochiminh">Hồ Chí Minh</li>
+                                        <li data-value="danang">Đà Nẵng</li>
+                                        <p class="no-results" style="display: none;">No results</p>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="select-box">
+                                <input type="text" id="diachi-quan" placeholder="Quận" readonly>
+                                <span><i class="fa-solid fa-angle-down"></i></span>
+                                <div class="content">
+                                    <ul class="option" id="district-list">
+                                        <p class="no-results" style="display: none;">No results</p>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="select-box">
+                                <input type="text" id="diachi-phuong" placeholder="Phường" readonly>
+                                <span><i class="fa-solid fa-angle-down"></i></span>
+                                <div class="content">
+                                    <ul class="option" id="ward-list">
+                                        <p class="no-results" style="display: none;">No results</p>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="text" id="diachi-detail" placeholder="Thêm địa chỉ cụ thể giao hàng">
+                    </div>
+                    <div style = "display: flex">
+                        <button type="button" id="save-change-information">Save change</button>
+                        <button  onclick="changePasswordActive(event)">Change Password
+                    </div>
+                </form>
+            </div>
+            <div class="change-password" style="width: 100%; padding: 0 30px;">
+                <span class="return-information" onclick="returnInformation()">back</span>
+                <h2>Change Password</h2>
+                <p>Make sure remember your password to login</p>
+                <form id="change-password-form">
+                    <div class="input-information">
+                        <label for="">Current Password</label>
+                        <input id="current-password-text" type="text" placeholder="Nhập mật khẩu hiện tại">
+                        <small></small>
+                    </div>
+                    <div class="input-information">
+                        <label for="">New Password</label>
+                        <input id="new-password-text" type="text" placeholder="Nhập mật khẩu mới">
+                        <small></small>
+                    </div>
+                    <div class="input-information">
+                        <label for="">Confirm new Password</label>
+                        <input id="cf-new-password-text" type="text" placeholder="Nhập lại mật khẩu mới">
+                        <small></small>
+                    </div>
+                    <button id="btn-change-pass" onclick="checkcurrentpass(event)">Change Password</button>
+                </form>
+            </div>
+        </div>
+        <!-- --------------thong tin tk ----------------->
+         <!-- Popup Forgot Password -->
+        <div class="forgotpass-container">
+            <div class="forgotpass-header">
+                <h2>Forgot Password</h2>
+                <p>We're recovering your password to your account.</p>
+            </div>
+            <div class="forgotpass-content">
+                <form id="forgot-password-form">
+                    <input type="text" id="search-acc-ip" class="search-acc-ip" placeholder="Nhập tên đăng nhập" >
+                    <button  type="submit" class="search-acc">Search account</button>
+                </form>
+                <div class="result-search"></div>
+                <div class="contact-phone"></div>
+                <div class="reset-password-container">
+                    <strong>Change Password</strong>
+                    <input  type="password" class="new-password-ip" placeholder="Nhập mật khẩu mới" required>
+                    <input  type="password" class="confirm-password-ip"  placeholder="Nhập lại mật khẩu" required>
+                    <button class="reset-password-btn" >Change Password</button>
+                </div>
+            </div>
+            <div class="close-forgotpass" onclick="closeForgotpass()">×</div>
+        </div>
+         <!-- Popup Forgot Password -->
+        <!-- USER - ORDER HISTORY -->
+       <div class="container-history-buy" id="order-history">
+        <div class="main-account">
+            <div class="main-account-header">
+                <span onclick="closeHistoryBuy()"><i class="fa-regular fa-xmark"></i></span>
+
+                <h2>ORDER HISTORY</h2>
+                <p>Hey, <span class="display-username" style="color: rgb(34, 172, 144);"></span>! Check out what you have ordered so far!</p>
+            </div>
+            <div class="main-account-body">
+                
+            </div>
+        </div>
+        <div class="order-history-detail-container" style="display: none;">
+            <span class="close-historybuy-detail"><i class="fa-regular fa-x"></i></span>
+            <h3>ORDER DETAIL</h3>
+            <div class="box-order-history-detail">
+                <span><i class="fa-sharp fa-solid fa-hashtag"></i><p>Order ID</p></span>
+                <p class="id-order-ip text"></p></div>
+            <div class="box-order-history-detail" style="background-color: rgb(179, 198, 228);">
+                <span><i class="fa-duotone fa-regular fa-circle-user"></i><p>Recipient name</p></span>
+                <p class="recipient-name-ip text"></p></div>
+            <div class="box-order-history-detail">
+                <span><i class="fa-duotone fa-light fa-mobile"></i><p>Recipient number</p></span>
+                <p class="recipient-number-ip text"></p></div>
+            <div class="box-order-history-detail" style="background-color: rgb(179, 198, 228);">
+                <span><i class="fa-duotone fa-light fa-calendar-days"></i><p>Phuchase date</p></span>
+                <p class="phuchase-date-ip text"></p>
+            </div>
+            <div class="box-order-history-detail">
+                <span><i class="fa-sharp-duotone fa-regular fa-location-dot"></i><p>Specific address</p></span>
+                <p class="specific-address-ip text"></p>
+            </div>
+            <div class="box-order-history-detail" style="background-color: rgb(179, 198, 228);">
+                <span><i class="fa-regular fa-map-location-dot"></i><p>Region</p></span>
+                <p class="region-ip text"></p>
+            </div>
+            <div class="box-order-history-detail">
+                <span><i class="fa-sharp fa-solid fa-money-check-dollar-pen"></i><p>Payment method</p></span>
+                <p class="payment-method-ip text"></p>
+            </div>
+        </div>
+    </div>
+        <!-----------------historybuy----------------  -->
+    <!-- -------------------------Header------------------------- -->
+
+
+    <!-- -------------------------Banner------------------------- -->
+
+    <div id="ImgContent" class = "banner-container">
+        <img src="../doan/anh/banner.png">
+    </div>
+
+    <!-- -------------------------Banner------------------------- -->
+
+
+    <!-- -------------------------Service------------------------- -->
+
+    <!-- cartttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt-->
+    <div class="cart-tab">
+        <h1>Your Shopping Cart</h1>
+        <div class="list-cart">
+            <div class="item">
+
+            </div>
+        </div> 
+        <div class="total">
+            <p>Total:</p>
+            <span >0</span>
+        </div>
+        <div class="btn"> 
+            <button class="closee" >CONTINUE SHOPPING</button>
+            <button class="checkout">CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- carttttttttttttttttttttt-->
+
+
+    <div class="home-service" id="home-service">
+        <div class="home-service-item">
+            <div class="home-service-item-icon">
+                <i class="fa-light fa-person-carry-box"></i>
+            </div>
+            <div class="home-service-item-content">
+                <h4 class="home-service-item-content-h">BEST EXPRESS</h4>
+                <p class="home-service-item-content-desc">For all order</p>
+            </div>
+        </div>
+        <div class="home-service-item">
+            <div class="home-service-item-icon">
+                <i class="fa-light fa-shield-heart"></i>
+            </div>
+            <div class="home-service-item-content">
+                <h4 class="home-service-item-content-h">QUALITY PRODUCTS</h4>
+                <p class="home-service-item-content-desc">100% Authentic</p>
+            </div>
+        </div>
+        <div class="home-service-item">
+            <div class="home-service-item-icon">
+                <i class="fa-light fa-headset"></i>
+            </div>
+            <div class="home-service-item-content">
+                <h4 class="home-service-item-content-h">SUPPORT 24/7</h4>
+                <p class="home-service-item-content-desc">For all customer</p>
+            </div>
+        </div>
+        <div class="home-service-item">
+            <div class="home-service-item-icon">
+                <i class="fa-light fa-circle-dollar"></i>
+            </div>
+            <div class="home-service-item-content">
+                <h4 class="home-service-item-content-h">REFUND</h4>
+                <p class="home-service-item-content-desc">For defective product</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------Service------------------------- -->
+
+
+    <!-- -----------------------------------Center----------------------------------- -->
+    <div id="Center">
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+
+            <i class="fa-solid fa-xmark"></i>
+
+            <h3>Size</h3>
+            <div class="size-options">
+                <button id="size-35" value="35">35</button>
+                <button id="size-36" value="36">36</button>
+                <button id="size-37" value="37">37</button>
+                <button id="size-38" value="38">38</button>
+                <button id="size-39" value="39">39</button>
+                <button id="size-40" value="40">40</button>
+                <button id="size-41" value="41">41</button>
+                <button id="size-42" value="42">42</button>
+                <button id="size-43" value="43">43</button>
+                <button id="size-44" value="44">44</button>
+                <button id="size-45" value="45">45</button>
+            </div>
+            <hr>
+
+            <h3>Price</h3>
+            <div class="price-filter">
+                <input type="text" id="price-min" placeholder="Min">
+                <input type="text" id="price-max" placeholder="Max">
+            </div>
+            <hr>
+
+            <div class="color-options">
+                <button id="color-black" class="color-btn" value="Black" style="background-color: black;"></button>
+                <button id="color-white" class="color-btn" value="White" style="background-color: white;"></button>
+                <button id="color-gray" class="color-btn" value="Gray" style="background-color: gray;"></button>
+                <button id="color-green" class="color-btn" value="Green" style="background-color: rgb(20, 158, 20);"></button>
+                <button id="color-blue" class="color-btn" value="Blue" style="background-color: rgb(36, 36, 214);"></button>
+                <button id="color-red" class="color-btn" value="Red" style="background-color: rgb(238, 40, 40);"></button>
+            </div>
+            <hr>
+
+            <h3>Type</h3>
+            <div class="type-options">
+                <button id="type-basketball" value="Basketball">Basketball</button>
+                <button id="type-football" value="Football">Football</button>
+                <button id="type-running" value="Running">Running</button>
+                <button id="type-gym" value="Gym">Gym</button>
+                <button id="type-skateboarding" value="Skateboarding">Skateboarding</button>
+            </div>
+            <hr>
+            <!-- Filter Buttons Container -->
+            <div class="filter-button">
+                <!-- Apply Filter Button -->
+                <button id="apply-filter-btn" class="apply-filter-btn">Apply Filter</button>
+                
+                <!-- Reset Filter Button -->
+                <button id="reset-filter-btn" class="reset-filter-btn">Reset Filter</button>
+            </div>
+        </div>
+
+        <div id="Mid">
+            <!-- Filter Button -->
+            <div class="filter" id="filter">
+
+                <div class = "filter-left">
+                    <button class="filter-btn" id="filter-btn">Filter
+                        <i class="fa-light fa-filter-list"></i>
+                    </button>
+                    <span id = "filter-count">product(s)</span>
+                </div>
+
+                <div class = "filter-middle">
+                    <form action="" class="form-search">
+                        <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-search-input" placeholder="The name of the shoe"
+                            oninput="searchProducts()">
+                    </form>
+                </div>
+
+                <div class = "filter-right">
+                    <div class="sort-button" id="default-sort">
+                        <span>Sort by: None</span>
+                        <div class="sort-options">
+                        <ul>
+                            <li id="sort-None">None</li>
+                            <li id="sort-name-asc">Name, A -> Z</li>
+                            <li id="sort-name-desc">Name, Z -> A</li>
+                            <li id="sort-price-asc">Price, Low -> High</li>
+                            <li id="sort-price-desc">Price,High -> Low </li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Sản phẩm sẽ hiển thị trực tiếp tại đây -->
+            <div id="product-container"></div>
+
+            <!-- Nút phân trang -->
+            <div id="pagination" class="pagination"></div>
+
+        </div>
+    </div>
+
+    <!-- -----------------------------------Footer----------------------------------- -->
+
+    <footer class="footer">
+        
+        <div class="widget-area">
+            <div class="container">
+                <div class="widget-row">
+                    <div class="widget-row-col-1">
+                        <h3 class="widget-title">About IT Sneaker</h3>
+                        <div class="widget-row-col-content">
+                            <p>It Sneaker is a store established in 2024 with the goal of offering customers authentic sneakers at competitive prices.</p>
+                        </div>
+                        <div class="widget-social">
+                            <div class="widget-social-item">
+                                <a href="">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </div>
+                            <div class="widget-social-item">
+                                <a href="">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                            <div class="widget-social-item">
+                                <a href="">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                            <div class="widget-social-item">
+                                <a href="">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="widget-row-col">
+                        <h3 class="widget-title">The connection</h3>
+                        <ul class="widget-contact">
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>About IT Sneaker</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Terms of Use</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Brands</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Contact</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>News</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="widget-row-col">
+                        <h3 class="widget-title">Product Classification</h3>
+                        <ul class="widget-contact">
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Football</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Basketball</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Running</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Gym</span>
+                                </a>
+                            </li>
+                            <li class="widget-contact-item">
+                                <a href="">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <span>Skateboarding</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="widget-row-col-1">
+                        <h3 class="widget-title">Contact</h3>
+                        <div class="contact">
+                            <div class="contact-item">
+                                <div class="contact-item-icon">
+                                    <i class="fa-regular fa-location-dot"></i>
+                                </div>
+                                <div class="contact-content">
+                                    <span>273 An Dương Vương, Ward 3, District 5, Hồ Chí Minh City</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-item-icon">
+                                    <i class="fa-regular fa-phone"></i>
+                                </div>
+                                <div class="contact-content contact-item-phone">
+                                    <span>0123 456 789</span>
+                                    <br>
+                                    <span>0768 123 227</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-item-icon">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </div>
+                                <div class="contact-content conatct-item-email">
+                                    <span>abc@domain.com</span><br />
+                                    <span>itsneaker@domain.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- -----------------------------------Footer----------------------------------- -->
+
+    <div class="copyright-wrap">
+        <div class="container">
+            <div class="copyright-content">
+                <p>Copyright 2024 It Sneaker. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script src="../doan/Login-Register/LoginRegister.js"></script>
+<script src="../doan/HistoryBuy/Historybuy.js"> </script>
+<script src="HomePage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>

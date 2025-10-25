@@ -1,0 +1,705 @@
+/* For Laptop 1024px */
+    @media (min-width: 1024px) and (max-width: 1439px)
+{
+    .header-option-guestStatus li, .header-option-userStatus li{
+        width: 110% !important;
+    }
+    .home-service-item {
+        width: 40%;
+        margin-bottom: 25px;
+    }
+
+
+    .modal-content {
+        top: 150px;
+        width: 80%;
+        left: 10%;
+    }
+
+
+    .wrapper, .forgotpass-container, .information-container, .form-box-register {
+        z-index: 100;
+        top: 25% !important;
+        left: 30% !important;
+    }
+
+
+    .filter {
+        width: 100%;
+        display: flex !important;
+    }
+    .filter-left {
+        width: 30%;
+        display: flex;
+        justify-content: center ;
+    }
+
+    .filter-middle {
+        width: 40%;
+    }
+
+    .filter-right {
+        width: 30%;
+        display: flex;
+        justify-content: center ;
+    }
+}
+
+
+/* For Tablet */
+@media (min-width: 801px) and (max-width: 1023px)
+{
+    /* --------------------------------------Css Banner--------------------------------------*/
+
+    .wrapper, .forgotpass-container, .information-container, .form-box-register {
+        z-index: 100;
+        top: 20% !important;
+        left: 25% !important;
+    }
+
+    .header-option-guestStatus li, .header-option-userStatus li{
+        width: 110% !important;
+    }
+
+    #ImgContent {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 12%;
+    }
+
+    .header-left {
+        width: 30%;
+    }
+
+    .header-right {
+        width: 70%;
+    }
+
+    .header-option {
+        display: flex;
+        float: left;
+    }
+
+    .header-option li{
+        width: 100%;
+
+    }
+    /* --------------------------------------Css Banner--------------------------------------*/
+
+
+    /* --------------------------------------Css Service--------------------------------------*/
+    
+    .home-service-item{
+        width: 40%;
+        margin-bottom: 25px;
+    }
+    /* --------------------------------------Css Service--------------------------------------*/
+
+    /* --------------------------------------Css Center--------------------------------------*/
+
+    #Mid {
+        width: 100%;
+        border-left: none;
+        margin-bottom: 40px;
+    }
+
+    .filter {
+        width: 100%;
+        display: flex !important;
+    }
+    .filter-left {
+        width: 30%;
+        display: flex;
+        justify-content: center ;
+    }
+
+    .filter-middle {
+        width: 40%;
+    }
+
+    .filter-right {
+        width: 30%;
+        display: flex;
+        justify-content: center ;
+    }
+
+    /* --------------------------------------Css Center--------------------------------------*/
+
+
+    .modal-content {
+        top: 100px;
+        width: 80%;
+        left: 10%;
+
+    }
+
+    .product-content-left-big-img {
+        height: 40%;
+        width: 90%;
+        
+    }
+
+    /* --------------------------------------Css Footer--------------------------------------*/
+
+    .widget-area {
+        padding: 15px;
+        margin: 5px 20px 5px 20px;
+    }
+
+    .widget-row {
+        flex-wrap: wrap;
+    }
+
+    .widget-row-col-1 {
+        width: 100%;
+    }
+
+    .widget-row-col {
+        width: 40%;
+    }
+
+    .widget-title {
+        font-size: 15px;
+    }
+
+    .widget-row-col-content {
+        padding-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .widget-social-item {
+        margin: 2px;
+    }
+
+    .widget-contact-item a{
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .widget-contact i {
+        font-size: 13px;
+        margin-right: 5px;
+    }
+
+    .contact-item-icon {
+        font-size: 13px;
+        margin-left: -20px;
+    }
+
+    .contact-content {
+        font-size: 14px;
+    }
+    /* --------------------------------------Css Footer--------------------------------------*/
+}
+
+
+
+
+/* For Tablet Small*/
+@media (min-width: 426px) and (max-width: 800px)
+{
+    /* --------------------------------------Css Banner--------------------------------------*/
+
+    .wrapper, .forgotpass-container, .information-container, .form-box-register {
+        z-index: 100;
+        top: 20% !important;
+        left: 25% !important;
+    }
+
+
+    #ImgContent {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 12%;
+    }
+
+    .header-left {
+        width: 30%;
+    }
+
+    .header-right {
+        width: 70%;
+    }
+
+    .header-option {
+        display: flex;
+        float: left;
+        width: 100%;
+    }
+    .header-option-guestStatus li, .header-option-userStatus li{
+        width: 110% !important;
+    }
+    /* --------------------------------------Css Banner--------------------------------------*/
+
+
+    /* --------------------------------------Css Service--------------------------------------*/
+    
+    .home-service-item{
+        width: 40%;
+        margin-bottom: 25px;
+    }
+    /* --------------------------------------Css Service--------------------------------------*/
+
+    /* --------------------------------------Css Center--------------------------------------*/
+
+    #Mid {
+        width: 100%;
+        border-left: none;
+        margin-bottom: 40px;
+    }
+
+    .filter {
+        width: 100%;
+        display: flex !important;
+    }
+    .filter-left {
+        width: 30%;
+        display: flex;
+        justify-content: center ;
+    }
+
+    .filter-middle {
+        width: 40%;
+    }
+
+    .filter-right {
+        width: 30%;
+        display: flex;
+        justify-content: center ;
+    }
+
+    /* --------------------------------------Css Center--------------------------------------*/
+
+
+    .modal-content {
+        top: 100px;
+        width: 80%;
+        left: 10%;
+
+    }
+
+    .product-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-content-left {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .product-content-left-big-img {
+        width: 70%;
+    }
+
+    .product-content-left-small-img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .container-history-buy {
+        width: 100% !important;
+    }
+    .main-account-body-col{
+        padding: 0 5px !important;
+        margin: 5px 0 !important;
+    }
+    .main-account-body-col li {
+        margin: 10px 0 !important;
+    }
+    /* --------------------------------------Css Footer--------------------------------------*/
+
+    .widget-area {
+        padding: 15px;
+        margin: 5px 20px 5px 20px;
+    }
+
+    .widget-row {
+        flex-wrap: wrap;
+    }
+
+    .widget-row-col-1 {
+        width: 100%;
+    }
+
+    .widget-row-col {
+        width: 40%;
+    }
+
+    .widget-title {
+        font-size: 15px;
+    }
+
+    .widget-row-col-content {
+        padding-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .widget-social-item {
+        margin: 2px;
+    }
+
+    .widget-contact-item a{
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .widget-contact i {
+        font-size: 13px;
+        margin-right: 5px;
+    }
+
+    .contact-item-icon {
+        font-size: 13px;
+        margin-left: -20px;
+    }
+
+    .contact-content {
+        font-size: 14px;
+    }
+    /* --------------------------------------Css Footer--------------------------------------*/
+}
+
+
+
+
+
+
+
+/* For Phone size L */
+@media(max-width: 426px)
+{
+    /* --------------------------------------Css Heaedr--------------------------------------*/
+
+    .header-option-guestStatus li, .header-option-userStatus li{
+        width: 110% !important;
+    }
+
+    .header-left {
+        width: 30%;
+    }
+
+    .header-right {
+        width: 70%;
+    }
+
+    .header-option li {
+        width: 100%;
+    }
+
+    #ImgContent {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 19%;
+    }
+
+    .wrapper, .forgotpass-container, .information-container, .form-box-register {
+        z-index: 100;
+        top: 10% !important;
+        left: 2% !important;
+    }
+
+
+    /* --------------------------------------Css Header--------------------------------------*/
+
+
+    .modal-content {
+        width: 75%;
+        padding: 0px;
+        top: 40px;
+        left: 13%;
+    }
+
+    .product-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-content-left {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .product-content-left-big-img {
+        width: 70%;
+    }
+
+    .product-content-left-small-img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+   
+    /* --------------------------------------Css Service--------------------------------------*/
+
+    .home-service{
+        padding: 0px;
+    }
+    
+    .home-service-item{
+        width: 45%;
+        height: 35%;
+    }
+
+    .home-service-item-icon i{
+        font-size: 20px;
+        margin-right: 15px;
+    }
+    
+    .home-service-item-content-h{
+        font-size: 11px;
+    }
+    
+    .home-service-item-content-desc{
+        margin-top: 4px;
+        font-size: 11px;
+        color:#888
+    }
+    /* --------------------------------------Css Service--------------------------------------*/
+
+    /* --------------------------------------Css Center--------------------------------------*/
+
+    #Mid {
+        width: 100%;
+        border: none;
+        margin-bottom: 40px;
+    }
+
+    .filter {
+        display: flex;
+        width: 100%;
+    }
+
+    .filter-right, .filter-left{
+        width: 35%;
+    }
+
+    .filter-btn, .sort-button{
+        width: 100%;
+        padding: 0px;
+    }
+
+    #filter-count {
+        font-size: 13px !important;
+    }
+
+    #product-container {
+        height: 95%;
+    }
+
+    .card {
+        display: flex;
+        width: 100%;
+        height: 200px;
+        margin: 19px 0;
+        box-sizing: border-box;
+        border: 1px solid black;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px #aaaaaa;
+        justify-content: space-between;
+        padding: 20px;
+    }
+    
+    .card-image {
+        object-fit: cover;
+        width: 60%;
+        height: 100%;
+        border-radius: 10px;
+    }
+
+    .card img {
+        width: 80%;
+        height: 100%;
+        margin: 0px;
+    }
+    
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+        gap: 5px;
+        padding: 10px;
+        width: 40%;
+    }
+    
+    .card p {
+        text-align: left;
+        margin: 5px 5px;
+        font-size: 18px;
+    }
+
+    .card-icon {
+        margin-top: 10px;
+        margin-left: 40px;
+    }
+    
+    .Colors {
+        color: grey;
+        font-weight: 100;
+    }
+    
+    .Price {
+        font-weight: 300;
+    }
+    
+    
+
+    /* --------------------------------------Css Center--------------------------------------*/
+
+    /* --------------------------------------Css Footer--------------------------------------*/
+
+    .footer-top{
+        padding: 30px 0;
+    }
+
+    .footer-top-subbox{
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0px;
+    }
+
+    .footer-top-img,
+    .footer-top-subs-text{
+        display: none;
+    }
+
+    .footer-top-subs {
+        text-align: center;
+    }
+
+    .footer-top-subs-title {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .form-ground {
+        margin-left: 20px;
+    }
+
+    .form-ground-input {
+        width: 60%;
+    }
+
+    .form-ground-btn {
+        width: 40%;
+        font-weight: 600;
+        font-size: 11px;
+        padding: 5px;
+    }
+
+    .widget-area {
+        margin: 10px;
+    }
+
+    .widget-row {
+        flex-wrap: wrap;
+    }
+
+    .widget-row-col-1 {
+        width: 100%;
+    }
+
+    .widget-row-col {
+        width: 40%;
+    }
+
+    .widget-title {
+        font-size: 15px;
+    }
+
+    .widget-row-col-content {
+        padding-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .widget-social-item {
+        margin: 2px;
+    }
+
+    .widget-contact-item a{
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .widget-contact i {
+        font-size: 13px;
+        margin-right: 5px;
+    }
+
+    .contact-item-icon {
+        font-size: 13px;
+        margin-left: -20px;
+    }
+
+    .contact-content {
+        font-size: 14px;
+    }
+    /* --------------------------------------Css Footer--------------------------------------*/
+}
+
+
+/*For Phone size M*/
+@media (max-width:376) {
+
+    .wrapper, .forgotpass-container, .information-container, .form-box-register {
+        top: 10% !important;
+        left: 2% !important;
+        width: 300px !important;
+    }
+}
+
+/* For Phone size S */
+@media (max-width: 321px) {
+
+
+    .wrapper, .forgotpass-container, .information-container, .form-box-register {
+        z-index: 100;
+        top: 10% !important;
+        left: 2% !important;
+        width: 300px !important;
+    }
+
+    .header-left {
+        display: none;
+    }
+
+    .header-right {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    #ImgContent {
+        padding-bottom: 10px;
+    }
+
+    #Mid {
+        border-top: 1px solid black;
+    }
+
+    .home-service {
+        display: none;
+    }
+
+    .footer-top-subs-title {
+        margin-left: 3px;
+        margin-bottom: 5px;
+    }
+
+    .form-ground {
+        margin-left: -7%;
+    }
+
+    .widget-title::after {
+        width: 100px;
+    }
+}
