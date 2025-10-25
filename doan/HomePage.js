@@ -61,11 +61,161 @@ const adddatatohtml = () => {
 
 
 
+// Jump to a specific page (validates and clamps to available pages)
+const goToPage = (pageNumber) => {
+    if (!pageNumber || isNaN(pageNumber)) {
+        if (typeof showAlertFailure === 'function') showAlertFailure('Số trang không hợp lệ');
+        return;
+    }
+    pageNumber = Math.floor(pageNumber);
+    if (pageNumber < 1) pageNumber = 1;
+    if (pageNumber > totalPages) pageNumber = totalPages;
+    currentPage = pageNumber;
+    adddatatohtml();
+    // Scroll to main product area
+    const mid = document.getElementById('Mid');
+    if (mid) mid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// nut our services
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('our-services-toggle');
+    const services = document.getElementById('home-service');
+    if (!toggle || !services) return;
+    toggle.addEventListener('click', () => {
+        const isShown = services.classList.toggle('show');
+        services.setAttribute('aria-hidden', isShown ? 'false' : 'true');
+        toggle.setAttribute('aria-expanded', isShown ? 'true' : 'false');
+        // rotate caret via open class
+        toggle.classList.toggle('open', isShown);
+        // focus the first service item when opened
+        if (isShown) {
+            const first = services.querySelector('.home-service-item');
+            if (first) first.focus();
+        }
+    });
+    // Close when clicking outside the wrapper
+    document.addEventListener('click', (e) => {
+        const wrapper = document.querySelector('.our-services-wrapper');
+        if (!wrapper) return;
+        // if click is inside wrapper, ignore
+        if (wrapper.contains(e.target)) return;
+        if (services.classList.contains('show')) {
+            services.classList.remove('show');
+            services.setAttribute('aria-hidden', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.classList.remove('open');
+        }
+    });
+    // 
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && services.classList.contains('show')) {
+            services.classList.remove('show');
+            services.setAttribute('aria-hidden', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.classList.remove('open');
+        }
+    });
+    // phan loai hang bang menu
+    services.querySelectorAll('.home-service-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const svc = item.dataset.service;
+            const map = {
+                'shipping': 'services-shipping.html',
+                'authentic': 'services-authentic.html',
+                'support': 'services-support.html',
+                'refund': 'services-refund.html'
+            };
+            if (svc && map[svc]) window.location.href = map[svc];
+        });
+    });
+});
+
+// Open order history automatically when flagged (after checkout)
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        const flag = localStorage.getItem('openHistoryOnLoad');
+        if (flag === '1') {
+            localStorage.removeItem('openHistoryOnLoad');
+            if (typeof showHistoryBuy === 'function') {
+                // create a fake event if needed
+                showHistoryBuy({ preventDefault: () => {} });
+            }
+        }
+    } catch (e) {}
+});
+
+// Burger menu
+document.addEventListener('DOMContentLoaded', () => {
+    const burgerToggle = document.getElementById('burger-toggle');
+    const burgerMenu = document.getElementById('burger-menu');
+    if (!burgerToggle || !burgerMenu) return;
+
+    const setMenuState = (shown) => {
+        burgerMenu.classList.toggle('show', shown);
+        burgerMenu.setAttribute('aria-hidden', shown ? 'false' : 'true');
+        burgerToggle.setAttribute('aria-expanded', shown ? 'true' : 'false');
+        burgerToggle.classList.toggle('open', shown);
+    };
+
+    burgerToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setMenuState(!burgerMenu.classList.contains('show'));
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+        if (!burgerMenu.contains(e.target) && !burgerToggle.contains(e.target) && burgerMenu.classList.contains('show')) {
+            setMenuState(false);
+        }
+    });
+
+    // Category selection
+    burgerMenu.querySelectorAll('.burger-menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const category = item.dataset.category;
+            if (category === 'All') {
+                filteredProducts = [...originalProducts];
+            } else {
+                filteredProducts = originalProducts.filter(p => p.Category === category);
+            }
+            currentPage = 1;
+            adddatatohtml();
+            setMenuState(false);
+        });
+    });
+});
+
+// Banner toggle: slide banner up/down when the arrow is clicked
+(function () {
+    try {
+        const bannerToggleBtn = document.getElementById('banner-toggle');
+        const bannerContainer = document.getElementById('Bannervideo');
+        if (bannerToggleBtn && bannerContainer) {
+            bannerToggleBtn.addEventListener('click', () => {
+                const isCollapsed = bannerContainer.classList.toggle('collapsed');
+                const icon = bannerToggleBtn.querySelector('i');
+                if (icon) icon.classList.toggle('fa-rotate-180', isCollapsed);
+                bannerToggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
+            });
+        }
+    } catch (e) {
+        console.warn('Banner toggle init failed', e);
+    }
+})();
+
+
+
+
 //-------------------------------------- HÀM RENDER TẤT CẢ SẢN PHẨM ---------------------------------------------------
 
 //------------------------------------------------------------- TẠO NÚT PHÂN TRANG -------------------------------------------------------------//
 const createPagination = (totalProducts) => {
     const paginationContainer = document.querySelector('#pagination');
+    
+    const existingJumpTop = document.querySelector('.page-jump-wrap-container');
+    if (existingJumpTop) existingJumpTop.remove();
     
     // Nếu không có sản phẩm, ẩn phân trang
     if (totalProducts <= 8) {
@@ -97,7 +247,7 @@ const createPagination = (totalProducts) => {
         adddatatohtml();
     };
     if (currentPage === 1) {
-        firstPageButton.style.backgroundColor = '#2ffddb';
+        firstPageButton.style.backgroundColor = '#B03060';
     }
     paginationContainer.appendChild(firstPageButton);
 
@@ -120,7 +270,7 @@ const createPagination = (totalProducts) => {
             adddatatohtml();
         };
         if (i === currentPage) {
-            button.style.backgroundColor = '#2ffddb'; // Đổi màu nút trang hiện tại
+            button.style.backgroundColor = '#B03060'; // Đổi màu nút trang hiện tại
         }
         paginationContainer.appendChild(button);
     }
@@ -141,7 +291,7 @@ const createPagination = (totalProducts) => {
             adddatatohtml();
         };
         if (currentPage === totalPages) {
-            lastPageButton.style.backgroundColor = '#2ffddb'; // Đổi màu nút trang hiện tại
+            lastPageButton.style.backgroundColor = '#B03060'; // Đổi màu nút trang hiện tại
         }
         paginationContainer.appendChild(lastPageButton);
     }
@@ -157,6 +307,41 @@ const createPagination = (totalProducts) => {
         }
     };
     paginationContainer.appendChild(nextButton);
+    
+    const existingJump = document.querySelector('.page-jump-wrap-container');
+    if (existingJump) existingJump.remove();
+
+    
+    const jumpContainer = document.createElement('div');
+    jumpContainer.className = 'page-jump-wrap-container';
+    const innerWrap = document.createElement('div');
+    innerWrap.className = 'page-jump-wrap';
+
+    const pageInput = document.createElement('input');
+    pageInput.type = 'number';
+    pageInput.min = 1;
+    pageInput.max = totalPages;
+    pageInput.placeholder = 'Page';
+    pageInput.className = 'page-jump-input';
+    pageInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            goToPage(parseInt(pageInput.value, 10));
+        }
+    });
+
+    const pageBtn = document.createElement('button');
+    pageBtn.className = 'page-jump-btn';
+    pageBtn.innerText = 'Go';
+    pageBtn.addEventListener('click', () => {
+        goToPage(parseInt(pageInput.value, 10));
+    });
+
+    innerWrap.appendChild(pageInput);
+    innerWrap.appendChild(pageBtn);
+    jumpContainer.appendChild(innerWrap);
+
+    // Insert jump container after pagination
+    if (paginationContainer.parentNode) paginationContainer.parentNode.insertBefore(jumpContainer, paginationContainer.nextSibling);
 };
 
 
@@ -853,6 +1038,8 @@ window.addEventListener('load', function () {
 
 })
 
+
+
 listcart.addEventListener('click', (event) =>{
     let positionclick = event.target;
     if(positionclick.classList.contains('minus')|| positionclick.classList.contains('plus')){
@@ -903,6 +1090,7 @@ listcart.addEventListener('click', (event) =>{
 function backToAdmin(){
     window.location.href = "../doan/Admin/Admin.html"
 }
+
 
 
 

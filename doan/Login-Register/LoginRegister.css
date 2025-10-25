@@ -1,96 +1,137 @@
-/* ----------hover đăng nhap đăng ký---------  */
-
+/* ---------- hover: account / dropdown ---------- */
 .user {
     display: flex;
     position: relative;
+    z-index: 230; /* ensure the clickable account element is above neighboring header elements */
+    cursor: pointer;
 }
-.user:hover{
-    color: #35c6ed;
+
+/* Give the account anchor a white background when opened/active so it appears as part of the header */
+.user.open,
+.user:active,
+.user:focus {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 4px 6px; /* small padding so the white area is visible but doesn't shift layout much */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
+
+.user:hover {
+    color: var(--theme-color-1);
+}
+
 .auth-container {
+    display: flex;
     flex-direction: column;
 }
-.guestStatus{
-    display: block;
+
+.guestStatus { display: block; }
+.auth-container .userStatus { display: none; }
+.auth-container.active .guestStatus { display: none; }
+.auth-container.active .userStatus { display: block; }
+
+#username { margin: 0; }
+.text-dndk { font-size: 18px; }
+.text-tk, .text-nameaccout { font-size: 15px; position: relative; }
+
+/* dropdown panels (hidden by default) */
+.header-option-guestStatus, .header-option-userStatus {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background-color: #fff;
+    min-width: 150px;
+    z-index: 9999;
+    transform: translateY(12px);
+    opacity: 0;
+    transition: visibility 0.22s, transform 0.32s, opacity 0.22s;
+    visibility: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    border-radius: 6px;
+    pointer-events: none;
+    padding: 6px 6px;
 }
 
-.auth-container .userStatus{
-    display: none;
-}
-.auth-container.active .guestStatus{
-    display: none;
-}
-.auth-container.active .userStatus{
-    display: block;
-}
-#username{
-    margin: 0;
-}
-.text-dndk {
-    font-size: 18px;
-}
-
-.text-tk, .text-nameaccout {
-    font-size: 15px;
-    position: relative;
-}
-.user:hover .header-option-guestStatus,.user:hover .header-option-userStatus{
+/* show when hovering the account */
+.user:hover .header-option-guestStatus,.user:hover .header-option-userStatus,
+.user.open .header-option-guestStatus,.user.open .header-option-userStatus {
     visibility: visible;
     transform: translateY(0);
     opacity: 1;
+    pointer-events: auto;
 }
 
-.header-option-guestStatus,.header-option-userStatus {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 20px;
-    background-color: #ffff;
-    min-width: 130px;
-    z-index: 2;
-    transform: translateY(50px);
-    opacity: 0;
-    transition: visibility 0.3s, transform 0.4s, opacity 0.3s;
-    visibility: hidden;
-}
-
-.header-option-guestStatus::after, .header-option-userStatus::after {
-    content: "";
-    position: absolute;
-    background-color: transparent;
-    top: -50px;
-    min-width: 130px;
-    height: 50px;
-}
-
-.header-option-guestStatus li, .header-option-userStatus li{
+.header-option-guestStatus li, .header-option-userStatus li {
     display: flex;
-    margin: 0;
-    padding:0;
-    width: 90%;
-    height: 40px;
-    background-color: rgb(245, 238, 227);
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    width: 100%;
+    border-radius: 4px;
 }
 
 .header-option-guestStatus button, .header-option-userStatus button {
     border: none;
-    background-color: transparent;
+    background-color: #ffffff; /* default white background */
+    color: #162938; /* dark text by default */
     cursor: pointer;
-    font-size: 18px;
-    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: background 0.25s ease, color 0.2s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 
-.header-option-guestStatus li i,.header-option-userStatus li i {
-    font-size: 14px;
-    margin-right: 5px;
+.header-option-guestStatus li i, .header-option-userStatus li i { font-size: 14px; margin-right: 6px; }
+
+.header-option-guestStatus button:hover, .header-option-userStatus button:hover,
+.header-option-guestStatus li:hover > button, .header-option-userStatus li:hover > button {
+    background-image: linear-gradient(90deg, var(--theme-color-1) 0%, var(--theme-color-2) 100%);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(176,48,96,0.12);
 }
 
-.header-option-guestStatus li:hover,.header-option-userStatus li:hover {
-    background-color: #baaeae;
-    visibility: visible;
+/* end account dropdown */
+
+/* Mobile: convert account dropdown into a bottom sheet modal */
+@media (max-width: 720px) {
+    .header-option-guestStatus, .header-option-userStatus {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: -100%;
+        top: auto;
+        margin: 0 auto;
+        width: 100%;
+        max-height: 60%;
+        border-radius: 12px 12px 0 0;
+        transform: translateY(100%);
+        transition: transform 0.32s ease, opacity 0.22s ease;
+        opacity: 0;
+        padding: 12px 12px;
+        box-shadow: 0 -6px 30px rgba(0,0,0,0.18);
+        pointer-events: none;
+    }
+
+    /* show sheet when open */
+    .user.open .header-option-guestStatus, .user.open .header-option-userStatus {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* larger tappable items */
+    .header-option-guestStatus li, .header-option-userStatus li {
+        padding: 14px 12px;
+        font-size: 17px;
+    }
+
+    /* overlay behavior: use existing #overlay to dim background */
+    body.account-sheet-open { overflow: hidden; }
 }
-
-
-/* ----------hover đăng nhap đăng ký---------  */
 
 body.no-scroll {
     overflow-y: hidden;
@@ -148,11 +189,11 @@ body.no-scroll {
     right: 0;
     width: 45px;
     height: 45px;
-    background: #162938;
+    background: var(--theme-color-1);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffff;
+    color: #ffffff;
     font-size: 20px;
     border-bottom-left-radius: 20px;
     cursor: pointer;
@@ -193,7 +234,7 @@ body.no-scroll {
     text-align: center;
     font-size: 20px;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    color: #162938;
+    color: var(--theme-color-1);
 }
 
 .form-box .input-box {
@@ -201,7 +242,7 @@ body.no-scroll {
     width: 100%;
     height: 50px;
     margin: 30px 0;
-    border-bottom: 1px solid #162938;
+    border-bottom: 1px solid var(--theme-color-2);
 }
 
 .input-box input {
@@ -231,14 +272,14 @@ body.no-scroll {
 .input-box input:valid+label {
     top: -5px;
     font-weight: 700;
-    color: #162938;
+    color: var(--theme-color-1);
 }
 
 .input-box>.icon>i {
     position: absolute;
     right: 8px;
     line-height: 57px;
-    color: #162938;
+    color: var(--theme-color-1);
 }
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
@@ -251,7 +292,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
 
 .remember-forgot {
-    color: #162938;
+    color: var(--theme-color-1);
     margin: -10px 0 15px 0;
     display: flex;
     justify-content: space-between;
@@ -263,7 +304,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
 }
 
 .remember-forgot label input {
-    accent-color: #162938;
+    accent-color: var(--theme-color-2);
     margin-right: 3px;
     width: 15px;
     height: 15px;
@@ -272,7 +313,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
 .remember-forgot a {
     text-decoration: none;
-    color: #162938;
+    color: var(--theme-color-1);
     font-weight: 600;
 }
 
@@ -284,24 +325,26 @@ input[type="password"]::-webkit-textfield-decoration-container {
     width: 100%;
     height: 45px;
     border-radius: 10px;
-    color: #ffff;
-    background-color: #162938;
+    color: #ffffff;
+    background: linear-gradient(90deg, var(--theme-color-1), var(--theme-color-2));
+    box-shadow: 0 4px 12px rgba(176,48,96,0.24);
     font-size: 18px;
     font-weight: 500;
     border: none;
     cursor: pointer;
 }
+.bnt-login:hover { filter: brightness(1.02); transform: translateY(-1px); }
 
 .login-register {
     text-align: center;
-    color: #162938;
+    color: var(--theme-color-1);
     font-size: 17px;
     font-weight: 500;
     margin: 25px 10px;
 }
 
 .login-register a {
-    color: #162938;
+    color: var(--theme-color-2);
     text-decoration: none;
     font-weight: 600;
 }
@@ -520,11 +563,11 @@ input[type="password"]::-webkit-textfield-decoration-container {
     left: 0;
     width: 45px;
     height: 45px;
-    background: #162938;
+    background: var(--theme-color-1);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffff;
+    color: #ffffff;
     font-size: 15px;
     border-bottom-right-radius: 20px;
     cursor: pointer;
@@ -560,21 +603,25 @@ input[type="password"]::-webkit-textfield-decoration-container {
     padding: 10px 15px;
     margin: 10px 19px;
     font-size: 17px;
-    color: #ffff;
-    background-color: #162938;
+    color: #ffffff;
+    background: linear-gradient(90deg, var(--theme-color-1), var(--theme-color-2));
+    box-shadow: 0 4px 12px rgba(176,48,96,0.24);
     border-radius: 20px;
     cursor: pointer;
 }
+.change-information button:hover,.information-accout-content>input:hover{ filter: brightness(1.02); transform: translateY(-1px); }
 .change-password button{
     outline: none;
     border: none;
     padding: 10px 15px;
     font-size: 17px;
-    color: #ffff;
-    background-color: #162938;
+    color: #ffffff;
+    background: linear-gradient(90deg, var(--theme-color-1), var(--theme-color-2));
+    box-shadow: 0 4px 12px rgba(176,48,96,0.24);
     border-radius: 20px;
     cursor: pointer;
 }
+.change-password button:hover{ filter: brightness(1.02); transform: translateY(-1px); }
 .information-container.active-popup {
     transform: scale(1);
 }
@@ -702,7 +749,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
     font-family: 'Poppins', sans-serif;
     font-size: 22px;
     font-weight: 600;
-    color: #162938;
+    color: var(--theme-color-1);
 }
 
 .forgotpass-header p {
@@ -728,7 +775,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
 .forgotpass-content button {
     width: 100%;
     height: 45px;
-    background-color: #162938;
+    background: linear-gradient(90deg, var(--theme-color-1), var(--theme-color-2));
     color: white;
     border: none;
     border-radius: 8px;
@@ -736,11 +783,12 @@ input[type="password"]::-webkit-textfield-decoration-container {
     font-size: 16px;
     font-weight: 500;
     margin-top: 15px;
-    transition: background-color 0.3s ease-in-out;
+    transition: filter 0.2s ease, transform 0.2s ease;
 }
 
 .forgotpass-content button:hover {
-    background-color: #0c1d27;
+    filter: brightness(1.02);
+    transform: translateY(-1px);
 }
 
 /* Kết quả tìm kiếm */
@@ -870,7 +918,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
     right: 10px;
     width: 35px;
     height: 35px;
-    background: #e36a51;
+    background: var(--theme-color-2);
     color: white;
     font-size: 18px;
     border-radius: 50%;
@@ -881,6 +929,4 @@ input[type="password"]::-webkit-textfield-decoration-container {
     transition: background-color 0.3s ease-in-out;
 }
 
-.close-forgotpass:hover {
-    background: #c9302c;
-}
+.close-forgotpass:hover { background: var(--theme-color-1); }

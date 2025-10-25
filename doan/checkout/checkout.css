@@ -118,7 +118,7 @@ body {
     height: 40px;
     border-radius: 10px;
     font-weight: bold;
-    background-color: #2ffddb;
+    background-color: #B03060;
     cursor: pointer;
 }
 
@@ -194,7 +194,7 @@ body.showcard .cardpayment{
     width: 100%;
     height: 50px;
     font-size: 17px;
-    background-color: #2ffddb;
+    background-color: #B03060;
     cursor: pointer;
     border-radius: 5px;
 }

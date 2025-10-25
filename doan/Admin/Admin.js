@@ -260,7 +260,7 @@ const RenderKhachHang = () => {
 
     Contentcontainer.innerHTML = `<table class="Table " style="width:100%;left:50px;position:relative; border-collapse: collapse; font-family: Arial, sans-serif; transition: all 0.5s;">
    <thead>
-        <tr style="background-color: #00adb5;color: white; text-align: left;">
+    <tr style="background-color: #800020;color: white; text-align: left;">
             <th style="width:12%; padding: 12px;">Id</th>
             <th style="width:20%; padding: 12px;">Name</th>
             <th style="width:15%; padding: 12px;">SDT</th>
@@ -674,7 +674,7 @@ const renderPaginationControls = (dataType, currentPage, totalPages, filterRende
         if (pageNum === '...') {
             return `<span>...</span>`;
         } else {
-            return `<button class="page-btn" style="background-color: ${pageNum === currentPage ? '#00adb5' : '#fff'}; color:black;" data-page="${pageNum}">${pageNum}</button>`;
+            return `<button class="page-btn" style="background-color: ${pageNum === currentPage ? '#800020' : '#fff'}; color:black;" data-page="${pageNum}">${pageNum}</button>`;
         }
     }).join(' ');
 
@@ -1317,7 +1317,7 @@ const RenderDonHang=()=>{
     </div>`;
     Contentcontainer.innerHTML=`<table class="Table " style="width:100%; left:50px;color:white; border-collapse: collapse; font-family: Arial, sans-serif; transition: all 0.5s;position:relative;top:20px">
     <thead>
-    <tr style="background-color: #00adb5;color:white; text-align: left;">
+    <tr style="background-color: #800020;color:white; text-align: left;">
         <th style="width:12%; padding: 12px;">Code</th>
         <th style="width:20%; padding: 12px;">Khach Hang</th>
         <th style="width:15%; padding: 12px;">Total Price</th>
@@ -1734,13 +1734,13 @@ const RenderThongKe=()=>{
       }});
     Contentcontainer.innerHTML=`
       <div style="display:flex; gap:20px;width:70%;">
-            <select name="DashBoard" id="ChooseDashBoard" class="Shoes" style="background-color:#00adb5;color:white;">
+            <select name="DashBoard" id="ChooseDashBoard" class="Shoes" style="background-color:#800020;color:white;">
                         <option value="Products">Products</option>
                         <option value="User">User</option>
             </select>
-            <button style="background-color: #00adb5;color: white;width:100px;border: 1px solid rgb(225, 222, 222);box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"><i class="fa-solid fa-chart-line-up"></i></button>
-            <button style="background-color: #00adb5;color: white;width:100px;border: 1px solid rgb(225, 222, 222);box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"><i class="fa-regular fa-chart-line-down"></i></button>
-            <select name="Month" id="ChooseMonth" class="Shoes" style="background-color:#00adb5;color:white;width:140px;">
+            <button style="background-color: #800020;color: white;width:100px;border: 1px solid rgb(225, 222, 222);box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"><i class="fa-solid fa-chart-line-up"></i></button>
+            <button style="background-color: #800020;color: white;width:100px;border: 1px solid rgb(225, 222, 222);box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"><i class="fa-regular fa-chart-line-down"></i></button>
+            <select name="Month" id="ChooseMonth" class="Shoes" style="background-color:#800020;color:white;width:140px;">
                      
             </select>
             </div>

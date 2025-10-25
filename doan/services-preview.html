@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Services Preview</title>
+  <style>
+    :root{ --theme-color-1: #800020; --theme-color-2: #B03060 }
+    body{font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f4f5f7; color:#111; padding:36px}
+    .container{max-width:760px;margin:28px auto}
+
+    .our-services-wrapper{background:#fff;border:1px solid #e6e7ea;border-radius:10px;padding:14px}
+    .our-services-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}
+    .our-services-title{font-size:16px;font-weight:700;color:var(--theme-color-1)}
+    .our-services-sub{font-size:13px;color:#666}
+
+    /* caret */
+    .caret{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;transition:transform .28s ease}
+    .caret svg{display:block}
+    .our-services-toggle.open .caret{transform:rotate(180deg)}
+
+    /* panel (container animation: 0.6s) */
+    .home-service{overflow:hidden;max-height:0;opacity:0;padding-top:0;transform:translateY(-6px);transition:max-height 0.60s cubic-bezier(.2,.9,.2,1), opacity 0.60s ease-out, padding 0.60s ease-out, transform 0.60s ease-out}
+    .home-service.show{max-height:480px;opacity:1;padding-top:12px;transform:translateY(0)}
+
+    .home-service-item{background:linear-gradient(90deg, rgba(128,0,32,0.03), transparent); border-radius:8px; padding:12px 14px; margin-bottom:10px; display:flex;align-items:center;gap:12px; transform:translateY(-18px); opacity:0; transition: transform 0.45s cubic-bezier(.2,.9,.2,1), opacity 0.45s ease-out}
+    .home-service-item .dot{width:12px;height:12px;border-radius:50%;background:var(--theme-color-1)}
+    .home-service-item .meta{display:flex;flex-direction:column}
+    .home-service-item .meta .h{font-weight:700;color:#111}
+    .home-service-item .meta .p{font-size:12px;color:#555}
+
+    /* staggered delays (items animation: 0.45s) */
+    .home-service.show .home-service-item:nth-child(1){transition-delay:0.05s; transform:none; opacity:1}
+    .home-service.show .home-service-item:nth-child(2){transition-delay:0.14s; transform:none; opacity:1}
+    .home-service.show .home-service-item:nth-child(3){transition-delay:0.23s; transform:none; opacity:1}
+    .home-service.show .home-service-item:nth-child(4){transition-delay:0.32s; transform:none; opacity:1}
+
+    .home-service-item:hover{background:linear-gradient(90deg,var(--theme-color-1),var(--theme-color-2)); color:#fff}
+    .home-service-item:hover .dot{background:rgba(255,255,255,0.6)}
+
+    /* small helpers */
+    .muted{color:#777;font-size:13px}
+    .note{font-size:13px;color:#444;margin-top:12px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="our-services-wrapper" id="our-services-wrapper">
+      <div class="our-services-toggle" id="our-services-toggle" role="button" aria-expanded="false" tabindex="0">
+        <div>
+          <div class="our-services-title">Our services</div>
+          <div class="our-services-sub muted">Click to reveal service tags</div>
+        </div>
+        <div class="caret" aria-hidden="true">
+          <!-- simple chevron -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="home-service" id="home-service" aria-hidden="true">
+        <div class="home-service-item">
+          <div class="dot" aria-hidden="true"></div>
+          <div class="meta"><div class="h">Shipping Service</div><div class="p">Fast nationwide delivery with tracking.</div></div>
+        </div>
+        <div class="home-service-item">
+          <div class="dot" aria-hidden="true"></div>
+          <div class="meta"><div class="h">Only Authentic</div><div class="p">All products are 100% authentic from brand partners.</div></div>
+        </div>
+        <div class="home-service-item">
+          <div class="dot" aria-hidden="true"></div>
+          <div class="meta"><div class="h">Full time support</div><div class="p">24/7 support for order & product questions.</div></div>
+        </div>
+        <div class="home-service-item">
+          <div class="dot" aria-hidden="true"></div>
+          <div class="meta"><div class="h">Easy Refund</div><div class="p">Get 1-on-1 refunds if something is wrong with your product.</div></div>
+        </div>
+      </div>
+      <div class="note">Tip: press Escape or click outside the box to close.</div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const toggle = document.getElementById('our-services-toggle');
+      const panel = document.getElementById('home-service');
+      const wrapper = document.getElementById('our-services-wrapper');
+
+      function open(){
+        toggle.classList.add('open');
+        panel.classList.add('show');
+        toggle.setAttribute('aria-expanded','true');
+        panel.setAttribute('aria-hidden','false');
+      }
+      function close(){
+        toggle.classList.remove('open');
+        panel.classList.remove('show');
+        toggle.setAttribute('aria-expanded','false');
+        panel.setAttribute('aria-hidden','true');
+      }
+
+      toggle.addEventListener('click', (e)=>{
+        const isOpen = toggle.classList.contains('open');
+        if(isOpen) close(); else open();
+      });
+
+      toggle.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle.click(); }
+        if(e.key === 'Escape') close();
+      });
+
+      // close on outside click
+      document.addEventListener('click', (e)=>{
+        if(!wrapper.contains(e.target) && toggle.classList.contains('open')){
+          close();
+        }
+      });
+
+      // escape to close when open
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape' && toggle.classList.contains('open')){
+          close();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

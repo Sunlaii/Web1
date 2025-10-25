@@ -4,10 +4,10 @@ const Center = document.querySelector('#Center');
 const historyBuyCtn = document.getElementById('order-history')
 let productlocal = JSON.parse(localStorage.getItem('Products'))
 let userlogin = JSON.parse(localStorage.getItem('userLogin'))
-let CheckOut = JSON.parse(localStorage.getItem('CheckOut'))
-let Users = JSON.parse(localStorage.getItem('Users'))
-let userindex = Users.findIndex(u => u.username === userlogin.username)
-let productbuy = Users[userindex].ProductBuy || [];  
+let CheckOut = JSON.parse(localStorage.getItem('CheckOut')) || []
+let Users = JSON.parse(localStorage.getItem('Users')) || []
+let userindex = Users.findIndex(u => u?.username === userlogin?.username)
+let productbuy = (userindex >= 0 && Users[userindex].ProductBuy) ? Users[userindex].ProductBuy : [];  
 let ID,PurchasedDate,SpecificAddress,Region,PaymentMethod
 
 
@@ -16,6 +16,12 @@ let elements = [ImgContent, HomeService, Center];
 
 function showHistoryBuy(e) {
     e.preventDefault();
+    // Always refresh latest data before rendering
+    productlocal = JSON.parse(localStorage.getItem('Products'))
+    userlogin = JSON.parse(localStorage.getItem('userLogin'))
+    Users = JSON.parse(localStorage.getItem('Users')) || []
+    userindex = Users.findIndex(u => u?.username === userlogin?.username)
+    productbuy = (userindex >= 0 && Users[userindex].ProductBuy) ? Users[userindex].ProductBuy : [];
     elements.forEach(element => {
         element.style.display = 'none';
     });
@@ -27,7 +33,7 @@ function showHistoryBuy(e) {
     let mainAccountBody = document.querySelector('.main-account-body');
     // Xóa nội dung cũ nếu cần
     mainAccountBody.innerHTML = '';
-    if(productbuy.length == 0){
+    if(!productbuy || productbuy.length === 0){
         mainAccountBody.innerHTML=`
         <img class="img-empty" src="../image/empty.png">
         `
@@ -249,7 +255,7 @@ function userDeleteCancelOrder(index,e){
 //         <div id="about-us">
 //             <h2>Về Chúng Tôi</h2>
 //             <p>
-//                 <strong>Cửa Hàng Giày IT SNEAKER</strong> được thành lập vào năm 2010, với mục tiêu mang đến cho khách hàng những đôi giày
+//                 <strong>The Nike Store</strong> được thành lập vào năm 2010, với mục tiêu mang đến cho khách hàng những đôi giày
 //                 thời trang, chất lượng và giá cả hợp lý. Chúng tôi luôn tin rằng một đôi giày tốt không chỉ nâng niu bước chân của bạn
 //                 mà còn là cách bạn thể hiện phong cách và cá tính của mình.
 //             </p>
@@ -281,8 +287,8 @@ function userDeleteCancelOrder(index,e){
 //                 <li><strong>Địa chỉ:</strong> 273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh</li>
 //                 <li><strong>Giờ mở cửa:</strong> 9:00 - 21:00 (Thứ 2 - Chủ Nhật)</li>
 //                 <li><strong>Hotline:</strong> 0123 456 789 || 0768 123 227</li>
-//                 <li><strong>Email:</strong> abc@domain.com || itsneaker@domain.com</li>
-//                 <li><strong>Website:</strong> <a href="HomePage.html" target="_blank">www.itsneaker.com</a></li>
+//                 <li><strong>Email:</strong> abc@domain.com || TheNikestore@domain.com</li>
+//                 <li><strong>Website:</strong> <a href="HomePage.html" target="_blank">www.thenikestore.com</a></li>
 //             </ul>
 //             <h3>Chúng Tôi Cam Kết</h3>
 //             <p>

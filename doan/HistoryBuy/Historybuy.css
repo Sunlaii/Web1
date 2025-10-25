@@ -27,7 +27,7 @@
     max-width: 50%;
 }
 .main-account-body::-webkit-scrollbar-thumb{
-    color:#00ADB5;
+    color:#800020;
 }
 .main-account-body::-webkit-scrollbar-track {
     background-color: #f1f1f1; /* Màu nền của vùng chứa thanh cuộn */
@@ -58,7 +58,7 @@
 
 /* Tùy chỉnh màu sắc và hình dạng của thanh cuộn */
 .main-account-body-col .historybuy-list::-webkit-scrollbar-thumb {
-    background-color: #00ADB5;
+    background-color: #800020;
     border-radius: 10px;
 }
     
