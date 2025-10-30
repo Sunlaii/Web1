@@ -54,7 +54,7 @@ ul {
 
 /* --------------------------------------Css Header--------------------------------------*/
 .header-container {
-    padding: 10px 10px;
+    padding: 10px 10px; /* add small padding so right items are 10px from edge */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -63,6 +63,7 @@ ul {
     background-color: white;
     z-index: 100;
     position: fixed;
+    top: 0; /* keep header at top */
 }
 
 .header-left {
@@ -74,12 +75,17 @@ ul {
 }
 
 .header-logo {
-    width: 130px;
+    width: 100px;
     height: auto;
 }
 
 .header-right {
     width: 50%;
+    display: flex;
+    justify-content: flex-end; /* align login/cart to the right */
+    align-items: center;
+    position: relative; /* to position badge inside */
+    padding-right: 30px; /* ensure 30px from right edge */
 }
 
 .header-option i {
@@ -90,12 +96,14 @@ ul {
 
 .header-option {
     display: flex;
-    float: right;
-    width: 70%;
+    gap: 8px;
+    align-items: center;
+    margin: 0;
+    /* removed float and fixed width to let container control spacing */
 }
 
 .header-option li {
-    width: 40%;
+    width: auto; /* let list items size naturally */
 }
 
 .auth-container span {
@@ -1173,7 +1181,7 @@ ul {
     background-color: #22fddb;
     position:absolute;
     bottom: -5px;  
-    left: 25px ;
+    right: 10px; /* place badge 10px from the right edge of header-right */
     border-radius: 10px;
 }
 .cart-tab{
