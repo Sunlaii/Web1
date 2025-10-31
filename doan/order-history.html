@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - The Nike Store</title>
+    <link rel="stylesheet" href="HomePage.css">
+    <link rel="stylesheet" href="font/font-awesome-pro-v6-6.2.0/css/all.min.css">
+</head>
+<body>
+    <header style="padding:16px 24px; border-bottom:1px solid rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:space-between;">
+        <a href="HomePage.html" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:10px">
+            <i class="fa-regular fa-arrow-left"></i> Back to Home
+        </a>
+        <h1 style="margin:0; font-size:22px; color:var(--theme-color-1)">Your Order History</h1>
+        <span></span>
+    </header>
+
+    <main style="max-width:980px; margin:24px auto; padding:0 16px;">
+        <div id="orders-root"></div>
+    </main>
+
+    <script src="order-history.js"></script>
+    <script>
+      // auto open last order detail if navigated from checkout flag
+      try { localStorage.removeItem('openHistoryOnLoad'); } catch(e) {}
+    </script>
+</body>
+</html>
+
+
