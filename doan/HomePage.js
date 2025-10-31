@@ -4,7 +4,7 @@ const Bgroups = document.querySelectorAll(".product-content-right-bottom");
 const contentgroups = document.querySelectorAll(".product-content-right");
 const groups = document.querySelectorAll(".product-content"); // Chọn tất cả các nhóm sản phẩm
 let currentPage = 1;
-const productsPerPage = 8;
+const productsPerPage = 9;
 let totalPages = 0;
 let originalProducts = JSON.parse(localStorage.getItem("Products")) || [];
 let filteredProducts = [...originalProducts];
@@ -68,7 +68,7 @@ const createPagination = (totalProducts) => {
     const paginationContainer = document.querySelector('#pagination');
     
     // Nếu không có sản phẩm, ẩn phân trang
-    if (totalProducts <= 8) {
+    if (totalProducts <= 9) {
         paginationContainer.innerHTML = '';  // Ẩn phân trang
         return;
     }
