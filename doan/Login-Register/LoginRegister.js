@@ -20,6 +20,24 @@ let cfNewPass = document.getElementById('cf-new-password-text')
 let users = JSON.parse(localStorage.getItem("Users")) || [];
 let userLogin = JSON.parse(localStorage.getItem("userLogin"))|| null;
 const Overlay = document.getElementById('overlay')
+// Remove an unwanted test account if present (username: 'Thuy')
+try {
+    const unwantedName = 'Thuy';
+    const unwantedIndex = users.findIndex(u => u && u.username === unwantedName);
+    if (unwantedIndex > -1) {
+        users.splice(unwantedIndex, 1);
+        localStorage.setItem('Users', JSON.stringify(users));
+        const cur = JSON.parse(localStorage.getItem('userLogin')) || null;
+        if (cur && cur.username === unwantedName) {
+            localStorage.removeItem('userLogin');
+        }
+        if (typeof showAlertSuccess === 'function') {
+            try { showAlertSuccess(`Removed account ${unwantedName}`); } catch (e) { /* ignore */ }
+        }
+    }
+} catch (e) {
+    // ignore errors during cleanup
+}
 if (users.length === 0) {
     const defaultAdmin = {Cart: [],ProductBuy:  [],address: "",date: '08/12/2024',email: "",password: "admin",phone : "0808080808",
         role: "admin",status:"Hoat Dong",userId: 80962,username: "admin1"};
@@ -172,6 +190,84 @@ close.addEventListener('click', (e) => {
     document.body.classList.remove('no-scroll');
     Overlay.style.display = 'none';
 });
+
+// Account dropdown: toggle on click, close on outside click or Escape
+(function accountDropdown() {
+    const userEl = document.querySelector('.user');
+    const authContainer = document.querySelector('.auth-container');
+    const overlayEl = document.getElementById('overlay');
+    if (!userEl || !authContainer) return;
+
+    // expose ARIA state
+    userEl.setAttribute('role', 'button');
+    userEl.setAttribute('tabindex', '0');
+    userEl.setAttribute('aria-expanded', 'false');
+
+    function showSheetOverlay() {
+        // show overlay and prevent body scroll when sheet is open on small screens
+        if (overlayEl) overlayEl.style.display = 'block';
+        document.body.classList.add('account-sheet-open');
+    }
+
+    function hideSheetOverlay() {
+        // hide overlay and restore body scroll
+        if (overlayEl) overlayEl.style.display = 'none';
+        document.body.classList.remove('account-sheet-open');
+    }
+
+    // Toggle on click
+    userEl.addEventListener('click', (e) => {
+        const target = e.target;
+        // don't toggle if clicking the login/register buttons inside the dropdown (they open modals)
+        if (target.closest('.wrapper') || target.closest('#dangnhap') || target.closest('#dangky')) return;
+
+        userEl.classList.toggle('open');
+
+        // update ARIA
+        userEl.setAttribute('aria-expanded', userEl.classList.contains('open') ? 'true' : 'false');
+
+        // On small screens, show overlay and prevent background scroll
+        if (userEl.classList.contains('open') && window.innerWidth <= 720) {
+            showSheetOverlay();
+        } else {
+            hideSheetOverlay();
+        }
+    });
+
+    // Allow keyboard toggle (Enter / Space)
+    userEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            userEl.click();
+        }
+    });
+
+    // Close dropdown when any menu button inside is clicked (let their handlers run)
+    const menuButtons = userEl.querySelectorAll('.header-option-guestStatus button, .header-option-userStatus button');
+    menuButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            userEl.classList.remove('open');
+            userEl.setAttribute('aria-expanded','false');
+            hideSheetOverlay();
+        });
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!userEl.classList.contains('open')) return;
+        if (userEl.contains(e.target)) return; // click inside, ignore
+        userEl.classList.remove('open');
+        hideSheetOverlay();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && userEl.classList.contains('open')) {
+            userEl.classList.remove('open');
+            hideSheetOverlay();
+        }
+    });
+})();
 
 // Hàm quay về đầu trang
 function quayVeDauTrang() {
@@ -372,33 +468,42 @@ loginForm.addEventListener('submit', function(e) {
     const users = JSON.parse(localStorage.getItem("Users")) || [];
     const username = loginUsername.value;
     const password = loginPassword.value;
-    
-    // Tìm người dùng trong mảng
-    const index = users.findIndex(user => user.username === username && user.password === password && user.status === 'Hoat Dong');
-    const user = users[index];
-    if (index > -1) {
-        localStorage.setItem("userLogin",JSON.stringify(user));
-        document.querySelector('.auth-container').classList.add('active')
-        document.querySelector('.text-nameaccout').innerText = user.username
-        showAlertSuccess(`Log in successfully! Welcome ${user.username}`)
+
+    // Tìm người dùng trong mảng (hoạt động)
+    const activeIndex = users.findIndex(user => user.username === username && user.password === password && user.status === 'Hoat Dong');
+    const user = users[activeIndex];
+    if (activeIndex > -1) {
+        // Save logged-in user and update UI
+        localStorage.setItem("userLogin", JSON.stringify(user));
+        document.querySelector('.auth-container').classList.add('active');
+        document.querySelector('.text-nameaccout').innerText = user.username;
+        showAlertSuccess(`Log in successfully! Welcome ${user.username}`);
         loginForm.reset();
         console.log("User information:", user);
         wrapper.classList.remove('active-popup');
         document.body.classList.remove('no-scroll');
         Overlay.style.display = 'none';
         if (user.role == 'admin'){
-            historyBuy.style.display = 'none'
-            admin.style.display = 'block'
+            historyBuy.style.display = 'none';
+            admin.style.display = 'block';
         }
+        // close any open account dropdown/sheet before reload
+        const userEl = document.querySelector('.user');
+        if (userEl) {
+            userEl.classList.remove('open');
+            userEl.setAttribute('aria-expanded','false');
+        }
+        document.body.classList.remove('account-sheet-open');
         setTimeout(() => {
-            window.location.reload()
-        }, 2000);
-    }else {
-        const index = users.findIndex(user => user.username === username && user.password === password && user.status !== 'Hoat Dong');
-        if(index > 0){
-            showAlertFailure("Accout were block");
-        }else{
-        showAlertFailure("The username or password is incorrect!");
+            window.location.reload();
+        }, 1200);
+    } else {
+        // Check if an account exists but is blocked/inactive
+        const blockedIndex = users.findIndex(user => user.username === username && user.password === password && user.status !== 'Hoat Dong');
+        if (blockedIndex > -1) {
+            showAlertFailure("Account is blocked");
+        } else {
+            showAlertFailure("The username or password is incorrect!");
         }
     }
 });
@@ -417,6 +522,14 @@ function sbtLogout (){
     localStorage.removeItem("userLogin");
     closeLogout()
     document.querySelector('.auth-container').classList.remove('active')
+    // close account dropdown and hide any overlay/sheet state
+    const userEl = document.querySelector('.user');
+    if (userEl) {
+        userEl.classList.remove('open');
+        userEl.setAttribute('aria-expanded','false');
+    }
+    document.body.classList.remove('account-sheet-open');
+    if (Overlay) Overlay.style.display = 'none';
     showAlertSuccess('Signing out...')
     setTimeout(function(){
         window.location.reload();

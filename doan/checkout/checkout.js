@@ -133,10 +133,41 @@ function showAlertFailure(massege){
         localStorage.setItem('CheckOut',JSON.stringify(Checkoutt))
         localStorage.setItem('userLogin', JSON.stringify(userlogin));
         localStorage.setItem('Users', JSON.stringify(users));
-        showAlertSuccess("Đặt hàng thành công! Đang về trsng chính ");
-        setTimeout(() => {
-            window.location.href='../HomePage.html';
-        }, 2000);
+        // Show success and render printable bill instead of redirecting
+        showAlertSuccess("Order placed successfully!");
+        try {
+            const order = temp;
+            const billRoot = document.querySelector('.order-confirmation');
+            const productList = billRoot.querySelector('.product-item');
+            const summary = billRoot.querySelector('.user-info');
+            // Append Order ID and date
+            const idEl = document.createElement('p');
+            idEl.innerHTML = `<strong>Order ID: </strong>${String(order.orderId).padStart(6,'0')}`;
+            const dateEl = document.createElement('p');
+            dateEl.innerHTML = `<strong>Date: </strong>${order.date}`;
+            summary.insertBefore(dateEl, summary.firstChild);
+            summary.insertBefore(idEl, summary.firstChild);
+            // Replace Confirm button with Print button and add View History
+            const confirmBtn = summary.querySelector('.confirm-btn');
+            if (confirmBtn) confirmBtn.remove();
+            const printBtn = document.createElement('button');
+            printBtn.className = 'confirm-btn';
+            printBtn.textContent = 'Print Invoice';
+            printBtn.addEventListener('click', () => window.print());
+            summary.appendChild(printBtn);
+
+            const viewHistoryBtn = document.createElement('button');
+            viewHistoryBtn.className = 'confirm-btn';
+            viewHistoryBtn.style.marginLeft = '10px';
+            viewHistoryBtn.textContent = 'View Order History';
+            viewHistoryBtn.addEventListener('click', () => {
+                try {
+                    localStorage.setItem('openHistoryOnLoad', '1');
+                } catch (e) {}
+                window.location.href = '../HomePage.html';
+            });
+            summary.appendChild(viewHistoryBtn);
+        } catch (e) { /* no-op */ }
 
     })
 
@@ -175,22 +206,22 @@ function showAlertFailure(massege){
         }else if (!/^0\d{9}$/.test(phone.value)) { 
             showAlertFailure("Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số!");
             phone.focus();
-        } else if (address.value === "") {
+        } else if (!boxaddressacount.checked && address.value === "") {
             showAlertFailure("Vui lòng điền đầy đủ thông tin!");
             address.focus();
         } else if (paymentSelect.value=== ""){
             showAlertFailure("Vui lòng điền đầy đủ thông tin!");
             paymentSelect.focus();
-        } else if (city.value=== "") {
+        } else if (!boxaddressacount.checked && city.value=== "") {
             showAlertFailure("Vui lòng điền đầy đủ thông tin!");
             city.focus();
-        } else if(districtInput.value===""){
+        } else if(!boxaddressacount.checked && districtInput.value===""){
             showAlertFailure("Vui lòng điền đầy đủ thông tin! ")
             districtInput.focus();  
-        }else if(wardInput.value===""){
+        }else if(!boxaddressacount.checked && wardInput.value===""){
             showAlertFailure("Vui lòng điền đầy đủ thông tin! ")
             wardInput.focus();
-        }else if(city.value===""){
+        }else if(!boxaddressacount.checked && city.value===""){
             showAlertFailure("Vui lòng điền đầy đủ thông tin! ")
             city.focus();
         } else {
@@ -406,11 +437,14 @@ function showAlertFailure(massege){
     // Sự kiện click vào ô nhập quận
     districtInput.addEventListener('focus', function() {
         if (city.value) {
-            const selectedDistrict = city.value
-            if (selectedDistrict && cityData[selectedDistrict] && !districtInput.readOnly) {
+            const selectedCity = city.value
+            if (selectedCity && cityData[selectedCity] && !districtInput.readOnly) {
                 
                 districtContent.style.display="block"
                 wardContent.style.display="none"
+                // populate districts for current city
+                districtList.innerHTML = "";
+                updateDistrictOptions(selectedCity);
             } else {
                 wardInput.setAttribute("readonly", true);
                 wardList.innerHTML = "";
@@ -428,7 +462,7 @@ function showAlertFailure(massege){
     });
 
     // Cập nhật danh sách quận
-    function updateDistrictOptions() {
+    function updateDistrictOptions(cityKey) {
         const districts = cityData[cityKey]?.districts;
         if (districts) {
             Object.keys(districts).forEach(district => {

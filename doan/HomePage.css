@@ -1,6 +1,6 @@
 :root {
-    --theme-color-1: #00ADB5;
-    --theme-color-2: #2ffddb;
+    --theme-color-1: #800020;
+    --theme-color-2: #B03060;
 }
 
 * {
@@ -28,7 +28,7 @@
   
   
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #00ADB5;
+    background-color: #800020;
   }
 
 body {
@@ -54,7 +54,7 @@ ul {
 
 /* --------------------------------------Css Header--------------------------------------*/
 .header-container {
-    padding: 10px 10px; /* add small padding so right items are 10px from edge */
+    padding: 10px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -63,7 +63,6 @@ ul {
     background-color: white;
     z-index: 100;
     position: fixed;
-    top: 0; /* keep header at top */
 }
 
 .header-left {
@@ -75,17 +74,12 @@ ul {
 }
 
 .header-logo {
-    width: 100px;
+    width: 130px;
     height: auto;
 }
 
 .header-right {
     width: 50%;
-    display: flex;
-    justify-content: flex-end; /* align login/cart to the right */
-    align-items: center;
-    position: relative; /* to position badge inside */
-    padding-right: 30px; /* ensure 30px from right edge */
 }
 
 .header-option i {
@@ -96,14 +90,12 @@ ul {
 
 .header-option {
     display: flex;
-    gap: 8px;
-    align-items: center;
-    margin: 0;
-    /* removed float and fixed width to let container control spacing */
+    float: right;
+    width: 70%;
 }
 
 .header-option li {
-    width: auto; /* let list items size naturally */
+    width: 40%;
 }
 
 .auth-container span {
@@ -118,15 +110,16 @@ ul {
 /* --------------------------------------Css Header--------------------------------------*/
 
 
-#ImgContent {
+#Bannervideo {
     width: 100%;
     display: flex;
     margin-top: 3.8%;
 }
 
-#ImgContent img {
+#Bannervideo video {
     width: 100%;
     height: auto;
+    display: block;
 }
 
 
@@ -135,21 +128,46 @@ ul {
 .home-service {
     justify-content: center;
     align-items: center;
+    /* animated via max-height + opacity for smooth slide/fade */
     display: flex;
-    padding-bottom: 30px;
-    padding-top: 30px;
-    column-gap: 70px;
-    border-bottom: 1px solid black;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+    padding-top: 0;
+    column-gap: 24px;
+    border-bottom: 1px solid #eee;
     flex-wrap: wrap;
+    /* gentle: container 0.6s */
+    transition: max-height 0.60s cubic-bezier(.2,.9,.2,1), opacity 0.60s ease-out, padding 0.60s ease-out, transform 0.60s ease-out;
+    transform: translateY(-6px);
+    will-change: max-height, opacity, transform;
+}
+
+.home-service.show {
+    max-height: 780px; /* accommodate items smoothly */
+    opacity: 1;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    transform: translateY(0);
 }
 
 .home-service-item {
-    box-shadow: 0px 1px 9px 2px #7a7a7a;
-    width: 18%;
+    box-shadow: 0px 1px 9px 2px rgba(0,0,0,0.08);
+    width: 20%;
     display: flex;
-    padding: 20px;
+    padding: 18px 16px;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 8px;
+    /* subtle tinted background so items don't look like a blank white card */
+    background: linear-gradient(180deg, rgba(128,0,32,0.03), rgba(176,48,96,0.02));
+    border: 1px solid rgba(128,0,32,0.06);
+    /* items: 0.45s for transform+opacity (gentle) */
+    transition: background 0.36s ease, color 0.30s ease, transform 0.45s cubic-bezier(.2,.9,.2,1), opacity 0.45s ease-out;
+    transform: translateY(-18px);
+    opacity: 0;
+    will-change: transform, opacity;
+    cursor: pointer;
 }
 
 .home-service-item-icon i {
@@ -165,6 +183,63 @@ ul {
     margin-top: 4px;
     font-size: 14px;
     color: #888;
+}
+
+/* Hover state: use the theme colors as gradient and white text */
+.home-service-item:hover {
+    background-image: linear-gradient(90deg, #800020 0%, #B03060 100%);
+    color: #fff;
+    transform: translateY(-4px);
+}
+.home-service-item:hover .home-service-item-content-desc {
+    color: rgba(255,255,255,0.9);
+}
+
+/* When container shows, animate items into view with a slight stagger */
+.home-service.show .home-service-item {
+    transform: translateY(0);
+    opacity: 1;
+}
+.home-service.show .home-service-item:nth-child(1) { transition-delay: 0.05s; }
+.home-service.show .home-service-item:nth-child(2) { transition-delay: 0.14s; }
+.home-service.show .home-service-item:nth-child(3) { transition-delay: 0.23s; }
+.home-service.show .home-service-item:nth-child(4) { transition-delay: 0.32s; }
+
+/* When hiding (removing .show) the reverse animation will run because opacity/transform revert */
+
+/* Our services toggle button */
+.our-services-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+    margin-bottom: 6px;
+}
+.our-services-toggle {
+    background: transparent;
+    border: 1px solid #800020;
+    color: #800020;
+    padding: 10px 18px;
+    border-radius: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.12s ease;
+}
+.our-services-toggle:hover,
+.our-services-toggle:focus {
+    background: linear-gradient(90deg, #800020 0%, #B03060 100%);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(176,48,96,0.12);
+}
+
+.our-services-caret {
+    margin-left: 10px;
+    transition: transform 0.28s ease;
+    font-size: 0.85em;
+}
+.our-services-toggle.open .our-services-caret,
+.our-services-toggle[aria-expanded="true"] .our-services-caret {
+    transform: rotate(180deg);
 }
 
 /* --------------------------------------Css Service--------------------------------------*/
@@ -281,7 +356,7 @@ ul {
 
 
 .filter-right {
-    width: 25%;
+    width: 20%;
     display: flex;
     justify-content: right;
     
@@ -301,7 +376,7 @@ ul {
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    transition: transform 0.3s ease, background-color 0.3s ease;      
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .sort-button:hover {
@@ -671,7 +746,7 @@ ul {
 
 #cart-icon:hover,
 #info-icon:hover {
-    color: #35c6ed;
+    color: #B03060;
 }
 
 
@@ -701,7 +776,39 @@ ul {
 }
 
 .pagination button:hover {
-    background-color: #2ffddb;
+    background-color: #B03060;
+}
+
+/* page jump */
+.page-jump-wrap{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+}
+.page-jump-wrap-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 8px;
+}
+.page-jump-input{
+    width: 60px;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+.page-jump-btn{
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #aaa;
+    background-color: #B03060;
+    color: white;
+    cursor: pointer;
+}
+.page-jump-btn:hover{
+    background-color: #800020;
 }
 
 /* ----------------------CSS NÚT PHÂN TRANG---------------------- */
@@ -760,7 +867,7 @@ ul {
     border-top: none;
     height: 3px;
     width: 150px;
-    background-image: linear-gradient(to right, #2ffddb, transparent);
+    background-image: linear-gradient(to right, #B03060, transparent);
 }
 
 .widget-row-col-content {
@@ -806,16 +913,16 @@ ul {
 
 .widget-contact-item:hover i {
     transform: translateX(4px);
-    color: #2ffddb;
+    color: #B03060;
 }
 
 .widget-social-item:hover {
     transform: scale(1.1);
-    border: 1px solid #2ffddb;
+    border: 1px solid #B03060;
 }
 
 .widget-social-item:hover i {
-    color: #2ffddb;
+    color: #B03060;
 }
 
 .widget-social-item i {
@@ -1108,7 +1215,7 @@ ul {
 
 /* Màu sắc và hiệu ứng cho từng nút */
 .product-content-right-product-button button:first-child {
-    background-color: #2ffddb;
+    background-color: #B03060;
     color: white;
 }
 
@@ -1118,17 +1225,17 @@ ul {
 }
 
 .product-content-right-product-button button:first-child:hover {
-    background-color: #00ADB5;
+    background-color: #800020;
 }
 
 .product-content-right-product-button button:last-child {
-    background-color: #2ffddb;
+    background-color: #B03060;
     font-size: 18px;
     color: black;
 }
 
 .product-content-right-product-button button:last-child:hover {
-    background-color: #00ADB5;
+    background-color: #800020;
 }
 
 
@@ -1178,10 +1285,10 @@ ul {
     font-size: medium;
     font-weight: 600;
     color:rgb(0, 0, 0);
-    background-color: #22fddb;
+    background-color: #B03060;
     position:absolute;
     bottom: -5px;  
-    right: 10px; /* place badge 10px from the right edge of header-right */
+    left: 25px ;
     border-radius: 10px;
 }
 .cart-tab{
@@ -1348,5 +1455,167 @@ body.showCart .header-option{
 }
 .list-cart{
     overflow: auto;
+}
+
+/* ===== Additional layout overrides & header/burger styles ===== */
+/* Footer: rebalance columns after removing Product Classification */
+.widget-row-col {
+    width: 34%;
+}
+.widget-row-col-1 {
+    width: 33%;
+}
+
+/* Header center (search + burger) overrides */
+.header-center {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-form-search {
+    display: flex;
+    align-items: center;
+    width: 420px;
+    max-width: 60%;
+    position: relative;
+    border-radius: 6px;
+    background-color: #f2f2f2;
+    padding: 6px 10px;
+}
+.header-form-search .form-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+}
+
+.burger-toggle {
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: #333;
+}
+.burger-toggle.open i { transform: rotate(90deg); }
+
+.burger-menu {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    width: 80%;
+    max-width: 720px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 16px;
+    transition: max-height 0.40s cubic-bezier(.2,.9,.2,1), opacity 0.40s ease-out, transform 0.40s ease-out;
+    z-index: 240;
+}
+.burger-menu.show {
+    max-height: 360px;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    padding: 12px 18px 20px 18px;
+}
+.burger-menu-inner {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.burger-menu-item {
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: linear-gradient(180deg, rgba(128,0,32,0.02), rgba(176,48,96,0.01));
+    cursor: pointer;
+}
+.burger-menu-item:hover { background-image: linear-gradient(90deg, #800020 0%, #B03060 100%); color: #fff; transform: translateY(-4px);} 
+
+/* Banner toggle button */
+.banner-toggle-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: -28px; /* sit near the bottom of the banner */
+    pointer-events: none; /* let the button itself handle pointer events */
+}
+.banner-toggle {
+    pointer-events: auto;
+    border: none;
+    background: rgba(255,255,255,0.95);
+    border-radius: 28px;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    cursor: pointer;
+}
+.banner-toggle i { color: var(--theme-color-1); transition: transform 0.28s ease; }
+.banner-closed .banner-toggle i { transform: rotate(180deg); }
+
+/* Simple banner */
+.banner-container {
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+    min-height: 280px;
+}
+.bannervids {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Footer spacing tweaks: reduce space between connection and contact */
+.widget-row { display: flex; gap: 12px; align-items: flex-start; }
+.widget-row-col, .widget-row-col-1 { padding: 0 8px 10px; }
+
+/* ---------------- Product modal theming (match login/register vibe) ---------------- */
+.modal-backdrop.show {
+    background: radial-gradient(1200px 600px at 50% 0%, rgba(176,48,96,0.28), rgba(128,0,32,0.24) 40%, rgba(0,0,0,0.55) 100%);
+    opacity: 1; /* use custom gradient instead of default opacity */
+}
+
+.modal-content {
+    background: rgba(255,255,255,0.85);
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    overflow: hidden;
+}
+
+.modal-body {
+    background: linear-gradient(180deg, rgba(128,0,32,0.02), rgba(176,48,96,0.03));
+}
+
+/* Tweak product modal inner layout to sit nicely on translucent bg */
+.product-content-left, .product-content-right {
+    background: transparent;
+}
+
+.product-content-right-product-button button {
+    background: linear-gradient(90deg, var(--theme-color-1), var(--theme-color-2));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(176,48,96,0.24);
+}
+.product-content-right-product-button button:hover {
+    filter: brightness(1.02);
+    transform: translateY(-1px) scale(1.03);
 }
 

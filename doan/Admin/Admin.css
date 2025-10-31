@@ -43,7 +43,7 @@ body{
     /* left:0; */
 }
 .Action li:hover{
-    background-color: #00adb5;
+    background-color: #800020;
     color: #FFFFFF;
     transition: all 0.5s;
 }
@@ -71,7 +71,7 @@ body{
     width: 90%;
 }
 .Back li:hover{
-    background-color: #00adb5;
+    background-color: #800020;
     color: #FFFFFF;
     transition: all 0.5s;
 }
@@ -88,12 +88,12 @@ body{
     font-family: 'SFProDisplay';
 }
 .SideBar ul li.active {
-    background-color: #00adb5; /* Màu nền cho mục được chọn */
+    background-color: #800020; /* Màu nền cho mục được chọn */
     color: #FFFFFF; /* Màu chữ cho mục được chọn */
     border-radius: 5px; /* Tùy chọn: làm tròn góc cho đẹp hơn */
 }
 .Back ul li.active{
-    background-color: #00adb5; /* Màu nền cho mục được chọn */
+    background-color: #800020; /* Màu nền cho mục được chọn */
     color: #FFFFFF; /* Màu chữ cho mục được chọn */
     border-radius: 5px; /* Tùy chọn: làm tròn góc cho đẹp hơn */
 }
@@ -135,7 +135,7 @@ body{
 button{
     height: 100%;
     border-radius: 5px;
-    background-color: #00adb5;;
+    background-color: #800020;;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid rgb(225, 222, 222);
     padding: 10px;
@@ -497,7 +497,7 @@ td{
 .order-statistical-item-icon i{
     font-size: 45px;
     margin-right: 25px;
-    color: #00adb5;;
+    color: #800020;;
 }
 
 .order-statistical-item-content-desc{
@@ -563,7 +563,7 @@ td{
 }
 
 .Tk-khachhang th { 
-    background-color:#00adb5;
+    background-color:#800020;
     color: #fff;
     text-transform: uppercase;
 }
@@ -572,7 +572,7 @@ td{
     padding: 5px;
     border-radius: 10px;
     width: 50px;
-    background-color:#00adb5;
+    background-color:#800020;
     font-size: 5px;
     border: none;
     border-radius: 3px;
@@ -580,15 +580,16 @@ td{
     transition: background-color 0.3s;
 }
 .form-message {
-    color: #00adb5;
+    color: #800020;
     font-size: 13px;
     margin-top: 10px;
-}.switch-input {
+}
+.switch-input {
     display: none;
 }
 
 .switch-input:checked + .switch {
-    background-color: #00adb5;
+    background-color: #800020;
 }
 
 .switch-input:checked + .switch:after {
@@ -623,12 +624,12 @@ td{
 
 .address-container {
     display: flex;
-    gap: 10px; /* Khoảng cách giữa các dropdown */
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 10px;
-}
+.cards .card-single:hover .box {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(45deg,#800020, rgb(102, 176, 123));
 
+}
 #city-select, #district-select, #ward-select {
     padding: 5px 10px;
     font-size: 14px;
@@ -667,7 +668,7 @@ td{
 .DonHangAction button {
     padding: 6px 12px;
     font-size: 14px;
-    background-color:#00adb5;
+    background-color:#800020;
     color: white;
     border: none;
     border-radius: 4px;
@@ -679,7 +680,7 @@ td{
 }
 
 .DonHangAction button:hover {
-    background-color:#00adb5;
+    background-color:#800020;
 }
 
 .Shoes {
@@ -891,7 +892,7 @@ td{
 }
 
 .Tk-Product th { 
-    background-color:#00adb5;
+    background-color:#800020;
     color: #fff;
     text-transform: uppercase;
 }
@@ -953,7 +954,7 @@ input[type="radio"] {
 .cards .card-single:hover .box {
     transform: translateY(-10px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(45deg,#00adb5, rgb(102, 176, 123));
+    background: linear-gradient(45deg,#800020, rgb(102, 176, 123));
 
 }
 
@@ -1068,4 +1069,5 @@ input[type="radio"] {
 
 .login-container button:hover {
     background-color: #0056b3;
+}
 }
