@@ -5,11 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link rel="stylesheet" href="Admin.css">
+    <!-- Integrated CSS for admin login (kept inline so page is standalone) -->
+    <style>
+        body.admin-login{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container{
+            background: #ffffff;
+            padding: 28px 26px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+            width: 360px;
+            max-width: 92%;
+        }
+        .login-container h2{
+            margin: 0 0 14px 0;
+            font-size: 20px;
+            text-align: center;
+            color: #222;
+            font-weight: 600;
+        }
+        .input-group{ margin-bottom: 12px; }
+        .input-group label{ display:block; margin-bottom:6px; color:#555; font-size:14px; }
+        .input-group input{
+            width:100%;
+            padding:10px 12px;
+            border:1px solid #e3e6ea;
+            border-radius:6px;
+            font-size:14px;
+            outline:none;
+            transition: box-shadow .15s ease, border-color .15s ease;
+        }
+        .input-group input:focus{ box-shadow: 0 0 0 3px rgba(0,173,181,0.08); border-color:#00adb5; }
+        button[type="submit"]{
+            width:100%;
+            padding:12px;
+            background:#00adb5;
+            color:#fff;
+            border:none;
+            border-radius:8px;
+            font-size:15px;
+            cursor:pointer;
+        }
+        button[type="submit"]:hover{ background:#00979a; }
+        #error-message{ color:#d93025; min-height:18px; margin-top:8px; text-align:center; }
+        /* make form responsive on very small screens */
+        @media (max-width:420px){
+            .login-container{ width: 92%; padding:18px; }
+            .login-container h2{ font-size:18px }
+        }
+    </style>
 </head>
-<body>
+<body class="admin-login">
     <div class="login-container">
-        <form id="login-form">
-            <h2>Admin Login</h2>
+        <form id="login-form">            <h2>Admin Login</h2>
             <div class="input-group">
                 <label for="username">Tên đăng nhập</label>
                 <input type="text" id="username" name="username" required>

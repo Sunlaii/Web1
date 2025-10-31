@@ -3,7 +3,37 @@ const Contentcontainer = document.getElementById('Content-Container');
 
 let currentPage = 1;
 const itemsPerPage = 8;
-window.onload = ()=> {
+// If localStorage 'Products' is empty, load initial data from product.json
+const initProductsIfEmpty = () => {
+    return new Promise((resolve) => {
+        try {
+            const products = JSON.parse(localStorage.getItem('Products')) || [];
+            if (products.length > 0) return resolve();
+            // fetch the product.json from parent folder
+            fetch('../product.json')
+                .then(res => res.json())
+                .then(data => {
+                    // ensure numeric Price and Id fields are consistent types
+                    const normalized = data.map(p => ({
+                        ...p,
+                        Id: p.Id,
+                        Price: typeof p.Price === 'string' ? parseFloat(p.Price) : p.Price
+                    }));
+                    localStorage.setItem('Products', JSON.stringify(normalized));
+                    resolve();
+                }).catch(err => {
+                    console.warn('Could not load product.json into localStorage:', err);
+                    resolve();
+                });
+        } catch (e) {
+            console.warn('initProductsIfEmpty error', e);
+            resolve();
+        }
+    });
+};
+
+window.onload = async ()=> {
+    await initProductsIfEmpty();
     const defaultItem = document.querySelector('.Action .TongHop');
     removeActiveClass(); 
     defaultItem.classList.add('active'); 
