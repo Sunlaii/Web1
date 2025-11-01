@@ -196,13 +196,23 @@
 
             <!-- -------------------------Banner------------------------- -->
 
- <!-- Banner video section -->
-<div id="Bannervideo" class="banner-container">
-    <video autoplay muted loop playsinline>
-        <source src="anh/banner.mp4" type="video/mp4">
-        Trình duyệt của bạn không hỗ trợ video.
-    </video>
+<!-- Banner slideshow: video + images -->
+<div id="BannerSlideshow" class="banner-container">
+    <!-- Slide 1: video -->
+    <div class="slide active">
+        <video autoplay muted loop playsinline>
+            <source src="anh/banner.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
+    </div>
+
+    <!-- Slide 2: image -->
+    <div class="slide" style="background-image: url('anh/image/banner2.jpg');"></div>
+
+    <!-- Slide 3: image -->
+    <div class="slide" style="background-image: url('anh/image/banner3.jpg');"></div>
 </div>
+
 
 
 
