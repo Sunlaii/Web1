@@ -439,14 +439,14 @@ ul {
 
 .sidebar {
     width: 330px;
-    padding: 20px;
+    padding: 10px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     position: fixed;
     left: -330px; /* Bắt đầu ngoài màn hình bên trái */
-    top: 120px;
+    top: 50px;
     transition: left 0.3s ease; /* Hiệu ứng trượt mượt */
     z-index: 105;
 }
