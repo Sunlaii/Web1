@@ -1687,10 +1687,18 @@ const saveOrderDetail = (idx) => {
 };
 
 const RenderUserName = ()=>{
-    const userLogin = JSON.parse(localStorage.getItem('userLogin'))||[];
-    console.log(userLogin);
-    const username = userLogin.username || 'Guest';
-    document.getElementById('NameUser').innerText=`${username}`;
+    const userLogin = JSON.parse(localStorage.getItem('userLogin')) || {};
+    const username = userLogin.username || '';
+    const userLi = document.querySelector('.Back .User');
+    const nameSpan = document.getElementById('NameUser');
+    if (!userLi || !nameSpan) return;
+    if (username) {
+        nameSpan.innerText = username;
+        userLi.style.display = 'flex';
+    } else {
+        // Hide the user entry when there's no logged-in user to avoid showing a Guest label
+        userLi.style.display = 'none';
+    }
 }
 RenderUserName();
 const TrangChu = () =>{

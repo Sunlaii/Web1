@@ -12,13 +12,17 @@ body{
     
 }
 .SideBar{
-    width: 20%;
+    width: 260px;
+    min-width: 220px;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 .Content-Container{
     width: 80%;
@@ -26,21 +30,23 @@ body{
     /* border: 1px solid yellow; */
 }
 .SideBar img{
-    width: 250px;
-    position: relative;
-    bottom: 50px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    max-width: 100%;
+    width: 200px;
+    padding-top: 10px;
+    position: static;
+    margin-bottom: 10px;
+    display: block;
+    object-fit: contain;
 }
 .Action{
     display: flex;
     flex-direction: column;
     row-gap: 10px;
-    position: relative;
-    bottom: 47px;
-    opacity: 0.6;
+    margin-top: 10px;
+    opacity: 0.9;
     cursor: pointer;
     padding-left: 0;
-    left:0;
+    width: 100%;
 }
 .Action li:hover{
     background-color: #00adb5;
@@ -48,12 +54,14 @@ body{
     transition: all 0.5s;
 }
 .Action li{
-    width: 280px;
+    width: 100%;
     border-radius: 5px;
     list-style: none;
     display: flex;
     gap: 10px;
     padding: 10px;
+    align-items: center;
+    box-sizing: border-box;
 }
 .Action li span,i{
     font-size: 25px;
@@ -62,12 +70,12 @@ body{
 .Back{
     display: flex;
     flex-direction: column;
-    row-gap: 2px;
-    position: relative;
-    top: 110px;
-    opacity: 0.6;
+    row-gap: 8px;
+    margin-top: auto;
+    opacity: 0.9;
     cursor: pointer;
     padding-left: 0;
+    width: 100%;
 }
 .Back li:hover{
     background-color: #00adb5;
@@ -75,12 +83,14 @@ body{
     transition: all 0.5s;
 }
 .Back li{
-    width: 280px;
+    width: 100%;
     border-radius: 5px;
     list-style: none;
     display: flex;
     gap: 10px;
     padding: 10px;
+    align-items: center;
+    box-sizing: border-box;
 }
 .Back li span,i{
     font-size: 25px;
