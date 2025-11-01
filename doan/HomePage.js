@@ -728,7 +728,21 @@ function showSection(id) {
 
 // Hàm khởi tạo ứng dụng
 const initApp = () => {
-    fetch('product.json')// Lấy dữ liệu từ tệp JSON
+    try {
+        const existing = JSON.parse(localStorage.getItem('Products')) || [];
+        if (existing.length > 0) {
+            // Nếu đã có Products trong localStorage (ví dụ do admin thêm), dùng dữ liệu đó
+            originalProducts = [...existing];
+            filteredProducts = [...originalProducts];
+            adddatatohtml();
+            return;
+        }
+    } catch (e) {
+        console.warn('Could not read Products from localStorage', e);
+    }
+
+    // Nếu chưa có dữ liệu, tải từ product.json một lần và lưu vào localStorage
+    fetch('product.json') // Lấy dữ liệu từ tệp JSON
         .then(response => response.json())
         .then(data => {
             // Lưu dữ liệu vào localStorage để các hàm khác (filter, cart...) có thể dùng chung
@@ -742,6 +756,11 @@ const initApp = () => {
         })
         .catch(err => {
             console.error('Failed to load product.json', err);
+            // Even if fetch fails, attempt to render from whatever is in localStorage
+            const fallback = JSON.parse(localStorage.getItem('Products')) || [];
+            originalProducts = [...fallback];
+            filteredProducts = [...originalProducts];
+            adddatatohtml();
         });
 };
 // quản lí hình ảnh lớn nhỏ
