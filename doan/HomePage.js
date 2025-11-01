@@ -1111,6 +1111,27 @@ function backToAdmin(){
 }
 
 
+// ===== Banner Slideshow (video + image) =====
+document.addEventListener("DOMContentLoaded", () => {
+  const slides = document.querySelectorAll("#BannerSlideshow .slide");
+  if (!slides.length) return;
+  let current = 0;
+
+  setInterval(() => {
+    // tắt slide hiện tại
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    // bật slide kế tiếp
+    slides[current].classList.add("active");
+
+    // Nếu slide là video, phát lại từ đầu
+    const video = slides[current].querySelector("video");
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+  }, 7000); // đổi slide mỗi 7 giây
+});
 
 
 
