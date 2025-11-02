@@ -366,7 +366,6 @@ ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60%;
     height: 40px;
     position: relative;
     padding: 10px 20px;
@@ -377,6 +376,8 @@ ul {
     cursor: pointer;
     font-size: 14px;
     transition: transform 0.3s ease, background-color 0.3s ease;
+    white-space: nowrap;        /*cấm xuống dòng*/
+    min-width: 210px;    /* rộng cố định */
 }
 
 .sort-button:hover {
@@ -643,7 +644,7 @@ ul {
 #product-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 20px;       /* khoảng cách đều */
     justify-content: center;
     margin-top: 0px;
     width: 100%;
@@ -667,6 +668,7 @@ ul {
     background-color: #fff;
     /* Nền trắng cho card */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 0 0 300px; 
 }
 
 /* Hiệu ứng khi hover */
@@ -793,7 +795,7 @@ ul {
     margin-top: 8px;
 }
 .page-jump-input{
-    width: 60px;
+    width: 80px;
     padding: 6px 8px;
     border: 1px solid #ddd;
     border-radius: 6px;
