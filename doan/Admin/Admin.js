@@ -604,22 +604,25 @@ const createRowForType = (dataType, item) => {
                 </div>
             </div>`;
         case 'Users':
-                return `  <tr  style="border-bottom: 1px solid #ddd; background-color: #fff;">
-            <td style="padding: 10px;">${item.userId}</td>
-            <td style="padding: 10px;">${item.username}</td>
-            <td style="padding: 10px;">${item.phone}</td>
-            <td style="padding: 10px;">${item.date}</td>
-            <td style="padding: 10px;">
-                ${item.status=="Hoat Dong"?`<button style="width: 100px; background-color: green; color: white; border: none; padding: 8px; border-radius: 4px;">Online</button>`:
-                    `<button style="width: 100px; background-color: red; color: white; border: none; padding: 8px; border-radius: 4px;">Offline</button>`
-                }
-                
-            </td>
-            <td style="padding: 10px; display: flex; gap: 10px;">
-                <button onClick="ModalUser(${item.userId},'Edit')" style="width: 80px; border: none; background-color: #2196F3; color: white; padding: 8px; border-radius: 4px;"><i style="font-size:15px;"class="fa-light fa-pencil"></i>Edit</button>
-                <button onClick="ModalUser(${item.userId},'Delete')" style="width: 80px; border: none; background-color: #ffc107; color: black; padding: 8px; border-radius: 4px;">Delete</button>
-            </td>
-        </tr>`
+    return `  <tr  style="border-bottom: 1px solid #ddd; background-color: #fff;">
+        <td style="padding: 10px;">${item.userId}</td>
+        <td style="padding: 10px;">${item.username}</td>
+        <td style="padding: 10px;">${item.phone}</td>
+        <td style="padding: 10px;">${item.date}</td>
+        <td style="padding: 10px;">
+            ${item.status=="Hoat Dong"
+                ? `<button style="width: 100px; background-color: green; color: white; border: none; padding: 8px; border-radius: 4px;">Online</button>`
+                : `<button style="width: 100px; background-color: red; color: white; border: none; padding: 8px; border-radius: 4px;">Offline</button>`
+            }
+        </td>
+        <td style="padding: 10px; display: flex; gap: 10px;">
+            <button onClick="ModalUser(${item.userId},'Edit')" style="width: 80px; border: none; background-color: #2196F3; color: white; padding: 8px; border-radius: 4px;">Edit</button>
+            <button onClick="ModalUser(${item.userId},'Delete')" style="width: 80px; border: none; background-color: #ffc107; color: black; padding: 8px; border-radius: 4px;">Delete</button>
+            <!-- THÊM NÚT NÀY -->
+            <button onClick="resetUserPassword(${item.userId})" style="width: 110px; border: none; background-color: #6f42c1; color: #fff; padding: 8px; border-radius: 4px;">Reset PW</button>
+        </td>
+    </tr>`;
+
         case 'CheckOut':
             return `
         <tr style="border-bottom: 1px solid #ddd; background-color: #fff; color: black;">
@@ -2356,6 +2359,42 @@ const Logout = () => {
         window.location.href = "../HomePage.html";
     }, 1000); 
 };
+
+
+    function resetUserPassword(userId) {
+    const users = JSON.parse(localStorage.getItem('Users')) || [];
+    const index = users.findIndex(u => u.userId === userId);
+    if (index === -1) {
+        showAlertFailure('Không tìm thấy user');
+        return;
+    }
+
+    const currentPass = users[index].password || '';
+
+    // hỏi mật khẩu mới, hiện luôn mật khẩu cũ cho admin xem
+    const newPass = prompt(
+        'Mật khẩu hiện tại: ' + currentPass + '\nNhập mật khẩu mới:',
+        currentPass // để sẵn mật khẩu cũ, admin sửa luôn
+    );
+
+    // bấm Cancel thì thôi
+    if (newPass === null) return;
+
+    // bỏ khoảng trắng 2 đầu
+    const finalPass = newPass.trim();
+    if (finalPass === '') {
+        showAlertFailure('Mật khẩu không được rỗng');
+        return;
+    }
+
+    users[index].password = finalPass;
+    localStorage.setItem('Users', JSON.stringify(users));
+    showAlertSuccess('Đã đổi mật khẩu');
+
+    // render lại bảng
+    SearchAndRender('Users', currentPage, itemsPerPage);
+}
+
 const generateFakeData = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // Tháng hiện tại (1-12)
