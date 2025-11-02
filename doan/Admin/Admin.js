@@ -618,8 +618,11 @@ const createRowForType = (dataType, item) => {
         <td style="padding: 10px; display: flex; gap: 10px;">
             <button onClick="ModalUser(${item.userId},'Edit')" style="width: 80px; border: none; background-color: #2196F3; color: white; padding: 8px; border-radius: 4px;">Edit</button>
             <button onClick="ModalUser(${item.userId},'Delete')" style="width: 80px; border: none; background-color: #ffc107; color: black; padding: 8px; border-radius: 4px;">Delete</button>
-            <!-- THÊM NÚT NÀY -->
             <button onClick="resetUserPassword(${item.userId})" style="width: 110px; border: none; background-color: #6f42c1; color: #fff; padding: 8px; border-radius: 4px;">Reset PW</button>
+            <button onClick="toggleUserStatus(${item.userId})"
+                style="width: 90px; border: none; background-color: ${item.status=='Hoat Dong' ? '#dc3545' : '#198754'}; color: #fff; padding: 8px; border-radius: 4px;">
+                ${item.status=='Hoat Dong' ? 'Khóa' : 'Mở'}
+            </button>
         </td>
     </tr>`;
 
@@ -2394,6 +2397,29 @@ const Logout = () => {
     // render lại bảng
     SearchAndRender('Users', currentPage, itemsPerPage);
 }
+function toggleUserStatus(userId) {
+    const users = JSON.parse(localStorage.getItem('Users')) || [];
+    const index = users.findIndex(u => u.userId === userId);
+    if (index === -1) {
+        showAlertFailure('Không tìm thấy user');
+        return;
+    }
+
+    // Đang hoạt động -> khóa
+    if (users[index].status === 'Hoat Dong') {
+        users[index].status = 'Da Khoa';
+        showAlertSuccess('Đã khóa tài khoản');
+    } else {
+        // Đang khóa -> mở
+        users[index].status = 'Hoat Dong';
+        showAlertSuccess('Đã mở khóa tài khoản');
+    }
+
+    localStorage.setItem('Users', JSON.stringify(users));
+    // render lại bảng
+    SearchAndRender('Users', currentPage, itemsPerPage);
+}
+
 
 const generateFakeData = () => {
     const currentDate = new Date();
