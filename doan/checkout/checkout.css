@@ -447,7 +447,7 @@ body.showoverlay .overlay{
     border-radius: 10px;
     background-color: #f9f9f9;
     position: relative;
-    top: -110%;
+    top: -235%;
     left: 21%;
     z-index: 200;
     visibility: hidden;
