@@ -145,6 +145,149 @@ const DoanhThuTong = () => {
     });
     document.getElementById('DoanhThuTong').innerText = `${temp} $`; // Format as a localized string
 };
+
+// =============== LOẠI SẢN PHẨM: CHỈ LƯU TÊN, THÊM / SỬA / XÓA ===============
+const CATEGORY_KEY = 'Categories';
+let categories = JSON.parse(localStorage.getItem(CATEGORY_KEY)) || [];
+
+function saveCategories() {
+    localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
+}
+
+function renderCategories() {
+    const tbody = document.getElementById('category-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    if (!categories || categories.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3" style="text-align:center;">Chưa có loại nào</td>
+            </tr>
+        `;
+        return;
+    }
+
+    categories.forEach((name, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${name}</td>
+            <td>
+                <button type="button" onclick="editCategory(${index})">Sửa</button>
+                <button type="button" onclick="deleteCategory(${index})">Xóa</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+function renderCategoryOptions() {
+    const filterSelect = document.getElementById('ShoesProduct'); // combobox lọc trên cùng
+    const modalSelect  = document.getElementById('Category');     // combobox trong modal thêm sp
+
+    // Cập nhật combobox lọc
+    if (filterSelect) {
+        filterSelect.innerHTML =
+            '<option value="All">All</option>' +
+            categories.map(name => `<option value="${name}">${name}</option>`).join('');
+    }
+
+    // Cập nhật combobox trong modal thêm giày
+    if (modalSelect) {
+        modalSelect.innerHTML =
+            categories
+                .map((name, idx) =>
+                    `<option value="${name}" ${idx === 0 ? 'selected' : ''}>${name}</option>`
+                )
+                .join('');
+    }
+}
+
+
+function initCategoryUI() {
+    const btnSave = document.getElementById('btn-category-save');
+    const btnCancel = document.getElementById('btn-category-cancel');
+    const inputName = document.getElementById('category-name-input');
+    const hiddenIndex = document.getElementById('category-edit-index');
+
+    if (!btnSave || !inputName || !hiddenIndex) return;
+
+    // Thêm / Lưu
+    btnSave.onclick = function () {
+        const name = inputName.value.trim();
+        if (!name) {
+            alert('Tên loại không được rỗng');
+            return;
+        }
+
+        const idx = Number(hiddenIndex.value);
+
+        if (idx >= 0) {
+            // đang sửa
+            categories[idx] = name;
+        } else {
+            // thêm mới
+            categories.push(name);
+        }
+
+        saveCategories();
+        renderCategories();
+        renderCategoryOptions();  
+
+        // reset form
+        inputName.value = '';
+        hiddenIndex.value = -1;
+        btnSave.textContent = 'Thêm / Lưu';
+        if (btnCancel) btnCancel.style.display = 'none';
+    };
+
+    // Hủy
+    if (btnCancel) {
+        btnCancel.onclick = function () {
+            inputName.value = '';
+            hiddenIndex.value = -1;
+            btnSave.textContent = 'Thêm / Lưu';
+            btnCancel.style.display = 'none';
+        };
+    }
+}
+
+function editCategory(index) {
+    const inputName = document.getElementById('category-name-input');
+    const hiddenIndex = document.getElementById('category-edit-index');
+    const btnSave = document.getElementById('btn-category-save');
+    const btnCancel = document.getElementById('btn-category-cancel');
+
+    if (!inputName || !hiddenIndex || !btnSave || !btnCancel) return;
+
+    inputName.value = categories[index];
+    hiddenIndex.value = index;
+    btnSave.textContent = 'Lưu';
+    btnCancel.style.display = 'inline-block';
+}
+
+function deleteCategory(index) {
+    if (!confirm('Xóa loại này?')) return;
+
+    categories.splice(index, 1);
+    saveCategories();
+    renderCategories();
+    renderCategoryOptions(); 
+}
+function ensureDefaultCategories() {
+    if (!categories || categories.length === 0) {
+        categories = [
+            'Basketball',
+            'Football',
+            'Running',
+            'Gym',
+            'Skateboarding'
+        ];
+        saveCategories();
+    }
+}
+
 const RenderSanPham = () => {
     Content.innerHTML = `
     <div class="trangSanpham" style="position: relative; left: 50px; height:50px;">
@@ -167,6 +310,33 @@ const RenderSanPham = () => {
             </div>
         </div>
     </div>
+
+    <!-- QUẢN LÝ LOẠI SẢN PHẨM (CHỈ TÊN + THÊM / SỬA / XÓA) -->
+    <div class="box" id="category-box" style="position: relative; left: 50px; width:85%; margin-top:20px;">
+        <h3>Loại sản phẩm</h3>
+
+        <div class="form-inline" style="margin-bottom: 10px;">
+            <input type="hidden" id="category-edit-index" value="-1">
+            <input type="text" id="category-name-input" class="form-control" placeholder="Nhập tên loại" style="width: 250px; margin-right: 8px;">
+            <button type="button" id="btn-category-save" class="btn btn-primary btn-sm">Thêm / Lưu</button>
+            <button type="button" id="btn-category-cancel" class="btn btn-secondary btn-sm" style="display:none;margin-left:4px;">Hủy</button>
+        </div>
+
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">#</th>
+                    <th>Tên loại</th>
+                    <th style="width: 25%;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="category-tbody">
+                <!-- JS render -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PHẦN MODAL SẢN PHẨM CŨ GIỮ NGUYÊN -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -201,7 +371,7 @@ const RenderSanPham = () => {
                     <option value="Football">Football</option>
                     <option value="Running">Running</option>
                     <option value="Gym">Gym</option>
-                     <option value="Skateboarding">Skateboarding</option>
+                    <option value="Skateboarding">Skateboarding</option>
                   </select>
                 </div>
                <div class="col-md-6">
@@ -261,9 +431,17 @@ const RenderSanPham = () => {
       </div>
     </div>
   `;
-    UpLoadImage();
-    SearchAndRender('Products',currentPage,itemsPerPage);
+
+    UpLoadImage();                               
+    SearchAndRender('Products',currentPage,itemsPerPage); 
+
+    // khởi tạo UI loại
+    ensureDefaultCategories(); 
+    renderCategories();
+    initCategoryUI();
+    renderCategoryOptions();
 };
+
 
 const RenderKhachHang = () => {
     Content.innerHTML = `<div class="trangKhachHang" style="position: relative; left: 70px; height:50px;">
