@@ -35,6 +35,7 @@ const initProductsIfEmpty = () => {
 
 window.onload = async () => {
     await initProductsIfEmpty();
+    await initImportsIfEmpty();
     const defaultItem = document.querySelector('.Action .TongHop');
     removeActiveClass();
     if (defaultItem) {
@@ -387,6 +388,14 @@ const RenderSanPham = () => {
                   </select>
                 </div>
                 <div class="col-md-6">
+                  <label class="form-label">Capital Price</label>
+                  <input type="number" id="CapitalPrice" class="form-control" style="width:350px" placeholder="Giá vốn" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Profit Percent (%)</label>
+                  <input type="number" id="ProfitPercent" class="form-control" style="width:350px" placeholder="% lợi nhuận" />
+                </div>
+                <div class="col-md-6">
                   <label class="form-label">Sizes</label>
                   <div id="sizeContainer" style="display: flex; flex-wrap: wrap; gap: 5px;" class="Size">
                     <button type="button" class="btn btn-outline-primary size-btn" data-size="35">35</button>
@@ -402,8 +411,8 @@ const RenderSanPham = () => {
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Price</label>
-                  <input type="text" id="Price" class="form-control" style="width:350px" placeholder="Nhập Giá Tiền"/>
+                  <label class="form-label">Price (auto from capital * (1 + %))</label>
+                  <input type="text" id="Price" class="form-control" style="width:350px" placeholder="Tự động tính" disabled />
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Description</label>
@@ -455,6 +464,24 @@ const RenderSanPham = () => {
     renderCategories();
     initCategoryUI();
     renderCategoryOptions();
+    
+    // Set default profit percent based on selected category
+    const categorySelect = document.getElementById('Category');
+    const profitPercentInput = document.getElementById('ProfitPercent');
+    if (categorySelect && profitPercentInput) {
+        const updateProfitPercentFromCategory = () => {
+            const cfg = getProfitConfig();
+            const selectedCat = categorySelect.value;
+            if (selectedCat && cfg.byCategory && cfg.byCategory[selectedCat] != null) {
+                profitPercentInput.value = cfg.byCategory[selectedCat];
+            } else {
+                profitPercentInput.value = cfg.defaultPercent || 30;
+            }
+        };
+        categorySelect.addEventListener('change', updateProfitPercentFromCategory);
+        // Set initial value
+        updateProfitPercentFromCategory();
+    }
 };
 
 const RenderKhachHang = () => {
@@ -524,47 +551,102 @@ const AddUser = () => {
     });
     registerForm.addEventListener('submit', function (e) {
         e.preventDefault();
+        
+        // First validate all inputs
         let isEmptyError = checkEmptyError([fullname, phone, password, confirmPassword]);
         let isFullnameLengthError = checkLengthError(fullname, 3, 10);
         let isPasswordLengthError = checkLengthError(password, 3, 10);
-        let isConfirmPasswordError;
+        let isConfirmPasswordError = false;
         let isPhoneLengthError = checkPhoneLengthError(phone);
-        const d = new Date();
-        const day = String(d.getDate()).padStart(2, '0');
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const year = d.getFullYear();
-        const formattedDate = `${day}/${month}/${year}`;
-        const user = {
-            userId: Math.ceil(Math.random() * 100000),
-            date: formattedDate,
-            username: fullname.value,
-            phone: phone.value,
-            password: password.value,
-            email: "",
-            address: "",
-            status: "Hoat Dong",
-            role: "admin",
-            Cart: [],
-            ProductBuy: []
-        };
+        
         if (password.value !== confirmPassword.value) {
             showError(confirmPassword, 'Mật khẩu xác nhận không khớp!');
             isConfirmPasswordError = true;
         } else {
             showSuccess(confirmPassword);
         }
-        if (users.some(user => user.username === fullname.value)) {
+        
+        if (users.some(u => u.username === fullname.value)) {
             showError(fullname, 'Tên đăng nhập đã tồn tại!');
-        } else if (!isEmptyError && !isFullnameLengthError && !isPasswordLengthError && !isPhoneLengthError && !isConfirmPasswordError) {
+            return;
+        }
+        
+        // If validation fails, don't show account type modal
+        if (isEmptyError || isFullnameLengthError || isPasswordLengthError || isPhoneLengthError || isConfirmPasswordError) {
+            return;
+        }
+        
+        // All validation passed, show modal to select account type
+        const accountTypeModal = `
+        <div class="modal fade" id="AccountTypeModal" tabindex="-1" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Select Account Type</h5>
+              </div>
+              <div class="modal-body">
+                <p>What type of account do you want to create?</p>
+                <div class="form-group">
+                  <select id="AccountTypeSelect" class="form-control">
+                    <option value="user">User Account</option>
+                    <option value="admin">Admin Account</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" id="AccountTypeCancel">Cancel</button>
+                <button class="btn btn-primary" id="AccountTypeConfirm">Continue</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', accountTypeModal);
+        const accountTypeEl = document.getElementById('AccountTypeModal');
+        const accountTypeModalInstance = new bootstrap.Modal(accountTypeEl);
+        accountTypeModalInstance.show();
+        
+        // Cancel button
+        document.getElementById('AccountTypeCancel').onclick = () => {
+            accountTypeModalInstance.hide();
+            accountTypeEl.remove();
+        };
+        
+        // Confirm button
+        document.getElementById('AccountTypeConfirm').onclick = () => {
+            const selectedRole = document.getElementById('AccountTypeSelect').value;
+            accountTypeModalInstance.hide();
+            accountTypeEl.remove();
+            
+            // Now create the account
+            const d = new Date();
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+            
+            const user = {
+                userId: Math.ceil(Math.random() * 100000),
+                date: formattedDate,
+                username: fullname.value,
+                phone: phone.value,
+                password: password.value,
+                email: "",
+                address: "",
+                status: "Hoat Dong",
+                role: selectedRole,
+                Cart: [],
+                ProductBuy: []
+            };
+            
             users.push(user);
-            showAlertSuccess("Đăng ký thành công!");
+            showAlertSuccess(`Đăng ký thành công! Account type: ${selectedRole}`);
             localStorage.setItem("Users", JSON.stringify(users));
             SearchAndRender('Users', currentPage, itemsPerPage);
             wrapper.classList.remove('active');
             wrapper.style.display = "none";
             overlay.style.display = "none";
             registerForm.reset();
-        }
+        };
     });
 };
 
@@ -573,6 +655,8 @@ const UpLoadImage = () => {
 
     const Productname = document.getElementById('Product-name');
     const Price = document.getElementById('Price');
+    const CapitalPrice = document.getElementById('CapitalPrice');
+    const ProfitPercent = document.getElementById('ProfitPercent');
     const Category = document.getElementById('Category');
     const Color = document.getElementById('Color');
     const Description = document.getElementById('Description');
@@ -644,23 +728,42 @@ const UpLoadImage = () => {
         });
     });
 
+    // Auto-calc display for Price from capital & percent
+    const recalcPrice = () => {
+        const cap = parseFloat(CapitalPrice.value);
+        const pct = parseFloat(ProfitPercent.value);
+        if (!isNaN(cap) && cap > 0 && !isNaN(pct) && pct >= 0) {
+            const priceCalc = Math.round(cap * (1 + pct / 100));
+            Price.value = String(priceCalc);
+        } else {
+            Price.value = '';
+        }
+    };
+    CapitalPrice.addEventListener('input', recalcPrice);
+    ProfitPercent.addEventListener('input', recalcPrice);
+
     btnSave.addEventListener('click', () => {
         if (!Productname.value.trim()) return showAlertFailure("Vui lòng nhập tên sản phẩm!");
-        if (!Price.value || isNaN(Price.value) || parseFloat(Price.value) <= 0) {
-            return showAlertFailure("Vui lòng nhập giá tiền hợp lệ (là một số dương)!");
-        }
         if (!Category.value.trim()) return showAlertFailure("Vui lòng chọn danh mục sản phẩm!");
         if (selectedSizes.length === 0) return showAlertFailure("Vui lòng chọn kích cỡ!");
         if (!mainImage) return showAlertFailure("Vui lòng tải lên ảnh chính!");
         if (imgDetail.length < 4 || imgDetail.includes(undefined)) {
             return showAlertFailure("Vui lòng tải lên đủ 4 ảnh nhỏ!");
         }
+        const capVal = parseFloat(CapitalPrice.value);
+        const pctVal = parseFloat(ProfitPercent.value);
+        if (isNaN(capVal) || capVal <= 0) return showAlertFailure("Giá vốn không hợp lệ!");
+        if (isNaN(pctVal) || pctVal < 0) return showAlertFailure("% lợi nhuận không hợp lệ!");
+
+        const priceFromCap = Math.round(capVal * (1 + pctVal / 100));
 
         const newProduct = {
             Id: Math.ceil(Math.random() * 100000),
             ProductName: Productname.value.trim(),
             Colour: Color.value.trim(),
-            Price: parseFloat(Price.value),
+            Price: priceFromCap,
+            CapitalPrice: capVal,
+            ProfitPercent: pctVal,
             Category: Category.value.trim(),
             image: mainImage,
             imgDetail: imgDetail,
@@ -671,10 +774,34 @@ const UpLoadImage = () => {
 
         ProductLocal.push(newProduct);
         localStorage.setItem('Products', JSON.stringify(ProductLocal));
+        // Persist capital price into ImportReceipts as a completed receipt entry
+        try {
+            const receipts = JSON.parse(localStorage.getItem('ImportReceipts')) || [];
+            const today = new Date();
+            const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+            receipts.push({
+                id: Math.ceil(Math.random() * 1000000),
+                date: dateStr,
+                isCompleted: true,
+                items: [{ productId: newProduct.Id, importPrice: capVal, quantity: 20 }]
+            });
+            localStorage.setItem('ImportReceipts', JSON.stringify(receipts));
+        } catch (e) {}
+
+        // Persist per-product profit percent (this overrides category setting)
+        try {
+            const cfg = getProfitConfig();
+            cfg.byProduct[newProduct.Id] = pctVal;
+            saveProfitConfig(cfg);
+        } catch (e) {
+            console.warn('Error saving profit config:', e);
+        }
         showAlertSuccess("Thêm Giày Thành Công!");
 
         Productname.value = "";
         Color.value = "";
+        CapitalPrice.value = "";
+        ProfitPercent.value = "";
         Price.value = "";
         Description.value = "";
         mainImage = "";
@@ -823,12 +950,12 @@ const createRowForType = (dataType, item) => {
             ${
                 typeof item.status === "number"
                     ? item.status === 0
-                        ? `<button style="width: 120px; background-color: #d8e218ca; color: black; border: none; padding: 8px; border-radius: 20px;">Processing</button>`
+                        ? `<button style="width: 120px; background-color: #d8e218ca; color: black; border: none; padding: 8px; border-radius: 20px;">Đang xử lý</button>`
                         : item.status === 2
-                            ? `<button style="width: 120px; background-color: #f8450fca; color: black; border: none; padding: 8px; border-radius: 20px;">Cancel</button>`
+                            ? `<button style="width: 120px; background-color: #f8450fca; color: black; border: none; padding: 8px; border-radius: 20px;">Đã hủy</button>`
                             : item.status === 1
-                                ? `<button style="width: 120px; background-color: #0f9408ca; color: black; border: none; padding: 8px; border-radius: 20px;">Received</button>`
-                                : `<button style="width: 120px; background-color: #5bc2e4ca; color: black; border: none; padding: 8px; border-radius: 20px;">Delivering</button>`
+                                ? `<button style="width: 120px; background-color: #0f9408ca; color: black; border: none; padding: 8px; border-radius: 20px;">Đã nhận</button>`
+                                : `<button style="width: 120px; background-color: #5bc2e4ca; color: black; border: none; padding: 8px; border-radius: 20px;">Đang giao</button>`
                     : `<button style="width: 120px; background-color: gray; color: black; border: none; padding: 8px; border-radius: 4px;">Invalid</button>`
             }
             </td>
@@ -1132,8 +1259,16 @@ const ModalProduct = (id, dataType) => {
                     <select class="form-select" id="category"></select>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label">Price</label>
-                    <input type="text" id="price" class="form-control" style="width:350px" placeholder="Nhập Giá Tiền"/>
+                    <label class="form-label">Capital Price</label>
+                    <input type="number" id="updateCapitalPrice" class="form-control" style="width:350px" placeholder="Giá vốn" step="0.01"/>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Profit Percent (%)</label>
+                    <input type="number" id="updateProfitPercent" class="form-control" style="width:350px" placeholder="% lợi nhuận" step="0.1"/>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Price (auto from capital * (1 + %))</label>
+                    <input type="text" id="price" class="form-control" style="width:350px" placeholder="Tự động tính" disabled/>
                   </div>
                   <div class="col-md-6 Color">
                   <label class="form-label">Color: </label>
@@ -1225,15 +1360,42 @@ const btnUpdateProduct = (id) => {
     }
     const Productname = document.getElementById('Productname');
     const Price = document.getElementById('price');
+    const CapitalPrice = document.getElementById('updateCapitalPrice');
+    const ProfitPercent = document.getElementById('updateProfitPercent');
     const Category = document.getElementById('category');
     const Color = document.getElementById('color');
     const imagePreview = document.getElementById('ImagePreview');
     const saveChange = document.getElementById('saveChange');
+    const cfg = getProfitConfig();
 
     Productname.value = product.ProductName;
-    Price.value = product.Price;
     Category.value = product.Category;
     Color.value = product.Colour;
+    
+    // Set CapitalPrice: use stored value or calculate from ImportReceipts
+    const capitalPrice = product.CapitalPrice != null ? product.CapitalPrice : calcAverageCost(product.Id);
+    CapitalPrice.value = capitalPrice > 0 ? capitalPrice : '';
+    
+    // Set ProfitPercent: use stored value, or from config (byProduct > byCategory > default)
+    let profitPercent = null;
+    if (product.ProfitPercent != null) {
+        profitPercent = product.ProfitPercent;
+    } else if (cfg.byProduct[product.Id] != null) {
+        profitPercent = cfg.byProduct[product.Id];
+    } else if (cfg.byCategory && cfg.byCategory[product.Category] != null) {
+        profitPercent = cfg.byCategory[product.Category];
+    } else {
+        profitPercent = cfg.defaultPercent || 30;
+    }
+    ProfitPercent.value = profitPercent;
+    
+    // Calculate and set price
+    if (capitalPrice > 0 && profitPercent != null) {
+        Price.value = Math.round(capitalPrice * (1 + profitPercent / 100));
+    } else {
+        Price.value = product.Price;
+    }
+    
     if (product.image) {
         imagePreview.src = product.image;
         imagePreview.style.display = "block";
@@ -1241,11 +1403,63 @@ const btnUpdateProduct = (id) => {
         imagePreview.style.display = "none";
     }
 
+    // Auto-calculate price when capital price or profit percent changes
+    const recalcUpdatePrice = () => {
+        const cap = parseFloat(CapitalPrice.value);
+        const pct = parseFloat(ProfitPercent.value);
+        if (!isNaN(cap) && cap > 0 && !isNaN(pct) && pct >= 0) {
+            const priceCalc = Math.round(cap * (1 + pct / 100));
+            Price.value = String(priceCalc);
+        } else {
+            Price.value = product.Price;
+        }
+    };
+    CapitalPrice.addEventListener('input', recalcUpdatePrice);
+    ProfitPercent.addEventListener('input', recalcUpdatePrice);
+    
+    // Update profit percent when category changes (if no per-product override)
+    Category.addEventListener('change', () => {
+        const selectedCat = Category.value;
+        const currentCfg = getProfitConfig();
+        // Only update if there's no per-product override
+        if (currentCfg.byProduct[product.Id] == null) {
+            if (selectedCat && currentCfg.byCategory && currentCfg.byCategory[selectedCat] != null) {
+                ProfitPercent.value = currentCfg.byCategory[selectedCat];
+            } else {
+                ProfitPercent.value = currentCfg.defaultPercent || 30;
+            }
+            recalcUpdatePrice();
+        }
+    });
+
     saveChange.onclick = () => {
+        const capVal = parseFloat(CapitalPrice.value);
+        const pctVal = parseFloat(ProfitPercent.value);
+        const priceVal = parseFloat(Price.value);
+        
+        // Validate inputs
+        if (isNaN(capVal) || capVal <= 0) {
+            showAlertFailure("Giá vốn không hợp lệ!");
+            return;
+        }
+        if (isNaN(pctVal) || pctVal < 0) {
+            showAlertFailure("% lợi nhuận không hợp lệ!");
+            return;
+        }
+        
+        // Calculate price from capital and profit percent
+        const calculatedPrice = Math.round(capVal * (1 + pctVal / 100));
+        
         ProductLocal[index].ProductName = Productname.value.trim();
-        ProductLocal[index].Price = parseFloat(Price.value) || 0;
+        ProductLocal[index].Price = calculatedPrice;
+        ProductLocal[index].CapitalPrice = capVal;
+        ProductLocal[index].ProfitPercent = pctVal;
         ProductLocal[index].Category = Category.value;
         ProductLocal[index].Colour = Color.value;
+        
+        // Update profit config
+        cfg.byProduct[product.Id] = pctVal;
+        saveProfitConfig(cfg);
 
         localStorage.setItem("Products", JSON.stringify(ProductLocal));
         SearchAndRender("Products", currentPage, itemsPerPage);
@@ -1268,9 +1482,185 @@ const btnDeleteProduct = (id) => {
     SearchAndRender('Products', adjustedPage, itemsPerPage);
 };
 
-// =============== USER MODAL ===============
-// (giữ nguyên ModalUser, btnEditUser, btnDeleteUser như code ban đầu của bạn)
-// ...  (do giới hạn, phần này giữ giống đúng đoạn bạn đã gửi – không thay đổi)
+// =============== USER MODAL & ACTIONS ===============
+function ModalUser(userId, action) {
+    const users = JSON.parse(localStorage.getItem('Users')) || [];
+    const idx = users.findIndex(u => u.userId === userId);
+    if (idx === -1) {
+        showAlertFailure('User not found');
+        return;
+    }
+    const user = users[idx];
+
+    if (action === 'Delete') {
+        const modalHTML = `
+        <div class="modal fade" id="UserDeleteModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <p>Delete account <strong>${user.username}</strong>?</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" id="UserDeleteConfirm">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        const el = document.getElementById('UserDeleteModal');
+        const modal = new bootstrap.Modal(el);
+        modal.show();
+        el.addEventListener('hidden.bs.modal', () => el.remove());
+        el.querySelector('#UserDeleteConfirm').onclick = () => {
+            const list = JSON.parse(localStorage.getItem('Users')) || [];
+            const pos = list.findIndex(u => u.userId === userId);
+            if (pos !== -1) {
+                list.splice(pos, 1);
+                localStorage.setItem('Users', JSON.stringify(list));
+            }
+            try {
+                const login = JSON.parse(localStorage.getItem('userLogin'));
+                if (login && login.userId === userId) localStorage.removeItem('userLogin');
+            } catch (e) {}
+            showAlertSuccess('Deleted');
+            modal.hide();
+            SearchAndRender('Users', currentPage, itemsPerPage);
+        };
+        return;
+    }
+
+    // Edit
+    const modalHTML = `
+    <div class="modal fade" id="UserEditModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit account</h5>
+            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Username</label>
+              <input id="EditUsername" class="form-control" value="${user.username || ''}">
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input id="EditPhone" class="form-control" value="${user.phone || ''}">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input id="EditEmail" type="email" class="form-control" value="${user.email || ''}">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="EditStatus" class="form-control">
+                <option value="Hoat Dong" ${user.status === 'Hoat Dong' ? 'selected' : ''}>Hoạt động</option>
+                <option value="Da Khoa" ${user.status === 'Da Khoa' ? 'selected' : ''}>Đã khóa</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button class="btn btn-primary" id="UserEditSave">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    const el = document.getElementById('UserEditModal');
+    const modal = new bootstrap.Modal(el);
+    modal.show();
+    el.addEventListener('hidden.bs.modal', () => el.remove());
+    el.querySelector('#UserEditSave').onclick = () => {
+        const list = JSON.parse(localStorage.getItem('Users')) || [];
+        const pos = list.findIndex(u => u.userId === userId);
+        if (pos === -1) return;
+        list[pos].username = el.querySelector('#EditUsername').value.trim();
+        list[pos].phone = el.querySelector('#EditPhone').value.trim();
+        list[pos].email = el.querySelector('#EditEmail').value.trim();
+        list[pos].status = el.querySelector('#EditStatus').value;
+        localStorage.setItem('Users', JSON.stringify(list));
+        try {
+            const login = JSON.parse(localStorage.getItem('userLogin'));
+            if (login && login.userId === userId) {
+                localStorage.setItem('userLogin', JSON.stringify(list[pos]));
+            }
+        } catch (e) {}
+        showAlertSuccess('Saved');
+        modal.hide();
+        SearchAndRender('Users', currentPage, itemsPerPage);
+    };
+}
+
+function resetUserPassword(userId) {
+    const users = JSON.parse(localStorage.getItem('Users')) || [];
+    const idx = users.findIndex(u => u.userId === userId);
+    if (idx === -1) return showAlertFailure('User not found');
+    const user = users[idx];
+
+    const modalHTML = `
+    <div class="modal fade" id="ResetPasswordModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Reset Password for ${user.username}</h5>
+            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" id="ResetPasswordInput" class="form-control" placeholder="Enter new password (min 3 characters)" />
+            </div>
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <input type="password" id="ResetPasswordConfirm" class="form-control" placeholder="Confirm new password" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" id="ResetPasswordConfirmBtn">Reset Password</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    const el = document.getElementById('ResetPasswordModal');
+    const modal = new bootstrap.Modal(el);
+    modal.show();
+    el.addEventListener('hidden.bs.modal', () => el.remove());
+    el.querySelector('#ResetPasswordConfirmBtn').onclick = () => {
+        const newPass = document.getElementById('ResetPasswordInput').value.trim();
+        const confirmPass = document.getElementById('ResetPasswordConfirm').value.trim();
+        if (!newPass || newPass.length < 3) {
+            showAlertFailure('Password must be at least 3 characters long.');
+            return;
+        }
+        if (newPass !== confirmPass) {
+            showAlertFailure('Passwords do not match.');
+            return;
+        }
+        users[idx].password = newPass;
+        localStorage.setItem('Users', JSON.stringify(users));
+        showAlertSuccess('Password updated successfully');
+        modal.hide();
+        SearchAndRender('Users', currentPage, itemsPerPage);
+    };
+}
+
+function toggleUserStatus(userId) {
+    const users = JSON.parse(localStorage.getItem('Users')) || [];
+    const idx = users.findIndex(u => u.userId === userId);
+    if (idx === -1) return showAlertFailure('User not found');
+    users[idx].status = users[idx].status === 'Hoat Dong' ? 'Da Khoa' : 'Hoat Dong';
+    localStorage.setItem('Users', JSON.stringify(users));
+    showAlertSuccess('Status updated');
+    SearchAndRender('Users', currentPage, itemsPerPage);
+}
 
 // =================== ĐƠN HÀNG (RenderDonHang, showOrderDetail, saveOrderDetail, ...)
 // ...  (giữ như code bạn đã gửi, không cắt bỏ – chỉ thêm phần mới bên dưới)
@@ -1294,12 +1684,13 @@ const RenderDonHang = () => {
         <div style="display:flex;margin-top: 20px;justify-content: space-between;align-items:center;width:85%;margin-left:40px">
             <!-- Lọc theo trạng thái đơn -->
             <select id="Shoes" class="Shoes">
-                <option value="All">All</option>
-                <option value="0">Processing</option>
-                <option value="3">Delivering</option>
-                <option value="1">Received</option>
-                <option value="2">Cancel</option>
+                <option value="All">Tất cả</option>
+                <option value="0">Đang xử lý</option>
+                <option value="3">Đang giao</option>
+                <option value="1">Đã nhận</option>
+                <option value="2">Đã hủy</option>
             </select>
+
 
             <!-- Lọc theo ngày + địa chỉ -->
             <div class="DonHangAction" style="display:flex;align-items:center;gap:8px;">
@@ -1358,6 +1749,81 @@ const RenderDonHang = () => {
 
 
 
+// =============== ORDER DETAIL & SHIPPING UPDATE ===============
+function showOrderDetail(orderId) {
+    const orders = JSON.parse(localStorage.getItem('CheckOut')) || [];
+    const idx = orders.findIndex(o => o.orderId === orderId);
+    if (idx === -1) return showAlertFailure('Order not found');
+    const o = orders[idx];
+
+    const modalHTML = `
+    <div class="modal fade" id="OrderDetailModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Order #${String(o.orderId).padStart(6,'0')}</h5>
+            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group"><label>Full name</label><input id="OD_fullname" class="form-control" value="${o.fullname || ''}"></div>
+                <div class="form-group"><label>Phone</label><input id="OD_phone" class="form-control" value="${o.phone || ''}"></div>
+                <div class="form-group"><label>Address detail</label><input id="OD_address" class="form-control" value="${o.addressdetail || ''}"></div>
+                <div class="form-group"><label>City</label><input id="OD_city" class="form-control" value="${o.city || ''}"></div>
+                <div class="form-group"><label>District</label><input id="OD_district" class="form-control" value="${o.district || ''}"></div>
+                <div class="form-group"><label>Ward</label><input id="OD_ward" class="form-control" value="${o.ward || ''}"></div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group"><label>Status</label>
+                  <select id="OD_status" class="form-control">
+]                       <option value="0" ${o.status === 0 ? 'selected' : ''}>Đang xử lý</option>
+                        <option value="3" ${o.status === 3 ? 'selected' : ''}>Đang giao</option>
+                        <option value="1" ${o.status === 1 ? 'selected' : ''}>Đã nhận</option>
+                        <option value="2" ${o.status === 2 ? 'selected' : ''}>Đã hủy</option>
+                </select>
+
+                </div>
+                <div class="form-group"><label>Total quantity</label><input class="form-control" value="${o.totalquantity}" disabled></div>
+                <div class="form-group"><label>Total price</label><input class="form-control" value="${o.totalprice} $" disabled></div>
+                <div class="form-group"><label>Date</label><input class="form-control" value="${o.date}" disabled></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button class="btn btn-primary" id="OD_save">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    const el = document.getElementById('OrderDetailModal');
+    const modal = new bootstrap.Modal(el);
+    modal.show();
+    el.addEventListener('hidden.bs.modal', () => el.remove());
+    el.querySelector('#OD_save').onclick = () => saveOrderDetail(orderId);
+}
+
+function saveOrderDetail(orderId) {
+    const orders = JSON.parse(localStorage.getItem('CheckOut')) || [];
+    const idx = orders.findIndex(o => o.orderId === orderId);
+    if (idx === -1) return;
+    const el = document.getElementById('OrderDetailModal');
+    if (!el) return;
+    orders[idx].fullname = el.querySelector('#OD_fullname').value.trim();
+    orders[idx].phone = el.querySelector('#OD_phone').value.trim();
+    orders[idx].addressdetail = el.querySelector('#OD_address').value.trim();
+    orders[idx].city = el.querySelector('#OD_city').value.trim();
+    orders[idx].district = el.querySelector('#OD_district').value.trim();
+    orders[idx].ward = el.querySelector('#OD_ward').value.trim();
+    orders[idx].status = parseInt(el.querySelector('#OD_status').value, 10);
+    localStorage.setItem('CheckOut', JSON.stringify(orders));
+    showAlertSuccess('Order updated');
+    const modal = bootstrap.Modal.getInstance(el);
+    modal.hide();
+    SearchAndRender('CheckOut', currentPage, itemsPerPage);
+}
 function RenderNhapHang() {
     Content.innerHTML = `
         <div style="position:relative;left:50px;margin-top:20px;width:85%;">
@@ -1599,7 +2065,7 @@ function RenderGiaBan() {
             <span>Loại sản phẩm:</span>
             <select id="ProfitCategory" class="form-control" style="width:180px;"></select>
             <span>% lợi nhuận:</span>
-            <input type="number" id="ProfitCategoryPercent" class="form-control" style="width:100px;" value="30">
+            <input type="number" id="ProfitCategoryPercent" class="form-control" style="width:100px;" value="30" min="0" step="0.1">
             <button class="btn btn-sm btn-success" onclick="updateProfitForCategory()">Lưu theo loại</button>
         </div>
             <table class="table table-bordered table-sm">
@@ -1624,20 +2090,49 @@ function RenderGiaBan() {
     ensureDefaultCategories();
     renderProfitCategoryOptions();
     
-    function renderProfitCategoryOptions() {
+    // Update profit percent input when category changes
+    const categorySelect = document.getElementById('ProfitCategory');
+    const percentInput = document.getElementById('ProfitCategoryPercent');
+    if (categorySelect && percentInput) {
+        categorySelect.addEventListener('change', () => {
+            const cfg = getProfitConfig();
+            const selectedCat = categorySelect.value;
+            if (selectedCat && cfg.byCategory && cfg.byCategory[selectedCat] != null) {
+                percentInput.value = cfg.byCategory[selectedCat];
+            } else {
+                percentInput.value = cfg.defaultPercent || 30;
+            }
+        });
+    }
+}
+
+function renderProfitCategoryOptions() {
     const sel = document.getElementById('ProfitCategory');
     if (!sel) return;
-    ensureDefaultCategories();  // dùng chung mảng categories
+    ensureDefaultCategories();
+    const cfg = getProfitConfig();
     sel.innerHTML = categories
         .map(c => `<option value="${c}">${c}</option>`)
         .join('');
+    
+    // Set initial value if category exists
+    if (categories.length > 0) {
+        const firstCat = categories[0];
+        if (cfg.byCategory && cfg.byCategory[firstCat] != null) {
+            const percentInput = document.getElementById('ProfitCategoryPercent');
+            if (percentInput) percentInput.value = cfg.byCategory[firstCat];
+        }
+    }
 }
 
-// Lưu % theo loại
+// Lưu % theo loại (global function)
 function updateProfitForCategory() {
     const sel = document.getElementById('ProfitCategory');
     const inp = document.getElementById('ProfitCategoryPercent');
-    if (!sel || !inp) return;
+    if (!sel || !inp) {
+        showAlertFailure('Không tìm thấy các trường nhập liệu');
+        return;
+    }
 
     const cat = sel.value;
     const val = Number(inp.value);
@@ -1653,11 +2148,44 @@ function updateProfitForCategory() {
     const cfg = getProfitConfig();
     cfg.byCategory[cat] = val;
     saveProfitConfig(cfg);
-    showAlertSuccess('Đã lưu % lợi nhuận cho loại ' + cat);
-
-    // cập nhật lại bảng giá bán
+    
+    // Update actual product prices for this category (unless overridden by per-product setting)
+    const products = JSON.parse(localStorage.getItem('Products')) || [];
+    let changed = false;
+    let updatedCount = 0;
+    
+    products.forEach(p => {
+        if (p.Category === cat) {
+            // Only update if no per-product override exists
+            if (cfg.byProduct[p.Id] == null) {
+                // Use stored CapitalPrice if exists, otherwise calculate from ImportReceipts
+                const capitalPrice = p.CapitalPrice != null ? p.CapitalPrice : calcAverageCost(p.Id);
+                
+                if (capitalPrice > 0) {
+                    // Update product price based on capital price and new category profit percent
+                    p.Price = Math.round(capitalPrice * (1 + val / 100));
+                    // Store the category profit percent in the product
+                    p.ProfitPercent = val;
+                    // Ensure CapitalPrice is stored if it was calculated
+                    if (p.CapitalPrice == null) {
+                        p.CapitalPrice = capitalPrice;
+                    }
+                    changed = true;
+                    updatedCount++;
+                }
+            }
+        }
+    });
+    
+    if (changed) {
+        localStorage.setItem('Products', JSON.stringify(products));
+        showAlertSuccess(`Đã lưu % lợi nhuận ${val}% cho loại ${cat}. Đã cập nhật ${updatedCount} sản phẩm.`);
+    } else {
+        showAlertSuccess(`Đã lưu % lợi nhuận ${val}% cho loại ${cat}.`);
+    }
+    
+    // Refresh the table
     renderGiaBanTable();
-}
 }
 
 function renderGiaBanTable() {
@@ -1666,22 +2194,30 @@ function renderGiaBanTable() {
     const cfg = getProfitConfig();
 
     tbody.innerHTML = products.map(p => {
-        const cost = calcAverageCost(p.Id);
+        // Use stored CapitalPrice if exists, otherwise calculate from ImportReceipts
+        const capitalPrice = p.CapitalPrice != null ? p.CapitalPrice : calcAverageCost(p.Id);
+        
+        // Determine profit percent: stored > byProduct > byCategory > default
         let percent = null;
-    if (cfg.byProduct[p.Id] != null) {
-        percent = cfg.byProduct[p.Id];
-    } else if (cfg.byCategory && cfg.byCategory[p.Category] != null) {
-        percent = cfg.byCategory[p.Category];
-    } else {
-        percent = cfg.defaultPercent;
-    }
-        const price = cost > 0 ? Math.round(cost * (1 + percent / 100)) : p.Price;
+        if (p.ProfitPercent != null) {
+            percent = p.ProfitPercent;
+        } else if (cfg.byProduct[p.Id] != null) {
+            percent = cfg.byProduct[p.Id];
+        } else if (cfg.byCategory && cfg.byCategory[p.Category] != null) {
+            percent = cfg.byCategory[p.Category];
+        } else {
+            percent = cfg.defaultPercent;
+        }
+        
+        // Calculate price: use capital price and profit percent
+        const price = capitalPrice > 0 ? Math.round(capitalPrice * (1 + percent / 100)) : p.Price;
+        
         return `
             <tr>
                 <td>${p.Id}</td>
                 <td>${p.ProductName}</td>
-                <td>${cost.toFixed(2)} $</td>
-                <td><input type="number" id="profit-${p.Id}" value="${percent}" style="width:80px"> %</td>
+                <td>${capitalPrice > 0 ? capitalPrice.toFixed(2) : 'N/A'} $</td>
+                <td><input type="number" id="profit-${p.Id}" value="${percent}" style="width:80px" step="0.1"> %</td>
                 <td>${price} $</td>
                 <td><button class="btn btn-sm btn-primary" onclick="updateProfitPercent(${p.Id})">Lưu</button></td>
             </tr>
@@ -1703,9 +2239,19 @@ function updateProfitPercent(productId) {
     const products = JSON.parse(localStorage.getItem('Products')) || [];
     const idx = products.findIndex(p => p.Id === productId);
     if (idx !== -1) {
-        const cost = calcAverageCost(productId);
-        if (cost > 0) {
-            products[idx].Price = Math.round(cost * (1 + val / 100));
+        const product = products[idx];
+        // Use stored CapitalPrice if exists, otherwise calculate from ImportReceipts
+        const capitalPrice = product.CapitalPrice != null ? product.CapitalPrice : calcAverageCost(productId);
+        
+        if (capitalPrice > 0) {
+            // Update product price based on capital price and new profit percent
+            product.Price = Math.round(capitalPrice * (1 + val / 100));
+            // Also store the profit percent in the product for consistency
+            product.ProfitPercent = val;
+            // Ensure CapitalPrice is stored if it was calculated
+            if (product.CapitalPrice == null) {
+                product.CapitalPrice = capitalPrice;
+            }
             localStorage.setItem('Products', JSON.stringify(products));
         }
     }
@@ -1868,3 +2414,74 @@ function TrangChu() {
 }
 
 
+
+// ================== INIT IMPORTS (seed capital prices) ==================
+async function initImportsIfEmpty() {
+    try {
+        const existing = JSON.parse(localStorage.getItem('ImportReceipts')) || [];
+        if (existing.length > 0) return;
+
+        const products = JSON.parse(localStorage.getItem('Products')) || [];
+        if (!products.length) return;
+
+        const today = new Date();
+        const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+        // Category-based pricing factors (more realistic capital prices)
+        const categoryFactors = {
+            'Basketball': { min: 0.50, max: 0.65, baseQty: 15 },  // Athletic shoes typically 50-65% of retail
+            'Football': { min: 0.48, max: 0.62, baseQty: 12 },
+            'Running': { min: 0.52, max: 0.68, baseQty: 20 },     // Running shoes often higher margin
+            'Gym': { min: 0.45, max: 0.60, baseQty: 18 },
+            'Skateboarding': { min: 0.50, max: 0.66, baseQty: 14 },
+            'default': { min: 0.50, max: 0.65, baseQty: 15 }
+        };
+
+        // Create receipts grouping items
+        const receipts = [];
+        let buffer = [];
+        let rid = 1;
+        
+        products.forEach((p, idx) => {
+            const price = Number(p.Price) || 0;
+            if (price <= 0) return; // Skip invalid prices
+            
+            const category = p.Category || 'default';
+            const factors = categoryFactors[category] || categoryFactors['default'];
+            
+            // Calculate import price based on category and product index for variation
+            const range = factors.max - factors.min;
+            const variation = (idx % 20) / 20; // 0 to 0.95
+            const factor = factors.min + (range * variation);
+            const importPrice = Math.max(5, Math.round(price * factor));
+            
+            // Quantity based on category and variation
+            const quantity = factors.baseQty + (idx % 15); // Varied quantities
+
+            buffer.push({ productId: p.Id, importPrice, quantity });
+
+            // Create receipt every 5-7 items for better organization
+            if (buffer.length >= 6) {
+                receipts.push({ id: 100000 + rid++, date: dateStr, isCompleted: true, items: [...buffer] });
+                buffer = [];
+            }
+        });
+        
+        // Add remaining items
+        if (buffer.length > 0) {
+            receipts.push({ id: 100000 + rid++, date: dateStr, isCompleted: true, items: buffer });
+        }
+
+        if (receipts.length > 0) {
+            localStorage.setItem('ImportReceipts', JSON.stringify(receipts));
+        }
+        
+        // Initialize profit config if missing
+        const cfg = JSON.parse(localStorage.getItem('ProfitConfig'));
+        if (!cfg) {
+            localStorage.setItem('ProfitConfig', JSON.stringify({ defaultPercent: 30, byProduct: {}, byCategory: {} }));
+        }
+    } catch (e) {
+        console.warn('initImportsIfEmpty error', e);
+    }
+}
