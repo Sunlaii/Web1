@@ -552,6 +552,8 @@ Information.addEventListener('click', (e) => {
     e.preventDefault()
     Overlay.style.display = 'block'
     document.body.classList.add('no-scroll')
+    // blur background except the information panel
+    document.body.classList.add('modal-blur');
     informationContainer.classList.add('active-popup')
     informationContainer.classList.remove('active')
     updateUserInformation()
@@ -569,6 +571,8 @@ function closeInformation(){
     formChangeInformation.reset()
     Overlay.style.display = 'none'
     document.body.classList.remove('no-scroll')
+    // remove blur when closing
+    document.body.classList.remove('modal-blur');
 }
 
 function returnInformation(){
