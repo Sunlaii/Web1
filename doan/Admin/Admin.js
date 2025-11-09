@@ -1,3 +1,36 @@
+// Ensure only authenticated admin can access this page.
+(function ensureAdminAuth() {
+    try {
+        const userLogin = JSON.parse(localStorage.getItem('userLogin')) || null;
+        if (!userLogin || userLogin.role !== 'admin') {
+            // Replace page with an error message and link to admin login
+            document.documentElement.innerHTML = `
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <title>Access Denied</title>
+                    <style>
+                        body{display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff}
+                        .box{background:#fff;color:#111;padding:28px;border-radius:10px;max-width:600px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+                        a{display:inline-block;margin-top:12px;padding:8px 14px;background:#1976d2;color:#fff;border-radius:6px;text-decoration:none}
+                    </style>
+                </head>
+                <body>
+                    <div class="box">
+                        <h2>Không có quyền truy cập</h2>
+                        <p>Bạn phải đăng nhập qua trang quản trị để truy cập khu vực này.</p>
+                        <a href="admin-login.html">Đi đến trang Admin Login</a>
+                    </div>
+                </body>`;
+            throw new Error('Unauthorized access to admin');
+        }
+    } catch (e) {
+        // If parsing localStorage fails, block access as well
+        document.documentElement.innerHTML = `<body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff"><div style="text-align:center"><h2>Không có quyền truy cập</h2><p>Vui lòng đăng nhập qua <a style='color:#4fc3f7' href='admin-login.html'>Admin Login</a></p></div></body>`;
+        throw e;
+    }
+})();
+
 const Content = document.getElementById('Content');
 const Contentcontainer = document.getElementById('Content-Container');
 
