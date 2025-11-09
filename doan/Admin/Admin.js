@@ -494,10 +494,8 @@ const AddUser = ()=>{
     const registerForm = document.querySelector('#form-register');
     dangKy.addEventListener('click', (e) => {
         e.preventDefault();
-        wrapper.classList.add('active-popup');
-        wrapper.classList.add('active');
-        document.body.classList.add('no-scroll');
-        document.getElementById('overlay').style.display = 'block';
+        // Open the same modal used for editing, but in Add mode
+        ModalUser(null, 'Add');
     });
     close.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1419,6 +1417,69 @@ document.getElementById('fullname').value = user.username || '';
             modalEditElement.remove();
         });
     }
+    else if (dataType === 'Add') {
+        // Reuse the same form layout as Edit but for creating a new user
+        const modalAddHTML = `
+            <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="width:380px;">
+                    <div class="modal-content" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                        <div class="modal-headerr">
+                            <span style="font-size:20px;margin-left:15px;font-weight:600;">Thêm Khách Hàng</span>
+                            <button class="close" data-dismiss="modal" aria-label="Close" id="close-btn1" type="button" style="box-shadow:none;width:50px;border:none;" >
+<span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" class="signup-form">
+                                <div class="form-group">
+                                    <label for="fullname" class="form-label">Tên đầy đủ</label>
+                                    <input id="fullname" name="fullname" type="text" placeholder="VD: Thanh Phat" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Số điện thoại</label>
+                                    <input id="phone" name="phone" type="text" placeholder="Nhập số điện thoại" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input id="email" name="email" type="text" placeholder="Nhập email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="adress" class="form-label">Địa chỉ</label>
+                                    <input id="adress" name="adress" type="text" placeholder="Nhập địa chỉ" class="form-control">
+                                </div>
+                                <div class="form-group edit-account-e">
+                                    <label for="user-status" class="form-label">Trạng thái</label>
+                                    <input type="checkbox" id="user-status" class="switch-input">
+                                    <label for="user-status" class="switch"></label>
+                                </div>
+                                <button type="button" style="margin-left:76px" class="form-submit btn btn-primary"  class="close" data-dismiss="modal" aria-label="Close" onClick="btnCreateUser()">
+                                    <i class="fa-regular fa-floppy-disk"></i> Thêm khách
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalAddHTML);
+        const modalAddElement = document.getElementById('EditModal');
+        const bootstrapModalAdd = new bootstrap.Modal(modalAddElement);
+        // Ensure fields are empty/default
+        document.getElementById('fullname').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('adress').value = '';
+        document.getElementById('user-status').checked = true;
+
+        document.getElementById('close-btn1').addEventListener('click', () => {
+            bootstrapModalAdd.hide();
+        });
+        bootstrapModalAdd.show();
+
+        modalAddElement.addEventListener('hidden.bs.modal', () => {
+            SearchAndRender('Users', currentPage, itemsPerPage);
+            modalAddElement.remove();
+        });
+    }
 }
 const btnEditUser = (id) => {
     const userLocal = JSON.parse(localStorage.getItem('Users')) || [];
@@ -1479,6 +1540,62 @@ const btnEditUser = (id) => {
         modalEditElement.remove();
     });
 };
+    const btnCreateUser = () => {
+        // Lấy danh sách hiện tại
+        const users = JSON.parse(localStorage.getItem('Users')) || [];
+
+        // Lấy giá trị từ form
+        const name = document.getElementById('fullname').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const address = document.getElementById('adress').value.trim();
+        const status = document.getElementById('user-status').checked ? 'Hoat Dong' : 'Da Khoa';
+
+        // Validate
+        if (!name) return showAlertFailure('Tên đầy đủ không được để trống!');
+        if (!phone || !/^\d{10}$/.test(phone)) return showAlertFailure('Số điện thoại không hợp lệ! (Yêu cầu 10 chữ số)');
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showAlertFailure('Email không hợp lệ!');
+        if (!address) return showAlertFailure('Địa chỉ không được để trống!');
+
+        // Kiểm tra trùng tên hoặc số điện thoại
+        if (users.some(u => u.username === name || u.phone === phone)) {
+            return showAlertFailure('Người dùng với tên hoặc số điện thoại này đã tồn tại!');
+        }
+
+        // Tạo user mới
+        const d = new Date();
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+
+        const newUser = {
+            userId: Math.ceil(Math.random() * 100000),
+            date: formattedDate,
+            username: name,
+            phone: phone,
+            password: '',
+            email: email,
+            address: address,
+            status: status,
+            role: 'user',
+            Cart: [],
+            ProductBuy: []
+        };
+
+        users.push(newUser);
+        localStorage.setItem('Users', JSON.stringify(users));
+        showAlertSuccess('Thêm khách hàng thành công!');
+
+        // Đóng modal
+        const modalEditElement = document.getElementById('EditModal');
+        const bootstrapModal = bootstrap.Modal.getInstance(modalEditElement);
+        bootstrapModal.hide();
+
+        modalEditElement.addEventListener('hidden.bs.modal', () => {
+            modalEditElement.remove();
+        });
+    };
 const btnDeleteUser = (id) => {
     const user = JSON.parse(localStorage.getItem('Users')) || []; // Lấy danh sách người dùng từ localStorage
     const index = user.findIndex(p => p.userId === id); // Tìm vị trí người dùng theo ID

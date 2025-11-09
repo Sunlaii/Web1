@@ -121,12 +121,12 @@
         <div class="wrapper">
             <span class="icon-close"><i class="fa-solid fa-xmark"></i></span>
             <div class="form-box login">
-                <h2>LOGIN FORM</h2>
+                <h2>Đăng nhập</h2>
                 <form id="form-login">
                     <div class="input-box ">
                         <span class="icon"><i class="fa-solid fa-user-vneck"></i></span>
-                        <input class="login-username" type="text" required>
-                        <label for="">Name</label>
+                        <input id="login-username" class="login-username" type="text" required placeholder="Tên đăng nhập">
+                        <label for="login-username">Tên đăng nhập</label>
                         <small></small>
                     </div>
                     <div class="input-box">
@@ -134,22 +134,22 @@
                             <i id="eye1" class="fa-sharp fa-solid fa-eye" style="right: 40px;visibility: hidden;"></i> <!-- Biểu tượng mắt ẩn -->
                             <i class="fa-duotone fa-regular fa-key"></i>
                         </span>
-                        <input class="login-password" type="password" required autocomplete="current-password">
-                        <label for="">Password</label>
+                        <input id="login-password" class="login-password" type="password" required autocomplete="current-password" placeholder="Mật khẩu">
+                        <label for="login-password">Mật khẩu</label>
                         <small></small>
                     </div>                    
                     <div class="remember-forgot">
-                        <label><input type="checkbox"  required>Save Password</label>
-                        <a href="#" class="forgot-passworld-link">Forgot password?</a>
+                        <label><input type="checkbox"  required>Ghi nhớ mật khẩu</label>
+                        <a href="#" class="forgot-passworld-link">Quên mật khẩu?</a>
                     </div>
-                    <button type="submit" class="bnt-login">Login</button>
+                    <button type="submit" class="bnt-login">Đăng nhập</button>
                     <div class="login-register">
-                        <p>You don't have an account yet? <a href="#" class="register-link">Resgister now</a></p>
+                        <p>Bạn chưa có tài khoản? <a href="#" class="register-link">Đăng ký ngay</a></p>
                     </div>
                 </form>
             </div>
             <div class="form-box register">
-                <h2>Resister Form</h2>
+                <h2>Đăng ký</h2>
                 <form id="form-register" action="#">
                     <div class="input-box">
                         <span class="icon"><i class="fa-solid fa-user-vneck"></i></i></span>
@@ -185,9 +185,9 @@
                         <label><input type="checkbox"  required>Accept website policies</label>
     
                     </div>
-                    <button type="submit" class="bnt-login">Register</button>
+                    <button type="submit" class="bnt-login">Đăng ký</button>
                     <div class="login-register">
-                        <p>You already have an account? <a href="#" class="login-link">Login</a></p>
+                        <p>Bạn đã có tài khoản? <a href="#" class="login-link">Đăng nhập</a></p>
                     </div>
                 </form>
             </div>
