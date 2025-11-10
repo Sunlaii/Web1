@@ -96,11 +96,15 @@ document.querySelector('.Action').addEventListener('click', (e) => {
         case target.classList.contains('DonHang'):
             RenderDonHang();
             break;
+        case target.classList.contains('NhapHang'):
+            RenderNhapHang();
+            break;
+
         case target.classList.contains('ThongKe'):
                 RenderThongKe();
                 break;
     }
-});
+}); 
 const removeActiveClass = () => {
     document.querySelectorAll('.SideBar li').forEach(item => {
         item.classList.remove('active');
@@ -320,6 +324,16 @@ function ensureDefaultCategories() {
         saveCategories();
     }
 }
+ const IMPORT_KEY = 'ImportReceipts';
+
+function getImportReceipts() {
+    return JSON.parse(localStorage.getItem(IMPORT_KEY)) || [];
+}
+
+function saveImportReceipts(list) {
+    localStorage.setItem(IMPORT_KEY, JSON.stringify(list));
+}
+
 
 const RenderSanPham = () => {
     Content.innerHTML = `
@@ -1746,6 +1760,7 @@ const cityData = {
         
     }
 };
+
 const citySelect = document.getElementById('city-select');
 const districtSelect = document.getElementById('district-select');
 const wardSelect = document.getElementById('ward-select');
@@ -1974,6 +1989,7 @@ const saveOrderDetail = (idx) => {
     }
 
     const user = users.find(p => p.userId === order.userId);
+    
     const indexx =users.find(p => p.userId === order.userId);
     if (!user) {
         console.error(`User associated with order ${order.orderId} not found.`);
@@ -2038,7 +2054,382 @@ RenderUserName();
 const TrangChu = () =>{
     window.location="../HomePage.html";
     
+} 
+const RenderNhapHang = () => {
+    // Header: lọc / tìm / thêm
+    Content.innerHTML = `
+        <div class="trangNhapHang" style="position: relative; left: 70px; height:50px;">
+            <div style="display:flex;margin-top: 20px;justify-content: space-between;align-items:center;width:85%;margin-left:40px">
+                
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span>Từ</span>
+                    <input id="ImportDateFrom" type="date" style="padding:5px 10px;border-radius:8px;font-size:14px;"/>
+                    <span>Đến</span>
+                    <input id="ImportDateTo" type="date" style="padding:5px 10px;border-radius:8px;font-size:14px;"/>
+                </div>
+
+                <div class="Find">
+                    <input type="text" id="ImportSearch" placeholder="Tìm mã phiếu nhập..." />
+                    <i class="fa fa-magnifying-glass"></i>
+                </div>
+
+                <div>
+                    <button type="button" id="btnAddImport" style="background:#800020;color:#fff;border:none;padding:8px 14px;border-radius:8px;">
+                        <i class="fa fa-plus"></i> Thêm phiếu nhập
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Bảng danh sách phiếu nhập
+    Contentcontainer.innerHTML = `
+        <table class="Table" style="width:100%;left:50px;position:relative;border-collapse: collapse;font-family: Arial, sans-serif;margin-top:20px;">
+            <thead>
+                <tr style="background-color:#800020;color:white;text-align:left;">
+                    <th style="width:12%;padding:12px;">Mã phiếu</th>
+                    <th style="width:15%;padding:12px;">Ngày nhập</th>
+                    <th style="width:15%;padding:12px;">Trạng thái</th>
+                    <th style="width:15%;padding:12px;">Tổng SL</th>
+                    <th style="width:20%;padding:12px;">Tổng giá nhập</th>
+                    <th style="padding:12px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="ImportTable"></tbody>
+        </table>
+    `;
+
+    // Ẩn thông báo lỗi chung, không dùng cho tab này
+    document.getElementById('ErrorMessage').style.display = "none";
+    document.getElementById('pagination-controls').style.display = "none";
+    Contentcontainer.style.display = "block";
+
+    // Gán sự kiện bộ lọc
+    document.getElementById('btnAddImport').addEventListener('click', () => openImportModal('Add'));
+
+    const searchInput = document.getElementById('ImportSearch');
+    const dateFromInput = document.getElementById('ImportDateFrom');
+    const dateToInput = document.getElementById('ImportDateTo');
+
+    const rerender = () => renderImportList();
+
+    if (searchInput) searchInput.addEventListener('input', rerender);
+    if (dateFromInput) dateFromInput.addEventListener('change', rerender);
+    if (dateToInput) dateToInput.addEventListener('change', rerender);
+
+    // Render lần đầu
+    renderImportList();
+};
+function renderImportList() {
+    const tbody = document.getElementById('ImportTable');
+    if (!tbody) return;
+
+    const receipts = getImportReceipts();
+    const search = (document.getElementById('ImportSearch')?.value || '').trim().toLowerCase();
+    const dateFrom = document.getElementById('ImportDateFrom')?.value || '';
+    const dateTo = document.getElementById('ImportDateTo')?.value || '';
+
+    let filtered = [...receipts];
+
+    if (search) {
+        filtered = filtered.filter(r => String(r.id).toLowerCase().includes(search));
+    }
+
+    if (dateFrom) {
+        const dFrom = new Date(dateFrom);
+        filtered = filtered.filter(r => convertToDateStart(r.date) >= dFrom);
+    }
+    if (dateTo) {
+        const dTo = new Date(dateTo);
+        filtered = filtered.filter(r => convertToDateEnd(r.date) <= dTo);
+    }
+
+    tbody.innerHTML = '';
+
+    if (!filtered.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align:center;padding:12px;">Chưa có phiếu nhập nào phù hợp</td>
+            </tr>
+        `;
+        return;
+    }
+
+    filtered.forEach(r => {
+        const totalQty = (r.items || []).reduce((sum, it) => sum + (Number(it.quantity) || 0), 0);
+        const totalValue = (r.items || []).reduce((sum, it) => sum + (Number(it.importPrice) || 0) * (Number(it.quantity) || 0), 0);
+
+        const statusText = r.status === 'completed' ? 'Đã hoàn thành' : 'Nháp';
+
+        const row = `
+            <tr style="border-bottom:1px solid #ddd;background:#fff;">
+                <td style="padding:10px;">${r.id}</td>
+                <td style="padding:10px;">${r.date}</td>
+                <td style="padding:10px;">${statusText}</td>
+                <td style="padding:10px;">${totalQty}</td>
+                <td style="padding:10px;">${totalValue} $</td>
+                <td style="padding:10px;display:flex;gap:8px;">
+                    <button 
+                        style="border:none;background:#2196F3;color:#fff;padding:6px 10px;border-radius:4px;"
+                        onclick="openImportModal('Edit', ${r.id})"
+                    >Sửa</button>
+                    <button 
+                        style="border:none;background:#4CAF50;color:#fff;padding:6px 10px;border-radius:4px;"
+                        onclick="completeImportReceipt(${r.id})"
+                        ${r.status === 'completed' ? 'disabled' : ''}
+                    >Hoàn thành</button>
+                </td>
+            </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+    });
 }
+function openImportModal(mode, id) {
+    const products = JSON.parse(localStorage.getItem('Products')) || [];
+    const receipts = getImportReceipts();
+    let receipt = null;
+
+    if (mode === 'Edit') {
+        receipt = receipts.find(r => r.id === id);
+        if (!receipt) {
+            showAlertFailure('Không tìm thấy phiếu nhập');
+            return;
+        }
+    }
+
+    // Xóa modal cũ nếu có
+    const old = document.getElementById('ImportModal');
+    if (old) old.remove();
+
+    // HTML modal
+    const modalHTML = `
+        <div class="modal fade" id="ImportModal" tabindex="-1" role="dialog" aria-labelledby="ImportModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ImportModalLabel">
+                            ${mode === 'Add' ? 'Thêm phiếu nhập' : 'Sửa phiếu nhập'}
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="import-close-x">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom:12px;">
+                            <label>Ngày nhập: </label>
+                            <input type="date" id="ImportDateInput" style="padding:5px 10px;border-radius:8px;"/>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            <button type="button" id="btnAddImportRow" class="btn btn-sm btn-secondary">
+                                Thêm dòng sản phẩm
+                            </button>
+                        </div>
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th style="width:40%;">Sản phẩm</th>
+                                    <th style="width:20%;">Giá nhập</th>
+                                    <th style="width:20%;">Số lượng</th>
+                                    <th style="width:10%;">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ImportItemsBody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="import-close-btn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="button" id="btnSaveImport" class="btn btn-primary">
+                            Lưu phiếu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const modalElement = document.getElementById('ImportModal');
+    const bootstrapModal = new bootstrap.Modal(modalElement);
+    bootstrapModal.show();
+
+    // Set ngày
+    const dateInput = document.getElementById('ImportDateInput');
+    if (mode === 'Edit' && receipt) {
+        // receipt.date đang kiểu dd/MM/yyyy
+        const [d, m, y] = receipt.date.split('/').map(Number);
+        const iso = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        dateInput.value = iso;
+    } else {
+        const now = new Date();
+        const iso = now.toISOString().slice(0, 10);
+        dateInput.value = iso;
+    }
+
+    const tbody = document.getElementById('ImportItemsBody');
+
+    const buildRowHTML = (item = {}) => {
+        const currentProductId = item.productId || (products[0]?.Id ?? '');
+        return `
+            <tr>
+                <td>
+                    <select class="form-control import-product">
+                        ${products.map(p => `
+                            <option value="${p.Id}" ${p.Id === currentProductId ? 'selected' : ''}>
+                                ${p.ProductName}
+                            </option>
+                        `).join('')}
+                    </select>
+                </td>
+                <td>
+                    <input type="number" min="0" step="0.01" class="form-control import-price" value="${item.importPrice || ''}">
+                </td>
+                <td>
+                    <input type="number" min="1" step="1" class="form-control import-qty" value="${item.quantity || ''}">
+                </td>
+                <td style="text-align:center;">
+                    <button type="button" class="btn btn-sm btn-danger btn-remove-row">&times;</button>
+                </td>
+            </tr>
+        `;
+    };
+
+    // Nếu Edit thì đổ các dòng, nếu Add thì 1 dòng trống
+    if (mode === 'Edit' && receipt && receipt.items && receipt.items.length) {
+        receipt.items.forEach(it => {
+            tbody.insertAdjacentHTML('beforeend', buildRowHTML(it));
+        });
+    } else {
+        tbody.insertAdjacentHTML('beforeend', buildRowHTML());
+    }
+
+    // Thêm dòng mới
+    document.getElementById('btnAddImportRow').addEventListener('click', () => {
+        tbody.insertAdjacentHTML('beforeend', buildRowHTML());
+    });
+
+    // Xóa dòng
+    tbody.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-remove-row')) {
+            const tr = e.target.closest('tr');
+            if (tr) tr.remove();
+        }
+    });
+
+    // Lưu
+    document.getElementById('btnSaveImport').addEventListener('click', () => {
+        saveImportFromModal(mode, id, bootstrapModal);
+    });
+
+    // Đóng
+    document.getElementById('import-close-btn').addEventListener('click', () => bootstrapModal.hide());
+    document.getElementById('import-close-x').addEventListener('click', () => bootstrapModal.hide());
+
+    modalElement.addEventListener('hidden.bs.modal', () => {
+        modalElement.remove();
+    });
+
+    // Nếu phiếu đã hoàn thành thì không cho sửa
+    if (mode === 'Edit' && receipt && receipt.status === 'completed') {
+        document.getElementById('btnSaveImport').disabled = true;
+    }
+}
+function saveImportFromModal(mode, id, bootstrapModal) {
+    const dateInput = document.getElementById('ImportDateInput');
+    const tbody = document.getElementById('ImportItemsBody');
+    if (!dateInput || !tbody) return;
+
+    const isoDate = dateInput.value;
+    if (!isoDate) {
+        showAlertFailure('Vui lòng chọn ngày nhập');
+        return;
+    }
+    const d = new Date(isoDate);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const displayDate = `${day}/${month}/${year}`;
+
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const items = [];
+
+    rows.forEach(tr => {
+        const productSelect = tr.querySelector('.import-product');
+        const priceInput = tr.querySelector('.import-price');
+        const qtyInput = tr.querySelector('.import-qty');
+
+        if (!productSelect) return;
+        const productId = Number(productSelect.value);
+        const importPrice = Number(priceInput.value);
+        const quantity = Number(qtyInput.value);
+
+        if (!productId || !importPrice || !quantity) return;
+
+        const products = JSON.parse(localStorage.getItem('Products')) || [];
+        const prod = products.find(p => p.Id === productId) || {};
+
+        items.push({
+            productId,
+            productName: prod.ProductName || '',
+            importPrice,
+            quantity
+        });
+    });
+
+    if (!items.length) {
+        showAlertFailure('Vui lòng nhập ít nhất 1 dòng sản phẩm với giá và số lượng hợp lệ');
+        return;
+    }
+
+    const receipts = getImportReceipts();
+
+    if (mode === 'Add') {
+        const newId = Date.now(); // mã phiếu
+        receipts.push({
+            id: newId,
+            date: displayDate,
+            status: 'draft',
+            items
+        });
+        saveImportReceipts(receipts);
+        showAlertSuccess('Đã thêm phiếu nhập');
+    } else {
+        const idx = receipts.findIndex(r => r.id === id);
+        if (idx === -1) {
+            showAlertFailure('Không tìm thấy phiếu nhập để sửa');
+            return;
+        }
+        if (receipts[idx].status === 'completed') {
+            showAlertFailure('Phiếu đã hoàn thành, không thể sửa');
+            return;
+        }
+        receipts[idx].date = displayDate;
+        receipts[idx].items = items;
+        saveImportReceipts(receipts);
+        showAlertSuccess('Đã cập nhật phiếu nhập');
+    }
+
+    renderImportList();
+    if (bootstrapModal) bootstrapModal.hide();
+}
+function completeImportReceipt(id) {
+    const receipts = getImportReceipts();
+    const idx = receipts.findIndex(r => r.id === id);
+    if (idx === -1) {
+        showAlertFailure('Không tìm thấy phiếu nhập');
+        return;
+    }
+    if (receipts[idx].status === 'completed') {
+        showAlertFailure('Phiếu này đã hoàn thành rồi');
+        return;
+    }
+
+    receipts[idx].status = 'completed';
+    saveImportReceipts(receipts);
+    showAlertSuccess('Đã hoàn thành phiếu nhập');
+    renderImportList();
+}
+
 const RenderThongKe=()=>{
     // generateFakeData();
     Content.innerHTML=`
@@ -2055,7 +2446,7 @@ const RenderThongKe=()=>{
                     </div>
                     <div class="order-statistical-item">
                         <div class="order-statistical-item-content">
-                            <p class="order-statistical-item-content-desc" id="soLuongDon" style="font-weight:500;></p>
+                            <p class="order-statistical-item-content-desc" id="soLuongDon" style="font-weight:500;"></p>
                             <h4 class="order-statistical-item-content-h" id="quantity-order"></h4>
                         </div>
                         <div class="order-statistical-item-icon">
