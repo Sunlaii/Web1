@@ -99,6 +99,9 @@ document.querySelector('.Action').addEventListener('click', (e) => {
         case target.classList.contains('NhapHang'):
             RenderNhapHang();
             break;
+        case target.classList.contains('GiaBan'):
+            RenderGiaBan();
+            break;
 
         case target.classList.contains('ThongKe'):
                 RenderThongKe();
@@ -324,6 +327,8 @@ function ensureDefaultCategories() {
         saveCategories();
     }
 }
+
+//===== QUẢN LÝ NHẬP HÀNG =====
  const IMPORT_KEY = 'ImportReceipts';
 
 function getImportReceipts() {
@@ -333,6 +338,17 @@ function getImportReceipts() {
 function saveImportReceipts(list) {
     localStorage.setItem(IMPORT_KEY, JSON.stringify(list));
 }
+//===== QUẢN LÝ GIÁ BÁN =====
+const PROFIT_CATEGORY_KEY = 'ProfitByCategory'; // { "Basketball": 20, "Running": 25, ... }
+
+function loadProfitCategory() {
+    return JSON.parse(localStorage.getItem(PROFIT_CATEGORY_KEY)) || {};
+}
+
+function saveProfitCategory(obj) {
+    localStorage.setItem(PROFIT_CATEGORY_KEY, JSON.stringify(obj));
+}
+
 
 
 const RenderSanPham = () => {
@@ -2429,6 +2445,240 @@ function completeImportReceipt(id) {
     showAlertSuccess('Đã hoàn thành phiếu nhập');
     renderImportList();
 }
+
+const RenderGiaBan = () => {
+    const products = JSON.parse(localStorage.getItem('Products')) || [];
+    const profitByCategory = loadProfitCategory();
+
+    // Ẩn các phần không dùng
+    document.getElementById('ErrorMessage').style.display = "none";
+    document.getElementById('pagination-controls').style.display = "none";
+
+    // Tiêu đề
+    Content.innerHTML = `
+        <div style="margin-left:70px;margin-top:20px;">
+            <h2>Quản lý giá bán</h2>
+        </div>
+
+        <div style="margin-left:70px;margin-top:10px;width:85%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fff;">
+            <h4>1. Tỉ lệ % lợi nhuận theo loại sản phẩm</h4>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;">
+                <select id="SelectCategoryProfit" style="padding:5px 10px;border-radius:6px;">
+                    <!-- JS fill -->
+                </select>
+                <input type="number" id="InputCategoryPercent" placeholder="% lợi nhuận"
+                       style="padding:5px 10px;border-radius:6px;width:140px;">
+                <button id="BtnSaveCategoryPercent"
+                        style="background:#800020;color:#fff;border:none;padding:6px 12px;border-radius:6px;">
+                    Lưu tỉ lệ
+                </button>
+            </div>
+            <p style="margin-top:8px;font-size:13px;color:#555;">
+                Ghi chú: Tỉ lệ theo loại là mặc định. Nếu sản phẩm có % riêng thì sẽ dùng % riêng.
+            </p>
+        </div>
+    `;
+
+    // Bảng sản phẩm
+    Contentcontainer.innerHTML = `
+        <div style="margin-left:70px;margin-top:20px;width:85%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fff;">
+            <h4>2. Giá vốn, % lợi nhuận, giá bán theo sản phẩm</h4>
+            <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
+                <input type="text" id="PriceSearchInput" placeholder="Tìm tên sản phẩm..."
+                       style="flex:1;padding:5px 10px;border-radius:6px;">
+                <button id="BtnSaveAllPrice"
+                        style="background:#800020;color:#fff;border:none;padding:6px 12px;border-radius:6px;">
+                    Lưu tất cả giá bán
+                </button>
+            </div>
+            <table class="Table" style="width:100%;border-collapse:collapse;font-size:14px;">
+                <thead>
+                    <tr style="background:#800020;color:#fff;">
+                        <th style="padding:8px;">ID</th>
+                        <th style="padding:8px;">Tên sản phẩm</th>
+                        <th style="padding:8px;">Loại</th>
+                        <th style="padding:8px;">Giá vốn</th>
+                        <th style="padding:8px;">% lợi nhuận</th>
+                        <th style="padding:8px;">Giá bán</th>
+                    </tr>
+                </thead>
+                <tbody id="PriceTableBody"></tbody>
+            </table>
+        </div>
+    `;
+
+    Contentcontainer.style.display = "block";
+
+    // Fill combobox loại ở phần tỉ lệ % loại
+    const selectCategory = document.getElementById('SelectCategoryProfit');
+    const categories = Array.from(new Set(products.map(p => p.Category))).filter(Boolean);
+    selectCategory.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+
+    const inputCategoryPercent = document.getElementById('InputCategoryPercent');
+
+    // Khi chọn loại -> hiện % đang lưu (nếu có)
+    selectCategory.addEventListener('change', () => {
+        const cat = selectCategory.value;
+        const percent = profitByCategory[cat] || 0;
+        inputCategoryPercent.value = percent;
+    });
+
+    // Khởi tạo lần đầu
+    if (categories.length > 0) {
+        const first = categories[0];
+        const percent = profitByCategory[first] || 0;
+        inputCategoryPercent.value = percent;
+    }
+
+    // Lưu % loại
+    document.getElementById('BtnSaveCategoryPercent').addEventListener('click', () => {
+        const cat = selectCategory.value;
+        const val = Number(inputCategoryPercent.value);
+        if (isNaN(val) || val < 0) {
+            showAlertFailure('Vui lòng nhập % hợp lệ (>= 0)');
+            return;
+        }
+        profitByCategory[cat] = val;
+        saveProfitCategory(profitByCategory);
+        showAlertSuccess('Đã lưu tỉ lệ lợi nhuận cho loại ' + cat);
+        // Cập nhật lại bảng sản phẩm để dùng tỉ lệ mới
+        renderProductPriceTable(products, profitByCategory);
+    });
+
+    // Render bảng sản phẩm lần đầu
+    renderProductPriceTable(products, profitByCategory);
+
+    // Tìm kiếm theo tên
+    const searchInput = document.getElementById('PriceSearchInput');
+    searchInput.addEventListener('input', () => {
+        const key = searchInput.value.trim().toLowerCase();
+        const filtered = products.filter(p =>
+            p.ProductName.toLowerCase().includes(key)
+        );
+        renderProductPriceTable(filtered, profitByCategory);
+    });
+
+    // Lưu tất cả giá bán
+    document.getElementById('BtnSaveAllPrice').addEventListener('click', () => {
+        saveAllProductPrices(profitByCategory);
+    });
+};
+function renderProductPriceTable(listProducts, profitByCategory) {
+    const tbody = document.getElementById('PriceTableBody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    if (!listProducts || listProducts.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align:center;padding:10px;">
+                    Không có sản phẩm nào
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    listProducts.forEach(p => {
+        const cost = p.costPrice || ''; // giá vốn lưu trong product
+        const productPercent = (p.profitPercent !== undefined && p.profitPercent !== null)
+            ? p.profitPercent
+            : '';
+        const defaultPercent = profitByCategory[p.Category] || 0;
+
+        // % dùng để tính: nếu sản phẩm có % riêng thì dùng, không thì dùng theo loại
+        const effectivePercent = productPercent !== '' ? Number(productPercent) : Number(defaultPercent);
+
+        let salePrice = p.Price || 0;
+        if (cost && !isNaN(cost) && !isNaN(effectivePercent)) {
+            salePrice = Number(cost) * (1 + effectivePercent / 100);
+            salePrice = Math.round(salePrice * 100) / 100; // làm tròn 2 số lẻ
+        }
+
+        const row = document.createElement('tr');
+        row.setAttribute('data-id', p.Id);
+
+        row.innerHTML = `
+            <td style="padding:6px;">${p.Id}</td>
+            <td style="padding:6px;">${p.ProductName}</td>
+            <td style="padding:6px;">${p.Category}</td>
+            <td style="padding:6px;">
+                <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    inputmode="decimal"
+                    class="cost-input"
+                    value="${cost}"
+                    style="width:100%;padding:3px 6px;border-radius:4px;"
+                >
+            </td>
+            <td style="padding:6px;">
+                <input
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    inputmode="decimal"
+                    class="percent-input"
+                    value="${productPercent !== '' ? productPercent : ''}"
+                    placeholder="${defaultPercent}"
+                    style="width:100%;padding:3px 6px;border-radius:4px;"
+                
+        </td>
+
+            <td style="padding:6px;">
+                <span class="sale-output">${salePrice} $</span>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+function saveAllProductPrices(profitByCategory) {
+    let products = JSON.parse(localStorage.getItem('Products')) || [];
+    const tbody = document.getElementById('PriceTableBody');
+    if (!tbody) return;
+
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach(tr => {
+        const id = Number(tr.getAttribute('data-id'));
+        const costInput = tr.querySelector('.cost-input');
+        const percentInput = tr.querySelector('.percent-input');
+
+        if (!costInput) return;
+
+        const cost = Number(costInput.value);
+        if (isNaN(cost) || cost <= 0) {
+            // không cập nhật nếu giá vốn không hợp lệ
+            return;
+        }
+
+        const product = products.find(p => p.Id === id);
+        if (!product) return;
+
+        const catPercent = profitByCategory[product.Category] || 0;
+        const inputPercent = percentInput && percentInput.value !== ''
+            ? Number(percentInput.value)
+            : catPercent;
+
+        if (isNaN(inputPercent) || inputPercent < 0) return;
+
+        const salePrice = Math.round(cost * (1 + inputPercent / 100) * 100) / 100;
+
+        // Lưu vào product
+        product.costPrice = cost;
+        product.profitPercent = percentInput && percentInput.value !== '' ? inputPercent : null;
+        product.Price = salePrice;
+    });
+
+    localStorage.setItem('Products', JSON.stringify(products));
+    showAlertSuccess('Đã cập nhật giá bán cho sản phẩm');
+    // render lại để cập nhật giá hiển thị
+    RenderGiaBan();
+}
+
 
 const RenderThongKe=()=>{
     // generateFakeData();
