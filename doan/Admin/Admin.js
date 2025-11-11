@@ -666,7 +666,7 @@ const AddUser = ()=>{
 
 }
 const UpLoadImage = () => {
-    const btnSave = document.getElementById('SaveChange');
+    let btnSave = document.getElementById('SaveChange');
 
     // Dữ liệu form
     const Productname = document.getElementById('Product-name');
@@ -746,62 +746,103 @@ const UpLoadImage = () => {
         });
     });
 
-    // Kiểm tra đầu vào khi nhấn lưu
-    btnSave.addEventListener('click', () => {
-        if (!Productname.value.trim()) return showAlertFailure("Vui lòng nhập tên sản phẩm!");
-        if (!Price.value || isNaN(Price.value) || parseFloat(Price.value) <= 0) {
-            return showAlertFailure("Vui lòng nhập giá tiền hợp lệ (là một số dương)!");
+    // Replace the save button node to avoid duplicate listeners when modal is
+    // re-rendered. Then attach a single robust click handler that reads files
+    // at click-time (more reliable than depending on earlier FileReader side
+    // effects).
+    if (btnSave) {
+        const replacement = btnSave.cloneNode(true);
+        btnSave.parentNode.replaceChild(replacement, btnSave);
+        btnSave = replacement;
+    }
+
+    const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
+        if (!file) return resolve(undefined);
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (e) => reject(e);
+        reader.readAsDataURL(file);
+    });
+
+    btnSave.addEventListener('click', async () => {
+        try {
+            if (!Productname.value.trim()) return showAlertFailure("Vui lòng nhập tên sản phẩm!");
+
+            // normalize price (allow comma or dot) and validate
+            const rawPrice = (Price.value || '').toString().trim().replace(/,/g, '.');
+            const numericPrice = parseFloat(rawPrice);
+            if (!rawPrice || Number.isNaN(numericPrice) || numericPrice <= 0) {
+                return showAlertFailure("Vui lòng nhập giá tiền hợp lệ (là một số dương)!");
+            }
+
+            if (!Category.value.trim()) return showAlertFailure("Vui lòng chọn danh mục sản phẩm!");
+            if (selectedSizes.length === 0) return showAlertFailure("Vui lòng chọn kích cỡ!");
+
+            // read current file inputs at click time
+            const mainFile = document.getElementById('labelUpload')?.files?.[0];
+            if (!mainFile) return showAlertFailure("Vui lòng tải lên ảnh chính!");
+
+            const smallFiles = [];
+            for (let i = 1; i <= 4; i++) {
+                const f = document.getElementById(`labelUpload${i}`)?.files?.[0];
+                smallFiles.push(f);
+            }
+            if (smallFiles.some(f => !f)) return showAlertFailure("Vui lòng tải lên đủ 4 ảnh nhỏ!");
+
+            // read files to dataURLs
+            const [mainDataUrl, ...smallDataUrls] = await Promise.all([
+                readFileAsDataURL(mainFile),
+                ...smallFiles.map(f => readFileAsDataURL(f))
+            ]);
+
+            // build product object
+            const newProduct = {
+                Id: Math.ceil(Math.random() * 100000),
+                ProductName: Productname.value.trim(),
+                Colour: Color.value.trim(),
+                Price: numericPrice,
+                Category: Category.value.trim(),
+                image: mainDataUrl,
+                imgDetail: smallDataUrls,
+                Size: selectedSizes.slice() // copy
+            };
+
+            // save
+            ProductLocal.push(newProduct);
+            localStorage.setItem('Products', JSON.stringify(ProductLocal));
+            showAlertSuccess("Thêm Giày Thành Công!");
+
+            // Reset UI
+            Productname.value = "";
+            Color.value = "";
+            Price.value = "";
+            mainImage = "";
+            mainImagePreview.src = "";
+            mainImagePreview.style.display = 'none';
+            mainSpan.style.display = 'block';
+
+            for (let i = 1; i <= 4; i++) {
+                const imagePreview = document.getElementById(`imagePreview${i}`);
+                const span = document.getElementById(`Span${i}`);
+                if (imagePreview) imagePreview.src = "";
+                if (imagePreview) imagePreview.style.display = 'none';
+                if (span) span.style.display = 'block';
+                const fileInput = document.getElementById(`labelUpload${i}`);
+                if (fileInput) fileInput.value = ""; // clear file input
+            }
+
+            selectedSizes.length = 0;
+            document.querySelectorAll('.size-btn').forEach(button => {
+                button.classList.remove('btn-primary-selected');
+                button.classList.add('btn-outline-primary');
+            });
+
+            $('#exampleModal').modal('hide');
+            SearchAndRender('Products', currentPage, itemsPerPage);
+        } catch (err) {
+            console.error('Error adding product:', err);
+            showAlertFailure('Lỗi khi thêm sản phẩm. Kiểm tra console.');
         }
-        if (!Category.value.trim()) return showAlertFailure("Vui lòng chọn danh mục sản phẩm!");
-        if (selectedSizes.length === 0) return showAlertFailure("Vui lòng chọn kích cỡ!");
-        if (!mainImage) return showAlertFailure("Vui lòng tải lên ảnh chính!");
-        if (imgDetail.length < 4 || imgDetail.includes(undefined)) {
-            return showAlertFailure("Vui lòng tải lên đủ 4 ảnh nhỏ!");
-        }
-
-        // Tạo sản phẩm mới
-        const newProduct = {
-            Id: Math.ceil(Math.random() * 100000),
-            ProductName: Productname.value.trim(),
-            Colour: Color.value.trim(),
-            Price: parseFloat(Price.value),
-            Category: Category.value.trim(),
-            image: mainImage,
-            imgDetail: imgDetail,
-            Size: selectedSizes
-        };
-
-        // Lưu sản phẩm mới
-        ProductLocal.push(newProduct);
-        localStorage.setItem('Products', JSON.stringify(ProductLocal));
-        showAlertSuccess("Thêm Giày Thành Công!");
-
-        // Reset form
-        Productname.value = "";
-        Color.value = "";
-        Price.value = "";
-        mainImage = "";
-        mainImagePreview.src = "";
-        mainImagePreview.style.display = 'none';
-        mainSpan.style.display = 'block';
-        imgDetail.length = 0;
-
-        for (let i = 1; i <= 4; i++) {
-            const imagePreview = document.getElementById(`imagePreview${i}`);
-            const span = document.getElementById(`Span${i}`);
-            imagePreview.src = "";
-            imagePreview.style.display = 'none';
-            span.style.display = 'block';
-        }
-
-        selectedSizes.length = 0;
-        document.querySelectorAll('.size-btn').forEach(button => {
-            button.classList.remove('btn-primary-selected');
-            button.classList.add('btn-outline-primary');
-        });
-
-        $('#exampleModal').modal('hide');
-        SearchAndRender('Products', currentPage, itemsPerPage);
     });
 };
 const Reset = ()=>{
