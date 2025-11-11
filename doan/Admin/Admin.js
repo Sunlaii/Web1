@@ -1,7 +1,9 @@
 // Ensure only authenticated admin can access this page.
 (function ensureAdminAuth() {
     try {
-        const userLogin = JSON.parse(localStorage.getItem('userLogin')) || null;
+        // read admin session from a separate key so admin sign-in does not
+        // interfere with public user session on the main site
+        const userLogin = JSON.parse(localStorage.getItem('adminLogin')) || null;
         if (!userLogin || userLogin.role !== 'admin') {
             // Replace page with an error message and link to admin login
             document.documentElement.innerHTML = `
@@ -30,6 +32,43 @@
         throw e;
     }
 })();
+
+// Lightweight alert helpers (used across pages). Admin page previously called
+// showAlertSuccess/showAlertFailure but didn't include the file that defines
+// them. Define minimal versions here so the Add Shoes flow can show alerts.
+let alertTimeout;
+function showAlert() {
+    const el = document.getElementById('alert');
+    if (!el) return;
+    el.classList.add('active');
+    clearTimeout(alertTimeout);
+    alertTimeout = setTimeout(closeAlert, 2000);
+}
+function closeAlert() {
+    const el = document.getElementById('alert');
+    if (!el) return;
+    el.classList.remove('active');
+}
+function showAlertSuccess(message) {
+    const msgEl = document.getElementById('alertMessage');
+    const titleEl = document.querySelector('.alertTitle');
+    const root = document.getElementById('alert');
+    if (msgEl) msgEl.innerText = message || '';
+    if (titleEl) titleEl.innerText = 'Success';
+    if (root) root.classList.add('alertSuccess');
+    showAlert();
+    if (root) setTimeout(() => root.classList.remove('alertSuccess'), 2000);
+}
+function showAlertFailure(message) {
+    const msgEl = document.getElementById('alertMessage');
+    const titleEl = document.querySelector('.alertTitle');
+    const root = document.getElementById('alert');
+    if (msgEl) msgEl.innerText = message || '';
+    if (titleEl) titleEl.innerText = 'Fail';
+    if (root) root.classList.add('alertFailure');
+    showAlert();
+    if (root) setTimeout(() => root.classList.remove('alertFailure'), 2000);
+}
 
 const Content = document.getElementById('Content');
 const Contentcontainer = document.getElementById('Content-Container');
@@ -2078,11 +2117,11 @@ const showOrderDetail = (orderIdx) => {
     });
 };
 
-const saveOrderDetail = (idx) => {
+    const saveOrderDetail = (idx) => {
     const orders = JSON.parse(localStorage.getItem("CheckOut")) || [];
     const users = JSON.parse(localStorage.getItem('Users')) || [];
     const order = orders.find(p => p.orderId == idx);
-    const userLogin = JSON.parse(localStorage.getItem('userLogin'))||[];
+    const userLogin = JSON.parse(localStorage.getItem('adminLogin'))||[];
     if (!order) {
         console.error(`Order with index ${idx} not found in storage.`);
         return;
@@ -2123,7 +2162,8 @@ const saveOrderDetail = (idx) => {
     userOrder.status = newStatus;
     user.ProductBuy[index].status = newStatus;
     users[indexx]=user;
-    localStorage.setItem('userLogin',JSON.stringify(userLogin));
+    // admin session is not modified here; keep adminLogin separate from site users
+    localStorage.setItem('adminLogin', JSON.stringify(userLogin));
     // Lưu dữ liệu vào localStorage
     localStorage.setItem('CheckOut', JSON.stringify(orders));
     localStorage.setItem('Users', JSON.stringify(users));
@@ -2137,7 +2177,7 @@ const saveOrderDetail = (idx) => {
 };
 
 const RenderUserName = ()=>{
-    const userLogin = JSON.parse(localStorage.getItem('userLogin')) || {};
+    const userLogin = JSON.parse(localStorage.getItem('adminLogin')) || {};
     const username = userLogin.username || '';
     const userLi = document.querySelector('.Back .User');
     const nameSpan = document.getElementById('NameUser');
@@ -2151,10 +2191,12 @@ const RenderUserName = ()=>{
     }
 }
 RenderUserName();
-const TrangChu = () =>{
-    window.location="../HomePage.html";
-    
-} 
+// Homepage navigation disabled for admin pages to prevent admins
+// from being redirected to the public site from the admin panel.
+const TrangChu = () => {
+    // intentionally no-op
+    return; 
+};
 const RenderNhapHang = () => {
     // Header: lọc / tìm / thêm
     Content.innerHTML = `
@@ -3621,7 +3663,7 @@ const CategoryGraph = () => {
     
 };
 const Logout = () => {
-    localStorage.removeItem('userLogin');
+    localStorage.removeItem('adminLogin');
     showAlertSuccess('Dang Xuat Thanh Cong');
     setTimeout(() => {
         window.location.href = "../HomePage.html";

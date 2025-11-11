@@ -11,7 +11,8 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         // Đăng nhập thành công: lưu phiên đăng nhập để cho trang Admin kiểm tra
         try {
             const userLogin = { username: username, role: 'admin' };
-            localStorage.setItem('userLogin', JSON.stringify(userLogin));
+            // store admin session separately so it doesn't affect public site's user session
+            localStorage.setItem('adminLogin', JSON.stringify(userLogin));
         } catch (e) {
             console.warn('Could not save userLogin to localStorage', e);
         }
