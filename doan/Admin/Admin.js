@@ -1,9 +1,10 @@
 // Ensure only authenticated admin can access this page.
 (function ensureAdminAuth() {
     try {
-        // read admin session from a separate key so admin sign-in does not
-        // interfere with public user session on the main site
-        const userLogin = JSON.parse(localStorage.getItem('adminLogin')) || null;
+    // read admin session from sessionStorage so admin sign-in does not
+    // interfere with public user session on the main site and is cleared
+    // when admin closes the browser tab/window
+    const userLogin = JSON.parse(sessionStorage.getItem('adminLogin')) || null;
         if (!userLogin || userLogin.role !== 'admin') {
             // Replace page with an error message and link to admin login
             document.documentElement.innerHTML = `
@@ -2121,7 +2122,7 @@ const showOrderDetail = (orderIdx) => {
     const orders = JSON.parse(localStorage.getItem("CheckOut")) || [];
     const users = JSON.parse(localStorage.getItem('Users')) || [];
     const order = orders.find(p => p.orderId == idx);
-    const userLogin = JSON.parse(localStorage.getItem('adminLogin'))||[];
+    const userLogin = JSON.parse(sessionStorage.getItem('adminLogin'))||[];
     if (!order) {
         console.error(`Order with index ${idx} not found in storage.`);
         return;
@@ -2162,8 +2163,9 @@ const showOrderDetail = (orderIdx) => {
     userOrder.status = newStatus;
     user.ProductBuy[index].status = newStatus;
     users[indexx]=user;
-    // admin session is not modified here; keep adminLogin separate from site users
-    localStorage.setItem('adminLogin', JSON.stringify(userLogin));
+    // admin session is not modified here; update sessionStorage instead of
+    // localStorage so admin session stays tab-scoped
+    sessionStorage.setItem('adminLogin', JSON.stringify(userLogin));
     // Lưu dữ liệu vào localStorage
     localStorage.setItem('CheckOut', JSON.stringify(orders));
     localStorage.setItem('Users', JSON.stringify(users));
@@ -2177,7 +2179,7 @@ const showOrderDetail = (orderIdx) => {
 };
 
 const RenderUserName = ()=>{
-    const userLogin = JSON.parse(localStorage.getItem('adminLogin')) || {};
+    const userLogin = JSON.parse(sessionStorage.getItem('adminLogin')) || {};
     const username = userLogin.username || '';
     const userLi = document.querySelector('.Back .User');
     const nameSpan = document.getElementById('NameUser');
@@ -3663,7 +3665,7 @@ const CategoryGraph = () => {
     
 };
 const Logout = () => {
-    localStorage.removeItem('adminLogin');
+    sessionStorage.removeItem('adminLogin');
     showAlertSuccess('Dang Xuat Thanh Cong');
     setTimeout(() => {
         window.location.href = "../HomePage.html";
