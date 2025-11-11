@@ -25,12 +25,12 @@
                         <a href="admin-login.html">Đi đến trang Admin Login</a>
                     </div>
                 </body>`;
-            throw new Error('Unauthorized access to admin');
+            return ;
         }
     } catch (e) {
         // If parsing localStorage fails, block access as well
         document.documentElement.innerHTML = `<body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff"><div style="text-align:center"><h2>Không có quyền truy cập</h2><p>Vui lòng đăng nhập qua <a style='color:#4fc3f7' href='admin-login.html'>Admin Login</a></p></div></body>`;
-        throw e;
+        return ;
     }
 })();
 
@@ -797,7 +797,7 @@ const UpLoadImage = () => {
 
             // build product object
             const newProduct = {
-                Id: Math.ceil(Math.random() * 100000),
+                Id: getNextProductId(),
                 ProductName: Productname.value.trim(),
                 Colour: Color.value.trim(),
                 Price: numericPrice,
@@ -806,6 +806,14 @@ const UpLoadImage = () => {
                 imgDetail: smallDataUrls,
                 Size: selectedSizes.slice() // copy
             };
+            function getNextProductId() {
+            const products = JSON.parse(localStorage.getItem('Products')) || [];
+            if (!products.length) return 1; // nếu chưa có sản phẩm nào thì bắt đầu từ 1
+
+            const maxId = Math.max(...products.map(p => Number(p.Id) || 0));
+            return maxId + 1;               // cộng dần lên
+            }
+            
 
             // save
             ProductLocal.push(newProduct);
@@ -837,7 +845,6 @@ const UpLoadImage = () => {
                 button.classList.add('btn-outline-primary');
             });
 
-            $('#exampleModal').modal('hide');
             SearchAndRender('Products', currentPage, itemsPerPage);
         } catch (err) {
             console.error('Error adding product:', err);
@@ -1242,6 +1249,10 @@ const SearchAndRender = (dataType, page, itemsPerPage = 8) => {
         const container = document.getElementById('Content-Container');
         const paginate = document.getElementById('pagination-controls');
 
+        if (!errorMessageElement || !container || !paginate) {
+            return renderPage(dataType, page, itemsPerPage, filterRender);
+    }
+
         if (filterRender.length === 0) {
             errorMessageElement.style.display = "block";
             container.style.display = "none";
@@ -1405,13 +1416,16 @@ const btnUpdateProduct = (id) => {
     Color.value = product.Colour;
     // Hiển thị ảnh nếu có
     if (product.image) {
+    if (imagePreview) {
         imagePreview.src = product.image;
         imagePreview.style.display = "block";
-        Span.style.display = "none";
-    } else {
-        imagePreview.style.display = "none";
-        Span.style.display = "block";
     }
+    if (Span) Span.style.display = "none";
+} else {
+    if (imagePreview) imagePreview.style.display = "none";
+    if (Span) Span.style.display = "block";
+}
+
 
     
 
@@ -2569,7 +2583,7 @@ function saveImportFromModal(mode, id, bootstrapModal) {
     const receipts = getImportReceipts();
 
     if (mode === 'Add') {
-        const newId = Date.now(); // mã phiếu
+        const newId = getNextImportId(); // mã phiếu
         receipts.push({
             id: newId,
             date: displayDate,
@@ -2597,6 +2611,15 @@ function saveImportFromModal(mode, id, bootstrapModal) {
     renderImportList();
     if (bootstrapModal) bootstrapModal.hide();
 }
+function getNextImportId() {
+    const list = getImportReceipts(); // hoặc JSON.parse(localStorage.getItem(IMPORT_KEY)) || []
+    if (!list.length) return 1;       // nếu chưa có phiếu nào thì bắt đầu từ 1
+
+    // lấy id lớn nhất hiện có
+    const maxId = Math.max(...list.map(r => Number(r.id) || 0));
+    return maxId + 1;                 // cộng dần lên
+}
+
 function completeImportReceipt(id) {
     const receipts = getImportReceipts();
     const idx = receipts.findIndex(r => r.id === id);
@@ -2653,7 +2676,7 @@ const RenderGiaBan = () => {
         <div style="margin-left:70px;margin-top:20px;width:85%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fff;">
             <h4>2. Giá vốn, % lợi nhuận, giá bán theo sản phẩm</h4>
             <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
-                <input type="text" id="PriceSearchInput" placeholder="Tìm tên sản phẩm..."
+                <input type="text" id="PriceSearchInput" placeholder="Tìm id sản phẩm..."
                        style="flex:1;padding:5px 10px;border-radius:6px;">
                 <button id="BtnSaveAllPrice"
                         style="background:#800020;color:#fff;border:none;padding:6px 12px;border-radius:6px;">
@@ -2717,15 +2740,21 @@ const RenderGiaBan = () => {
     // Render bảng sản phẩm lần đầu
     renderProductPriceTable(products, profitByCategory);
 
-    // Tìm kiếm theo tên
-    const searchInput = document.getElementById('PriceSearchInput');
-    searchInput.addEventListener('input', () => {
-        const key = searchInput.value.trim().toLowerCase();
-        const filtered = products.filter(p =>
-            p.ProductName.toLowerCase().includes(key)
+    // Tìm kiếm theo ID
+const searchInput = document.getElementById('PriceSearchInput');
+searchInput.addEventListener('input', () => {
+    const key = searchInput.value.trim();   // giữ dạng chuỗi
+    let filtered = products;
+
+    if (key) {
+        filtered = products.filter(p =>
+            String(p.Id).includes(key)      // so sánh theo Id
         );
-        renderProductPriceTable(filtered, profitByCategory);
-    });
+    }
+
+    renderProductPriceTable(filtered, profitByCategory);
+});
+
 
     // Lưu tất cả giá bán
     document.getElementById('BtnSaveAllPrice').addEventListener('click', () => {
@@ -2850,11 +2879,10 @@ function saveAllProductPrices(profitByCategory) {
 const RenderTonKho = () => {
     const products = JSON.parse(localStorage.getItem('Products')) || [];
 
-    // ẩn mấy phần không dùng
     document.getElementById('ErrorMessage').style.display = "none";
     document.getElementById('pagination-controls').style.display = "none";
 
-    // phần lọc + tra cứu tồn tại 1 thời điểm
+    // PHẦN 1: tồn tại một thời điểm
     Content.innerHTML = `
         <div style="margin-left:70px;margin-top:20px;">
             <h2>Quản lý tồn kho</h2>
@@ -2866,7 +2894,7 @@ const RenderTonKho = () => {
                 <select id="StockCategoryFilter" style="padding:5px 10px;border-radius:6px;">
                     <option value="All">Tất cả loại</option>
                 </select>
-                <input type="text" id="StockNameFilter" placeholder="Tìm tên sản phẩm..."
+                <input type="text" id="StockNameFilter" placeholder="Nhập ID sản phẩm..."
                        style="padding:5px 10px;border-radius:6px;flex:1;min-width:160px;">
                 <span>Thời điểm:</span>
                 <input type="date" id="StockAtDate"
@@ -2878,7 +2906,7 @@ const RenderTonKho = () => {
         </div>
     `;
 
-    // phần nhập – xuất – tồn theo khoảng thời gian
+    // PHẦN 2 + 3
     Contentcontainer.innerHTML = `
         <div style="margin-left:70px;margin-top:20px;width:85%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fff;">
             <h4>2. Nhập – xuất – tồn trong khoảng thời gian</h4>
@@ -2887,6 +2915,11 @@ const RenderTonKho = () => {
                         style="padding:5px 10px;border-radius:6px;min-width:180px;">
                     <option value="All">Tất cả sản phẩm</option>
                 </select>
+
+                <input type="text" id="StockRangeSearch"
+                       placeholder="Nhập ID hoặc tên sản phẩm..."
+                       style="padding:5px 10px;border-radius:6px;min-width:220px;flex:1;">
+
                 <span>Từ</span>
                 <input type="date" id="StockFromDate"
                        style="padding:5px 10px;border-radius:6px;">
@@ -2932,7 +2965,7 @@ const RenderTonKho = () => {
 
     Contentcontainer.style.display = "block";
 
-    // ====== fill combobox loại và sản phẩm ======
+    // fill combobox
     const categories = Array.from(new Set(products.map(p => p.Category))).filter(Boolean);
     const catSelect = document.getElementById('StockCategoryFilter');
     categories.forEach(c => {
@@ -2950,17 +2983,16 @@ const RenderTonKho = () => {
         prodSelect.appendChild(opt);
     });
 
-    // mặc định thời điểm / khoảng thời gian = hôm nay
     const today = new Date();
     const isoToday = today.toISOString().slice(0, 10);
     document.getElementById('StockAtDate').value  = isoToday;
     document.getElementById('StockFromDate').value = isoToday;
     document.getElementById('StockToDate').value   = isoToday;
 
-    // render tồn tại thời điểm (phần 3)
+    // ===== PHẦN 3: tồn tại thời điểm =====
     function renderStockNow() {
         const tbody = document.getElementById('StockNowBody');
-        const nameKey = document.getElementById('StockNameFilter').value.trim().toLowerCase();
+        const key   = document.getElementById('StockNameFilter').value.trim();
         const catVal  = document.getElementById('StockCategoryFilter').value;
         const atIso   = document.getElementById('StockAtDate').value;
         const atDate  = atIso ? new Date(atIso) : new Date();
@@ -2969,7 +3001,7 @@ const RenderTonKho = () => {
 
         const filtered = products.filter(p => {
             if (catVal !== 'All' && p.Category !== catVal) return false;
-            if (nameKey && !p.ProductName.toLowerCase().includes(nameKey)) return false;
+            if (key && !String(p.Id).includes(key)) return false;
             return true;
         });
 
@@ -2999,12 +3031,14 @@ const RenderTonKho = () => {
         });
     }
 
-    // render nhập – xuất – tồn trong khoảng (phần 2)
+    // ===== PHẦN 2: nhập – xuất – tồn theo khoảng =====
     function renderStockRange() {
         const tbody = document.getElementById('StockRangeBody');
         const prodVal = document.getElementById('StockProductSelect').value;
         const fromIso = document.getElementById('StockFromDate').value;
         const toIso   = document.getElementById('StockToDate').value;
+        const searchKey = (document.getElementById('StockRangeSearch')?.value || '')
+                            .trim().toLowerCase();
 
         if (!fromIso || !toIso) {
             tbody.innerHTML = `
@@ -3020,13 +3054,22 @@ const RenderTonKho = () => {
 
         tbody.innerHTML = '';
 
-        const list = (prodVal === 'All')
+        let list = (prodVal === 'All')
             ? products
             : products.filter(p => p.Id === Number(prodVal));
 
+        if (searchKey) {
+            list = list.filter(p =>
+                String(p.Id).toLowerCase().includes(searchKey) ||
+                p.ProductName.toLowerCase().includes(searchKey)
+            );
+        }
+
         if (!list.length) {
             tbody.innerHTML = `
-                <tr><td colspan="6" style="padding:10px;text-align:center;">Không có sản phẩm phù hợp</td></tr>
+                <tr><td colspan="6" style="padding:10px;text-align:center;">
+                    Không có sản phẩm phù hợp
+                </td></tr>
             `;
             return;
         }
@@ -3049,11 +3092,13 @@ const RenderTonKho = () => {
         });
     }
 
-    // sự kiện filter
+    // gắn event
     document.getElementById('StockCategoryFilter').addEventListener('change', renderStockNow);
     document.getElementById('StockNameFilter').addEventListener('input', renderStockNow);
     document.getElementById('StockAtDate').addEventListener('change', renderStockNow);
+
     document.getElementById('BtnViewRange').addEventListener('click', renderStockRange);
+    document.getElementById('StockRangeSearch').addEventListener('input', renderStockRange);
 
     // render lần đầu
     renderStockNow();
