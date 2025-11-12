@@ -50,11 +50,67 @@ window.addEventListener('storage', (e) => {
         } catch (err) {
             console.warn('Failed to parse Products from storage event', err);
         }
+    } else if (e.key === 'Categories') {
+        // Admin updated categories in another tab/window — refresh category UI
+        try {
+            renderCategoriesUI();
+        } catch (ex) {
+            console.warn('Failed to refresh categories from storage event', ex);
+        }
     }
 });
 
 // ---- State chung cho bộ lọc/search/category ----
 let selectedCategory = 'All';
+
+// Read categories from localStorage or return sensible defaults
+function getCategoriesFromStorage() {
+    try {
+        const raw = JSON.parse(localStorage.getItem('Categories')) || [];
+        if (Array.isArray(raw) && raw.length > 0) return raw;
+    } catch (e) { /* ignore parse errors */ }
+    // fallback default categories used in markup
+    return ['All', 'Football', 'Basketball', 'Running', 'Gym', 'Skateboarding'];
+}
+
+// Render categories into burger menu and sidebar type-options, and attach handlers
+function renderCategoriesUI() {
+    const cats = getCategoriesFromStorage();
+    const burgerInner = document.querySelector('#burger-menu .burger-menu-inner');
+    if (burgerInner) {
+        burgerInner.innerHTML = cats.map(c => `<div class="burger-menu-item" data-category="${c}">${c}</div>`).join('');
+    }
+
+    const typeOptions = document.querySelector('.type-options');
+    if (typeOptions) {
+        // Exclude the 'All' option from type buttons (keep it as an overall filter)
+        typeOptions.innerHTML = cats.filter(c => c !== 'All').map(c => `<button value="${c}">${c}</button>`).join('');
+    }
+
+    // Attach burger menu item click handlers (close menu and apply filter)
+    document.querySelectorAll('#burger-menu .burger-menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            selectedCategory = item.dataset.category || 'All';
+            currentPage = 1;
+            filterAndSearchProducts({ silent: true });
+            // close burger menu UI
+            const bm = document.getElementById('burger-menu');
+            const bt = document.getElementById('burger-toggle');
+            if (bm) bm.classList.remove('show');
+            if (bt) {
+                bt.setAttribute('aria-expanded', 'false');
+                bt.classList.remove('open');
+            }
+        });
+    });
+
+    // Re-attach type-options button handlers (toggle active)
+    document.querySelectorAll('.type-options button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('active');
+        });
+    });
+}
 
 // Không dấu, lowercase để tìm kiếm "thông minh" hơn
 const normalize = s => (s || '')
@@ -230,14 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Category selection
-    burgerMenu.querySelectorAll('.burger-menu-item').forEach(item => {
-    item.addEventListener('click', () => {
-        selectedCategory = item.dataset.category || 'All';
-        currentPage = 1;
-        filterAndSearchProducts({ silent: true }); // không hiện success
-        setMenuState(false);
-    });
-    });
+    // Render categories into burger menu and sidebar (this also attaches handlers)
+    try { renderCategoriesUI(); } catch (e) { console.warn('renderCategoriesUI failed', e); }
 });
 
 // Banner toggle: slide banner up/down when the arrow is clicked
