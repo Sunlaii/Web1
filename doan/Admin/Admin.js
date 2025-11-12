@@ -756,10 +756,42 @@ const UpLoadImage = () => {
         btnSave = replacement;
     }
 
-    const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
+    // Read file and resize/compress to reduce storage size. Returns a JPEG dataURL.
+    const readFileAsDataURL = (file, maxSize = 1024, quality = 0.7) => new Promise((resolve, reject) => {
         if (!file) return resolve(undefined);
         const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
+        reader.onload = (ev) => {
+            const img = new Image();
+            img.onload = () => {
+                try {
+                    // calculate new size keeping aspect ratio
+                    let { width, height } = img;
+                    const maxDim = Math.max(width, height);
+                    if (maxDim > maxSize) {
+                        const scale = maxSize / maxDim;
+                        width = Math.round(width * scale);
+                        height = Math.round(height * scale);
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    // convert to jpeg to reduce size
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(dataUrl);
+                } catch (err) {
+                    // fallback: return original data URL
+                    console.warn('Image resize/compress failed, using original', err);
+                    resolve(ev.target.result);
+                }
+            };
+            img.onerror = () => {
+                // cannot create image -> fallback
+                resolve(ev.target.result);
+            };
+            img.src = ev.target.result;
+        };
         reader.onerror = (e) => reject(e);
         reader.readAsDataURL(file);
     });
@@ -815,9 +847,18 @@ const UpLoadImage = () => {
             }
             
 
-            // save
+            // save (guard against storage quota)
             ProductLocal.push(newProduct);
-            localStorage.setItem('Products', JSON.stringify(ProductLocal));
+            try {
+                localStorage.setItem('Products', JSON.stringify(ProductLocal));
+            } catch (quotaErr) {
+                console.error('Saving Products failed (quota exceeded):', quotaErr);
+                // revert in-memory push
+                ProductLocal.pop();
+                // Suggest alternatives to the user
+                showAlertFailure('Không đủ dung lượng lưu trữ trình duyệt. Hãy xoá bớt sản phẩm/ảnh hoặc chuyển sang giải pháp lưu trữ khác (IndexedDB hoặc server).');
+                return;
+            }
             showAlertSuccess("Thêm Giày Thành Công!");
 
             // Reset UI
