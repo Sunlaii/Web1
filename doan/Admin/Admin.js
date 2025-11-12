@@ -1549,7 +1549,9 @@ const btnUpdateProduct = (id) => {
    saveChange.onclick = () => {
    
     ProductLocal[index].ProductName= Productname.value;
-    ProductLocal[index].Price=Price.value;
+    // Ensure Price is stored as a number (not a string)
+    const parsedPrice = parseFloat((Price.value || '').toString().replace(/,/g, '.'));
+    ProductLocal[index].Price = Number.isFinite(parsedPrice) ? Math.round(parsedPrice * 100) / 100 : ProductLocal[index].Price;
     ProductLocal[index].Category=Category.value;
     ProductLocal[index].Colour=Color.value;
 
@@ -2910,22 +2912,20 @@ function renderProductPriceTable(listProducts, profitByCategory) {
         `;
         return;
     }
-
     listProducts.forEach(p => {
-        const cost = p.costPrice || ''; // giá vốn lưu trong product
-        const productPercent = (p.profitPercent !== undefined && p.profitPercent !== null)
-            ? p.profitPercent
-            : '';
-        const defaultPercent = profitByCategory[p.Category] || 0;
+        // Robustly read stored values (allow 0)
+        const storedCost = (p.costPrice !== undefined && p.costPrice !== null && p.costPrice !== '') ? p.costPrice : '';
+        const productPercent = (p.profitPercent !== undefined && p.profitPercent !== null) ? p.profitPercent : '';
+        const defaultPercent = Number(profitByCategory[p.Category] || 0);
 
-        // % dùng để tính: nếu sản phẩm có % riêng thì dùng, không thì dùng theo loại
-        const effectivePercent = productPercent !== '' ? Number(productPercent) : Number(defaultPercent);
+        // Use product.Price as fallback base when cost is missing
+        const originalPrice = Number(p.Price) || 0;
 
-        let salePrice = p.Price || 0;
-        if (cost && !isNaN(cost) && !isNaN(effectivePercent)) {
-            salePrice = Number(cost) * (1 + effectivePercent / 100);
-            salePrice = Math.round(salePrice * 100) / 100; // làm tròn 2 số lẻ
-        }
+        // initial base and sale price
+        const initialCostNumeric = storedCost === '' ? NaN : Number(storedCost);
+        const effectivePercentInitial = (productPercent !== '' ? Number(productPercent) : defaultPercent);
+        const baseForCalc = (!Number.isNaN(initialCostNumeric) && initialCostNumeric > 0) ? initialCostNumeric : originalPrice;
+        let salePrice = Math.round(baseForCalc * (1 + (Number.isFinite(effectivePercentInitial) ? effectivePercentInitial : 0) / 100) * 100) / 100;
 
         const row = document.createElement('tr');
         row.setAttribute('data-id', p.Id);
@@ -2941,7 +2941,7 @@ function renderProductPriceTable(listProducts, profitByCategory) {
                     step="0.01"
                     inputmode="decimal"
                     class="cost-input"
-                    value="${cost}"
+                    value="${storedCost}"
                     style="width:100%;padding:3px 6px;border-radius:4px;"
                 >
             </td>
@@ -2955,8 +2955,8 @@ function renderProductPriceTable(listProducts, profitByCategory) {
                     value="${productPercent !== '' ? productPercent : ''}"
                     placeholder="${defaultPercent}"
                     style="width:100%;padding:3px 6px;border-radius:4px;"
-                
-        </td>
+                >
+            </td>
 
             <td style="padding:6px;">
                 <span class="sale-output">${salePrice} $</span>
@@ -2964,6 +2964,22 @@ function renderProductPriceTable(listProducts, profitByCategory) {
         `;
 
         tbody.appendChild(row);
+
+        // Add live update handlers so admin sees immediate recalculation
+        const costInput = row.querySelector('.cost-input');
+        const percentInput = row.querySelector('.percent-input');
+        const saleOutput = row.querySelector('.sale-output');
+
+        const recalc = () => {
+            const costVal = costInput && costInput.value !== '' ? Number(costInput.value) : NaN;
+            const percentVal = percentInput && percentInput.value !== '' ? Number(percentInput.value) : defaultPercent;
+            const base = (!Number.isNaN(costVal) && costVal > 0) ? costVal : originalPrice;
+            const computed = Math.round(base * (1 + (Number.isFinite(percentVal) ? percentVal : 0) / 100) * 100) / 100;
+            if (saleOutput) saleOutput.textContent = `${computed} $`;
+        };
+
+        if (costInput) costInput.addEventListener('input', recalc);
+        if (percentInput) percentInput.addEventListener('input', recalc);
     });
 }
 function saveAllProductPrices(profitByCategory) {
@@ -2980,9 +2996,10 @@ function saveAllProductPrices(profitByCategory) {
 
         if (!costInput) return;
 
-        const cost = Number(costInput.value);
-        if (isNaN(cost) || cost <= 0) {
-            // không cập nhật nếu giá vốn không hợp lệ
+        const rawCost = costInput.value;
+        const cost = rawCost === '' ? NaN : Number(rawCost);
+        // skip if cost not provided or invalid (don't overwrite product when admin left it empty)
+        if (isNaN(cost) || cost < 0) {
             return;
         }
 

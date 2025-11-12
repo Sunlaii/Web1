@@ -9,6 +9,50 @@ let totalPages = 0;
 let originalProducts = JSON.parse(localStorage.getItem("Products")) || [];
 let filteredProducts = [...originalProducts];
 
+// If another tab/window (e.g., admin) updates Products in localStorage,
+// respond and refresh the UI so user pages show updated prices immediately.
+window.addEventListener('storage', (e) => {
+    if (e.key === 'Products') {
+        try {
+                const updated = JSON.parse(e.newValue) || [];
+            originalProducts = [...updated];
+            filteredProducts = [...originalProducts];
+            // Keep current page sensible
+            currentPage = 1;
+            adddatatohtml();
+                // Also update cart prices for the currently logged-in user so totals reflect new prices
+                try {
+                    const userLogin = JSON.parse(localStorage.getItem('userLogin')) || null;
+                    if (userLogin && Array.isArray(userLogin.Cart)) {
+                        const productsMap = (updated || []).reduce((m, p) => { m[p.Id] = p; return m; }, {});
+                        let changed = false;
+                        userLogin.Cart.forEach(item => {
+                            const prod = productsMap[item.product_id];
+                            if (prod) {
+                                const newPrice = Number(prod.Price) * Number(item.quantity || 0);
+                                if (item.price !== newPrice) {
+                                    item.price = newPrice;
+                                    changed = true;
+                                }
+                            }
+                        });
+                        if (changed) {
+                            // persist userLogin and update Users list if present
+                            localStorage.setItem('userLogin', JSON.stringify(userLogin));
+                            const users = JSON.parse(localStorage.getItem('Users')) || [];
+                            const updatedUsers = users.map(u => u.userId === userLogin.userId ? { ...u, Cart: userLogin.Cart } : u);
+                            localStorage.setItem('Users', JSON.stringify(updatedUsers));
+                            // refresh cart UI
+                            if (typeof addcarttohtml === 'function') addcarttohtml();
+                        }
+                    }
+                } catch (e) { console.warn('Failed to update cart prices after products change', e); }
+        } catch (err) {
+            console.warn('Failed to parse Products from storage event', err);
+        }
+    }
+});
+
 // ---- State chung cho bộ lọc/search/category ----
 let selectedCategory = 'All';
 
