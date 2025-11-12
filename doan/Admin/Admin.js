@@ -34,6 +34,14 @@
     }
 })();
 
+/**
+ * ensureAdminAuth
+ * Kiểm tra session admin (từ sessionStorage). Nếu không tồn tại hoặc không có
+ * role === 'admin' thì sẽ thay thế toàn bộ DOM bằng trang thông báo không có
+ * quyền truy cập và yêu cầu điều hướng tới trang đăng nhập admin.
+ * Lý do: tránh việc người dùng không phải admin truy cập khu vực quản trị.
+ */
+
 // Lightweight alert helpers (used across pages). Admin page previously called
 // showAlertSuccess/showAlertFailure but didn't include the file that defines
 // them. Define minimal versions here so the Add Shoes flow can show alerts.
@@ -77,6 +85,12 @@ const Contentcontainer = document.getElementById('Content-Container');
 let currentPage = 1;
 const itemsPerPage = 8;
 // If localStorage 'Products' is empty, load initial data from product.json
+/**
+ * initProductsIfEmpty
+ * Nếu localStorage chưa có key 'Products', đọc file product.json một lần và
+ * lưu dữ liệu khởi tạo vào localStorage để trang admin có dữ liệu mẫu.
+ * Trả về Promise để caller có thể await trước khi render giao diện.
+ */
 const initProductsIfEmpty = () => {
     return new Promise((resolve) => {
         try {
@@ -156,6 +170,11 @@ const removeActiveClass = () => {
         item.classList.remove('active');
     });
 };
+/**
+ * RenderTongHop
+ * Hiển thị dashboard tổng hợp (số lượng khách hàng, sản phẩm, đơn hàng, doanh thu).
+ * Gọi các hàm tính toán để cập nhật số liệu và ẩn phần phân trang khi cần.
+ */
 const RenderTongHop = () => {
     Content.innerHTML = `
         <div class="trangTongQuan" style="width: 100%;">
@@ -395,6 +414,12 @@ function saveProfitCategory(obj) {
 
 
 
+/**
+ * RenderSanPham
+ * Hiển thị giao diện quản lý sản phẩm: combobox lọc, ô tìm kiếm, nút New Shoes,
+ * bảng quản lý loại sản phẩm, và modal thêm sản phẩm (modal được render tĩnh
+ * trong template này). Gọi UpLoadImage và SearchAndRender để kích hoạt logic.
+ */
 const RenderSanPham = () => {
     Content.innerHTML = `
     <div class="trangSanpham" style="position: relative; left: 50px; height:50px;">
@@ -665,6 +690,14 @@ const AddUser = ()=>{
 );
 
 }
+/**
+ * UpLoadImage
+ * - Gắn các listener cho input file (ảnh chính + ảnh chi tiết).
+ * - Quản lý lựa chọn size, thu thập dữ liệu form.
+ * - Đăng ký handler cho nút "Add Shoes" để đọc file tại thời điểm click,
+ *   nén/resize ảnh, và lưu sản phẩm mới vào localStorage.
+ * Lưu ý: handler đã được harden để chống duplicate listeners và xử lý quota.
+ */
 const UpLoadImage = () => {
     let btnSave = document.getElementById('SaveChange');
 
@@ -757,6 +790,15 @@ const UpLoadImage = () => {
     }
 
     // Read file and resize/compress to reduce storage size. Returns a JPEG dataURL.
+    /**
+     * readFileAsDataURL
+     * Đọc file ảnh, resize/compress xuống kích thước tối đa (maxSize) và trả về
+     * một dataURL JPEG. Trả về original dataURL nếu không thể xử lý ảnh.
+     * @param {File} file - file ảnh từ input
+     * @param {number} maxSize - kích thước cạnh lớn nhất (px)
+     * @param {number} quality - chất lượng JPEG (0..1)
+     * @returns {Promise<string|undefined>} dataURL hoặc undefined nếu no file
+     */
     const readFileAsDataURL = (file, maxSize = 1024, quality = 0.7) => new Promise((resolve, reject) => {
         if (!file) return resolve(undefined);
         const reader = new FileReader();
@@ -914,7 +956,13 @@ const ResetDon = ()=>{
     document.getElementById('DonHangA2').value="";
     SearchAndRender('CheckOut',currentPage,itemsPerPage)
 }
-const renderPage = (dataType, page, itemsPerPage, filterRender) => {
+    /**
+     * renderPage
+     * Render các item cho một kiểu dữ liệu (Products, Users, CheckOut) trên
+     * trang hiện tại. Sử dụng createRowForType để tạo từng block/row và gọi
+     * renderPaginationControls để hiển thị điều khiển phân trang.
+     */
+    const renderPage = (dataType, page, itemsPerPage, filterRender) => {
     const container = document.getElementById('Content-Container');
     const userTable = document.getElementById('UserTable');
     const CheckOutTable = document.getElementById('CheckOutTable');
@@ -952,6 +1000,11 @@ const renderPage = (dataType, page, itemsPerPage, filterRender) => {
     // Render phân trang
     renderPaginationControls(dataType, page, totalPages, filterRender, itemsPerPage);
 };
+/**
+ * createRowForType
+ * Tạo HTML block/row cho từng đối tượng theo kiểu dataType. Trả về chuỗi
+ * HTML để được chèn vào DOM bởi renderPage.
+ */
 const createRowForType = (dataType, item) => {
     switch (dataType) {
         case 'Products':
@@ -1028,6 +1081,11 @@ const createRowForType = (dataType, item) => {
             return `<div class="item">Unknown Data Type</div>`;
     }
 };
+/**
+ * renderPaginationControls
+ * Hiển thị các nút phân trang dựa trên tổng số trang và trang hiện tại.
+ * Có xử lý cho nút Prev/Next và hiển thị dấu '...' khi cần.
+ */
 const renderPaginationControls = (dataType, currentPage, totalPages, filterRender, itemsPerPage) => {
     const container = document.getElementById('pagination-controls');
     if (!container) return;
@@ -1131,6 +1189,13 @@ const convertToDateEnd = (dateString) => {
     const [day, month, year] = dateString.split('/').map(Number);
     return new Date(year, month - 1, day); // month - 1 vì tháng trong Date bắt đầu từ 0
 };
+/**
+ * SearchAndRender
+ * Tải dữ liệu từ localStorage theo dataType, áp dụng bộ lọc (theo category,
+ * tên, ngày, địa lý...), và gọi renderPage để hiển thị kết quả. Đăng ký các
+ * listener của input/filter trên giao diện để làm mới kết quả khi người dùng
+ * tương tác.
+ */
 const SearchAndRender = (dataType, page, itemsPerPage = 8) => {
     const data = JSON.parse(localStorage.getItem(dataType)) || [];
     let filterRender = [...data]; // Tạo một bản sao của dữ liệu gốc
@@ -1310,6 +1375,12 @@ const SearchAndRender = (dataType, page, itemsPerPage = 8) => {
 
     applyFilters(); // Gọi bộ lọc ngay khi tải trang
 };
+/**
+ * ModalProduct
+ * Tạo và hiển thị modal cho các thao tác sản phẩm: Update hoặc Delete.
+ * - Update: render form edit và gọi btnUpdateProduct để gán logic cập nhật.
+ * - Delete: render modal xác nhận và gọi btnDeleteProduct khi xác nhận.
+ */
 const ModalProduct = (id,dataType) => {
     if(dataType==='Update'){
         const modalUpdateHTML=` <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="UpdateModalLabel" aria-hidden="true">
@@ -1431,6 +1502,11 @@ const ModalProduct = (id,dataType) => {
     }
   
 };
+/**
+ * btnUpdateProduct
+ * Tìm product theo id, điền giá trị vào form modal Update và khi bấm
+ * "Update Shoes" sẽ lưu thay đổi vào localStorage và render lại danh sách.
+ */
 const btnUpdateProduct = (id) => {
     const ProductLocal = JSON.parse(localStorage.getItem("Products")) || [];
     const product = ProductLocal.find((p) => p.Id === id);
@@ -1484,6 +1560,11 @@ const btnUpdateProduct = (id) => {
 };
 
 
+/**
+ * btnDeleteProduct
+ * Xóa product theo id khỏi localStorage và cập nhật lại giao diện với
+ * phân trang được điều chỉnh nếu cần.
+ */
 const btnDeleteProduct = (id) => {
     const products = JSON.parse(localStorage.getItem('Products')) || [];
     const index = products.findIndex(p => p.Id === id); 
@@ -1502,6 +1583,12 @@ const btnDeleteProduct = (id) => {
 
     SearchAndRender('Products', adjustedPage, itemsPerPage);
 };
+/**
+ * ModalUser
+ * Tạo modal cho các thao tác với người dùng: Add / Edit / Delete. Modal này
+ * dùng chung template nhỏ để thu thập thông tin và gọi các hàm btnCreateUser,
+ * btnEditUser, btnDeleteUser tương ứng.
+ */
 const ModalUser = (id,dataType)=>{
     if (dataType === 'Delete') {
         const modalDeleteHTML = `
@@ -2274,6 +2361,11 @@ const showOrderDetail = (orderIdx) => {
     bootstrapModal.hide();
 };
 
+/**
+ * RenderUserName
+ * Hiển thị tên admin hiện đăng nhập trên thanh sidebar (nếu có session).
+ * Đọc session admin từ sessionStorage và cập nhật DOM tương ứng.
+ */
 const RenderUserName = ()=>{
     const userLogin = JSON.parse(sessionStorage.getItem('adminLogin')) || {};
     const username = userLogin.username || '';
