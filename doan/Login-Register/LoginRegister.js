@@ -395,7 +395,7 @@ function checkConfirmPasswordError(password, confirmPassword){
 // Kiem tra email
 function checkEmailError(input) {
     input.value = input.value.trim(); // Loại bỏ khoảng trắng đầu và cuối
-    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.(gmail\.com|edu\.vn|yahoo\.com|outlook\.com|edu.vn)$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|edu\.vn)$/;
     if (emailRegex.test(input.value) || input.value === '') {
         showSuccess(input); // Hàm này sẽ đánh dấu input hợp lệ
         return false; // Không có lỗi

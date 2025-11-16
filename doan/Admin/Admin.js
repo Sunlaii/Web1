@@ -82,6 +82,7 @@ function showAlertFailure(message) {
 const Content = document.getElementById('Content');
 const Contentcontainer = document.getElementById('Content-Container');
 
+let LOW_STOCK_THRESHOLD = 5;
 let currentPage = 1;
 const itemsPerPage = 8;
 // If localStorage 'Products' is empty, load initial data from product.json
@@ -1910,7 +1911,12 @@ const btnDeleteUser = (id) => {
 };
 // ========== TỒN KHO ==========
 // cảnh báo sắp hết hàng nếu tồn <= ngưỡng này
-const LOW_STOCK_THRESHOLD = 5;
+function getStockWarningThreshold() {
+    const select = document.getElementById("threshold");
+    if (!select) return 5; 
+    return parseInt(select.value, 10);
+}
+
 
 function getImportReceipts() {
     return JSON.parse(localStorage.getItem(IMPORT_KEY)) || [];
@@ -2243,24 +2249,25 @@ const showOrderDetail = (orderIdx) => {
                         </div>
                         </div>
                          <div class="form-group edit-account-e" style="display: flex;flex-direction:row; flex-wrap: wrap;">
-                                <div class="status-options" >
-                                <div>
-                                    <input type="checkbox" id="status-progress" name="order-status" value="0">
-                                    <label for="status-progress" class="status-label">Progressing</label>
+                                <div class="status-options">
+                                    <div>
+                                        <input type="radio" id="status-progress" name="order-status" value="0">
+                                        <label for="status-progress" class="status-label">Progressing</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="status-canceled" name="order-status" value="2">
+                                        <label for="status-canceled" class="status-label">Canceled</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="status-received" name="order-status" value="1">
+                                        <label for="status-received" class="status-label">Received</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="status-delivering" name="order-status" value="3">
+                                        <label for="status-delivering" class="status-label">Delivering</label>
+                                    </div>
                                 </div>
-                                <div>
-                                    <input type="checkbox" id="status-canceled" name="order-status" value="2    ">
-                                    <label for="status-canceled" class="status-label">Canceled</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="status-successful" name="order-status" value="1">
-                                    <label for="status-successful" class="status-label">Received</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="status-successful" name="order-status" value="3">
-                                    <label for="status-successful" class="status-label">Delivering</label>
-                                </div>
-                                </div>
+
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -2274,10 +2281,15 @@ const showOrderDetail = (orderIdx) => {
 
     // Gán trạng thái hiện tại
     const statusOptions = document.querySelectorAll('input[name="order-status"]');
-    statusOptions.forEach(option => {
-        option.checked = option.value == order.status;
+    const currentStatus = order.status; // 0: Progressing, 1: Received, 2: Canceled, 3: Delivering
 
-        // Đảm bảo chỉ một checkbox được chọn
+    // check & đảm bảo chỉ chọn 1
+    statusOptions.forEach(option => {
+        const value = parseInt(option.value, 10);
+
+        // check trạng thái hiện tại
+        option.checked = value === currentStatus;
+
         option.addEventListener('change', function () {
             if (this.checked) {
                 statusOptions.forEach(opt => {
@@ -2285,6 +2297,20 @@ const showOrderDetail = (orderIdx) => {
                 });
             }
         });
+    });
+    // disable những lựa chọn không được phép
+    statusOptions.forEach(option => {
+        const value = parseInt(option.value, 10);
+
+        // Nếu đơn đã Received (1) hoặc Canceled (2) => không cho đổi sang trạng thái khác nữa
+        if ((currentStatus === 1 || currentStatus === 2) && value !== currentStatus) {
+            option.disabled = true;
+        }
+
+        // Nếu đang Delivering (3) => không cho quay lại Progressing (0)
+        if (currentStatus === 3 && value === 0) {
+            option.disabled = true;
+        }
     });
 
     // Hiển thị modal
@@ -2315,7 +2341,7 @@ const showOrderDetail = (orderIdx) => {
 
     const user = users.find(p => p.userId === order.userId);
     
-    const indexx =users.find(p => p.userId === order.userId);
+    const indexx = users.find(p => p.userId === order.userId);
     if (!user) {
         console.error(`User associated with order ${order.orderId} not found.`);
         showAlertFailure(`User associated with this order is missing. Please check the data.`);
@@ -2331,9 +2357,22 @@ const showOrderDetail = (orderIdx) => {
         return;
     }
 
-    const newStatus = parseInt(selectedStatus.value, 10);
+    const currentStatus = order.status;                 // trạng thái hiện tại
+    const newStatus = parseInt(selectedStatus.value, 10); // trạng thái mới
 
-    // Cập nhật trạng thái trong `CheckOut`
+    // RULE 1: Đã Received hoặc Canceled thì không cho đổi nữa
+    if ((currentStatus === 1 || currentStatus === 2) && newStatus !== currentStatus) {
+        showAlertFailure('Đơn hàng đã ở trạng thái cuối (Received/Canceled), không được đổi lại.');
+        return;
+    }
+
+    // RULE 2: Đang Delivering thì không cho quay về Progressing
+    if (currentStatus === 3 && newStatus === 0) {
+        showAlertFailure('Không thể chuyển đơn đang giao (Delivering) về trạng thái Processing.');
+        return;
+    }
+
+    // Nếu qua được rule thì mới cập nhật
     order.status = newStatus;
 
     // Cập nhật trạng thái trong `ProductBuy` của người dùng
@@ -2347,22 +2386,18 @@ const showOrderDetail = (orderIdx) => {
     const index = user.ProductBuy.findIndex(p => p.orderId === idx);
     userOrder.status = newStatus;
     user.ProductBuy[index].status = newStatus;
-    users[indexx]=user;
-    // admin session is not modified here; update sessionStorage instead of
-    // localStorage so admin session stays tab-scoped
+    users[indexx] = user;
+
     sessionStorage.setItem('adminLogin', JSON.stringify(userLogin));
-    // Lưu dữ liệu vào localStorage
     localStorage.setItem('CheckOut', JSON.stringify(orders));
     localStorage.setItem('Users', JSON.stringify(users));
     showAlertSuccess('Cap Nhat Thanh Cong')
     SearchAndRender('CheckOut', currentPage, itemsPerPage);
 
-    // Đóng modal
     const modalElement = document.getElementById('UpdateModalOrder');
     const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
     bootstrapModal.hide();
 };
-
 /**
  * RenderUserName
  * Hiển thị tên admin hiện đăng nhập trên thanh sidebar (nếu có session).
@@ -2758,15 +2793,28 @@ function getNextImportId() {
 function completeImportReceipt(id) {
     const receipts = getImportReceipts();
     const idx = receipts.findIndex(r => r.id === id);
+
     if (idx === -1) {
         showAlertFailure('Không tìm thấy phiếu nhập');
         return;
     }
+
     if (receipts[idx].status === 'completed') {
         showAlertFailure('Phiếu này đã hoàn thành rồi');
         return;
     }
 
+    // Hộp thoại xác nhận trước khi hoàn thành
+    const ok = confirm(
+        'Bạn có chắc muốn đánh dấu phiếu nhập này là "Đã hoàn thành"?' +
+        '\nSau khi xác nhận sẽ không thể sửa hoặc hoàn tác.'
+    );
+    if (!ok) {
+        // Người dùng bấm Cancel -> không làm gì cả
+        return;
+    }
+
+    // Nếu xác nhận thì mới cập nhật trạng thái
     receipts[idx].status = 'completed';
     saveImportReceipts(receipts);
     showAlertSuccess('Đã hoàn thành phiếu nhập');
@@ -3026,6 +3074,20 @@ function saveAllProductPrices(profitByCategory) {
     // render lại để cập nhật giá hiển thị
     RenderGiaBan();
 }
+function changeThreshold() {
+    const input = document.getElementById("thresholdInput");
+    let val = Number(input.value);
+
+    if (isNaN(val) || val < 1) {
+        LOW_STOCK_THRESHOLD = 1;      // không cho nhập tào lao
+        input.value = 1;
+    } else {
+        LOW_STOCK_THRESHOLD = val;    // cập nhật biến global
+    }
+
+    RenderTonKho(); // chạy lại bảng với ngưỡng mới
+}
+
 const RenderTonKho = () => {
     const products = JSON.parse(localStorage.getItem('Products')) || [];
 
@@ -3094,6 +3156,18 @@ const RenderTonKho = () => {
                 </thead>
                 <tbody id="StockRangeBody"></tbody>
             </table>
+        </div>
+        <div style="margin: 10px 70px;">
+            <label for="thresholdInput">Ngưỡng cảnh báo tồn kho (≤): </label>
+            <input 
+                id="thresholdInput" 
+                type="number" 
+                min="1" 
+                value="${LOW_STOCK_THRESHOLD}" 
+                onchange="changeThreshold()" 
+                style="padding: 6px; width: 80px; border-radius: 5px;"
+            >
+
         </div>
 
         <div style="margin-left:70px;margin-top:20px;width:85%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fff;">
@@ -3164,7 +3238,7 @@ const RenderTonKho = () => {
 
         filtered.forEach(p => {
             const stock = getStockAtDate(p.Id, atDate);
-            const warn = stock <= LOW_STOCK_THRESHOLD
+            const warn = stock <= LOW_STOCK_THRESHOLD 
                 ? `<span style="color:red;font-weight:bold;">Sắp hết hàng</span>`
                 : `<span style="color:green;">OK</span>`;
 
@@ -4009,3 +4083,20 @@ const generateFakeData = () => {
 
     console.log("Fake CheckOut Data Created:", fakeOrders);
 };
+
+function setupOrderStatusCheckbox() {
+    const checkboxes = document.querySelectorAll('input[name="order-status"]');
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            if (cb.checked) {
+                checkboxes.forEach(other => {
+                    if (other !== cb) {
+                        other.checked = false;
+                    }
+                });
+            }
+        });
+    });
+}
+
