@@ -3375,8 +3375,9 @@ const RenderThongKe=()=>{
     Sucess();
     const recentMonthlyRevenue = JSON.parse(localStorage.getItem('RecentMonthlyRevenue')) || [];
     
-        const monthLabel = [`thang ${recentMonthlyRevenue[0].month}`,`thang ${recentMonthlyRevenue[1].month}`,`thang ${recentMonthlyRevenue[2].month}`,`thang ${recentMonthlyRevenue[3].month}`,`thang ${recentMonthlyRevenue[4].month}`,`thang ${recentMonthlyRevenue[5].month}`];
-        const PrictLabel = [recentMonthlyRevenue[0].revenue,recentMonthlyRevenue[1].revenue,recentMonthlyRevenue[2].revenue,recentMonthlyRevenue[3].revenue,recentMonthlyRevenue[4].revenue,recentMonthlyRevenue[5].revenue,]
+        const monthLabel = recentMonthlyRevenue.map(item => `Tháng ${item.month}`);
+        const PrictLabel = recentMonthlyRevenue.map(item => item.revenue);
+
     const ctx = document.getElementById('GraphUI');
     new Chart(ctx, {
       type: 'line',
